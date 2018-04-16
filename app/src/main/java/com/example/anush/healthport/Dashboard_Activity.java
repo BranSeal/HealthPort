@@ -1,5 +1,6 @@
 package com.example.anush.healthport;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,21 +10,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.anush.healthport.model.File_Mover;
+import com.example.anush.healthport.model.Storage;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class Dashboard_Activity extends AppCompatActivity {
 
     private String TAG = "DashboardActivity";
+    private String folder = "documents";
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        populateDash();
         // When clicking on Add button.
         findViewById(R.id.add_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,9 +44,10 @@ public class Dashboard_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Deletes all files in local storage.
-                for (File file: getApplicationContext().getFilesDir().listFiles())
+                for (File file: Storage.getAppDir(getApplicationContext(), folder).listFiles())
                 {
                     file.delete();
+                    populateDash();
                 }
                 Log.i(TAG, "Deleted all files in app storage");
             }
@@ -99,7 +108,8 @@ public class Dashboard_Activity extends AppCompatActivity {
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 Uri uri = resultData.getData();
-                addFileToDashboard(uri);
+                addFileToApp(uri);
+                populateDash();
             }
         }
     }
@@ -109,40 +119,69 @@ public class Dashboard_Activity extends AppCompatActivity {
      *
      * @param uri  URI of the file to add.
      */
-    public void addFileToDashboard(Uri uri)
+    public void addFileToApp(Uri uri)
     {
         File original = new File(uri.getPath());
-        File new_file = new File(getApplicationContext().getFilesDir(), original.getName());
+        File dir = Storage.getAppDir(this, folder);
+        File new_file = new File(dir, original.getName());
         int counter = 2;
         // If filename already exists, add number.
-        while (new_file.exists())
-        {
-            new_file = new File(getApplicationContext().getFilesDir(),
-                    original.getName() + "(" + counter + ")");
+        while (new_file.exists()) {
+            String new_name = FilenameUtils.removeExtension(original.getName());
+            String extension = FilenameUtils.getExtension(original.getName());
+            new_name += " (" + counter + ")." + extension;
+
+            new_file = new File(dir, new_name);
             counter++;
         }
-        fileExists(new_file);
         try
         {
             File_Mover.move(getApplicationContext(), uri, new_file);
         }
         catch (IOException e)
         {
-            Log.e(TAG, "Failed to save file to application");
             Log.e(TAG, e.getMessage());
         }
-        fileExists(new_file);
     }
 
-    private void fileExists(File file)
+    /**
+     * Populates the dashboard with textviews of all the documents in the app storage.
+     */
+    private void populateDash()
     {
-        if (file.exists())
+        File dir = Storage.getAppDir(this, folder);
+        File[] files = dir.listFiles();
+        LinearLayout ll = (LinearLayout) findViewById(R.id.document_list);
+        ll.removeAllViews();
+        if (files.length == 0)
         {
-            Log.i(TAG, file.getPath() + " exists");
+            TextView view = createTextView("No Documents Found", 0);
+            ll.addView(view);
         }
-        else
+        int counter = 0;
+        for (File file: files)
         {
-            Log.i(TAG, file.getPath() + " doesn't exist");
+            TextView view = createTextView(file.getName(), counter);
+            ll.addView(view);
+            counter++;
         }
+    }
+
+    /**
+     * Creates a text view object.
+     * @param text  the text to populate the view.
+     * @param id    the id to give the view.
+     * @return the text view.
+     */
+    private TextView createTextView(String text, int id)
+    {
+        TextView view = new TextView(this);
+        view.setText(text);
+        view.setId(id);
+        view.setLayoutParams(new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT
+        ));
+        return view;
     }
 }
