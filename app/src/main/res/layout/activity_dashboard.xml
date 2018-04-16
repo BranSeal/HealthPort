@@ -63,7 +63,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="@dimen/search_bar_margin"
                         android:layout_marginTop="@dimen/search_bar_top_margin"
-                        android:text="@string/inbox_name" />
+                        android:text="@string/inbox_name"
+                        android:layout_marginEnd="@dimen/search_bar_margin" />
 
                 </RelativeLayout>
 
