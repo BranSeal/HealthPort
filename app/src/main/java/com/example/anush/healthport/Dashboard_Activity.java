@@ -114,7 +114,7 @@ public class Dashboard_Activity extends AppCompatActivity {
                 Uri uri = resultData.getData();
                 addFileToApp(uri);
                 populateDash();
-                Snackbar.make(findViewById(R.id.dashboard_layout), R.string.file_add_success, Snackbar.LENGTH_SHORT)
+                Toast.makeText(getApplicationContext(), R.string.file_add_success, Toast.LENGTH_SHORT)
                         .show();
             }
         }
