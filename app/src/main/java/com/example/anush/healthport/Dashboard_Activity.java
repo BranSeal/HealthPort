@@ -44,7 +44,7 @@ public class Dashboard_Activity extends AppCompatActivity {
             }
         });
         // When clicking on Inbox button.
-        findViewById(R.id.inbox_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Deletes all files in local storage.
