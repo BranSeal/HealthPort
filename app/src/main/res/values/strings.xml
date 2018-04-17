@@ -4,4 +4,5 @@
     <string name="dashboard_title">Dashboard</string>
     <string name="search_default">Search by Tags</string>
     <string name="inbox_name">Inbox</string>
+    <string name="file_add_success">File added to application</string>
 </resources>

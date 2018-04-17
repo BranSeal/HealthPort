@@ -2,9 +2,12 @@ package com.example.anush.healthport;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anush.healthport.model.File_Mover;
 import com.example.anush.healthport.model.Storage;
@@ -110,6 +114,8 @@ public class Dashboard_Activity extends AppCompatActivity {
                 Uri uri = resultData.getData();
                 addFileToApp(uri);
                 populateDash();
+                Toast.makeText(getApplicationContext(), R.string.file_add_success, Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     }
