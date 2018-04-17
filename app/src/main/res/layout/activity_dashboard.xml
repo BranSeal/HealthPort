@@ -7,77 +7,21 @@
     tools:context=".Dashboard_Activity"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_dark_background"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/inbox_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="20dp"
-        android:adjustViewBounds="false"
-        android:contentDescription="Inbox"
-        android:cropToPadding="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toEndOf="@+id/search"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="108dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        tools:text="Welcome!" />
-
-<<<<<<< HEAD
-                    <Button
-                        android:id="@+id/inbox_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="@dimen/search_bar_margin"
-                        android:layout_marginTop="@dimen/search_bar_top_margin"
-                        android:text="@string/inbox_name"
-                        android:layout_marginEnd="@dimen/search_bar_margin" />
-=======
-    <EditText
+    <SearchView
         android:id="@+id/search"
-        android:layout_width="264dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Search"
-        android:inputType="textFilter"
-        app:layout_constraintEnd_toStartOf="@+id/inbox_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:inputType="text"
+        android:orientation="horizontal"
+        android:queryHint="Search through your documents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
->>>>>>> 69d55de22493f5be7070578cdc10b36da8abc165
+        tools:layout_editor_absoluteY="47dp"
+        tools:ignore="MissingConstraints" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_button"
@@ -101,7 +45,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,20 +59,13 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/docs_text"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        android:text="My Documents"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
+        android:text="@string/my_documents"
+        android:textSize="32dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="3dp" />
 
 </android.support.constraint.ConstraintLayout>
