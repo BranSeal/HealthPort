@@ -184,6 +184,7 @@ public class Dashboard_Activity extends AppCompatActivity {
         TextView view = new TextView(this);
         view.setText(text);
         view.setId(id);
+        view.setTextSize(25);
         view.setLayoutParams(new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT
