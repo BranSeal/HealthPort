@@ -10,4 +10,6 @@
 - Then:
 
 ## Done Done Criteria
-
+- [ ] All unit tests have passed
+- [ ] Code review completed
+- [ ] Merge reviewed and passing code to master branch
