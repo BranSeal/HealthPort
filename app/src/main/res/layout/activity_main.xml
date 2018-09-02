@@ -14,7 +14,7 @@
         android:layout_marginLeft="88dp"
         android:layout_marginStart="88dp"
         android:layout_marginTop="116dp"
-        android:text="HealthPort"
+        android:text="@string/appName"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/lightGreyAccent"
         android:textSize="42dp"
@@ -22,14 +22,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/email_sign_in_button"
         android:layout_width="140dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="164dp"
         android:background="@drawable/rounded_button"
         android:text="Login"
+        android:onClick="login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -37,11 +38,12 @@
         android:id="@+id/registerButton"
         android:layout_width="140dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/rounded_button"
         android:text="Register"
+        android:onClick="register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/email_sign_in_button" />
 </android.support.constraint.ConstraintLayout>
