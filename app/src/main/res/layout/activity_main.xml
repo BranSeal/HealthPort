@@ -23,27 +23,27 @@
 
     <Button
         android:id="@+id/email_sign_in_button"
-        android:layout_width="140dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="128dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginLeft="116dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/rounded_button"
-        android:text="Login"
         android:onClick="login"
+        android:text="Login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="140dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="128dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginLeft="116dp"
+        android:layout_marginStart="116dp"
         android:layout_marginTop="52dp"
         android:background="@drawable/rounded_button"
-        android:text="Register"
         android:onClick="register"
+        android:text="Register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_sign_in_button" />
 </android.support.constraint.ConstraintLayout>
