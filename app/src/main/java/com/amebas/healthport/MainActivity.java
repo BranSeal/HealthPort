@@ -9,7 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseFirestore db;
+    DatabaseManager dbManager;
+
     // Test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         TextView txt = findViewById(R.id.titleText);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
         txt.setTypeface(font);
+
+        // initializes FireBase Firestore
+        db = FirebaseFirestore.getInstance();
+        dbManager = new DatabaseManager(db);
     }
 
     public void login(View view) {
