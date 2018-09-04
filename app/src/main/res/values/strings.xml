@@ -16,4 +16,11 @@
     </string>
     <string name="login_to_healthport">Login to HealthPort</string>
     <string name="appName">HealthPort</string>
+    <string name="register_header">Register for HealthPort</string>
+    <string name="register_button">Register</string>
+    <string name="first_name_field">First Name</string>
+    <string name="last_name_field">Last Name</string>
+    <string name="email_field">Email Address</string>
+    <string name="password_field">Password</string>
+    <string name="confirm_password_field">Confirm Password</string>
 </resources>
