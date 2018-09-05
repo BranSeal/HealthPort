@@ -59,8 +59,6 @@ public class RegisterActivity extends AppCompatActivity
     private Map<String, String> getFields()
     {
         HashMap<String, String> values = new HashMap();
-        values.put("first_name", ((EditText) findViewById(R.id.first_name_input)).getText().toString());
-        values.put("last_name", ((EditText) findViewById(R.id.last_name_input)).getText().toString());
         values.put("email", ((EditText) findViewById(R.id.email_input)).getText().toString());
         values.put("password", ((EditText) findViewById(R.id.password_input)).getText().toString());
         values.put("pass_confirm", ((EditText) findViewById(R.id.confirm_password_input)).getText().toString());
