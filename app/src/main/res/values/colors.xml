@@ -6,4 +6,6 @@
     <color name="darkGreyPrimary">#455357</color>
     <color name="lightGreyAccent">#788A90</color>
     <color name="superLightGreyButtonColor">#ced7db</color>
+    <color name="text_color">#d6e4e9</color>
+    <color name="hint_color">#919b9f</color>
 </resources>
