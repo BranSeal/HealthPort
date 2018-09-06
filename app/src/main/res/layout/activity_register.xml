@@ -122,7 +122,7 @@
             android:layout_marginStart="50dp"
             android:background="@drawable/rounded_button"
             android:onClick="register"
-            android:text="@string/register_button"
+            android:text="@string/register_text"
             android:textAllCaps="false"
             android:textSize="@dimen/button_text_size"
             app:layout_constraintBottom_toTopOf="@+id/cancel_link"

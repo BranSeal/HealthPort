@@ -23,10 +23,10 @@
     <string name="password_field">Password</string>
     <string name="confirm_password_field">Confirm Password</string>
     <string name="login_text">Login</string>
-    <string name="register_text">Register</string>
+
 
     <!-- Buttons -->
-    <string name="register_button">Register</string>
+    <string name="register_text">Sign Up</string>
     <string name="ok_button">Ok</string>
 
     <!-- Error messages -->
