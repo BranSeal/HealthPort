@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -13,6 +15,8 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity
 {
+    private static final int MIN_PASSWORD_LENGTH = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,7 +32,15 @@ public class RegisterActivity extends AppCompatActivity
     public void register(View view)
     {
         Map<String, String> values = getFields();
-        // @TODO: error checking, and then send to database.
+        String msg = checkFields(values.get("email"), values.get("password"), values.get("pass_confirm"));
+        if (msg.length() > 0)
+        {
+            Snackbar snack = Snackbar.make(view, msg, Snackbar.LENGTH_INDEFINITE);
+            snack.setAction(R.string.ok_button, v -> snack.dismiss());
+            snack.show();
+            return;
+        }
+        Account acct = new Account(values.get("email"), values.get("password"), "");
     }
 
     /**
@@ -49,6 +61,31 @@ public class RegisterActivity extends AppCompatActivity
             }
         }
         returnToStart();
+    }
+
+    /**
+     * Checks for any invalid inputs for account creation.
+     *
+     * @param email         the value in the email field.
+     * @param pass          the value in the password field.
+     * @param confirm_pass  the value in the password confirmation field.
+     * @return error message, if any.
+     */
+    public String checkFields(String email, String pass, String confirm_pass)
+    {
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
+            return getString(R.string.email_not_valid);
+        }
+        if (pass.length() < MIN_PASSWORD_LENGTH)
+        {
+            return getString(R.string.pass_not_long);
+        }
+        if (!pass.equals(confirm_pass))
+        {
+            return getString(R.string.pass_not_matching);
+        }
+        return "";
     }
 
     /**
@@ -83,22 +120,11 @@ public class RegisterActivity extends AppCompatActivity
         builder.setMessage("Are you sure you want to cancel?");
         builder.setCancelable(true);
 
-        builder.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        returnToStart();
-                    }
-                });
-
-        builder.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        builder.setPositiveButton("Yes", (dialog, id) -> {
+            dialog.cancel();
+            returnToStart();
+        });
+        builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
         alert.show();

@@ -17,7 +17,6 @@
     <string name="login_to_healthport">Login to\nHealthPort</string>
     <string name="appName">HealthPort</string>
     <string name="register_header">Register for\nHealthPort</string>
-    <string name="register_button">Register</string>
     <string name="first_name_field">First Name</string>
     <string name="last_name_field">Last Name</string>
     <string name="email_field">Email Address</string>
@@ -25,4 +24,13 @@
     <string name="confirm_password_field">Confirm Password</string>
     <string name="login_text">Login</string>
     <string name="register_text">Register</string>
+
+    <!-- Buttons -->
+    <string name="register_button">Register</string>
+    <string name="ok_button">Ok</string>
+
+    <!-- Error messages -->
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="pass_not_matching">Passwords do not match</string>
+    <string name="pass_not_long">Password must be greater than 8 characters</string>
 </resources>
