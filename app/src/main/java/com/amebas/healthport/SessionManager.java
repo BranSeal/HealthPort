@@ -7,7 +7,8 @@ package com.amebas.healthport;
 public class SessionManager {
 
     private static SessionManager instance = null;
-    private static Account account;
+    private Account account;
+    private Profile currentProfile;
 
 
     private static SessionManager getInstance() {
@@ -32,7 +33,26 @@ public class SessionManager {
         return account;
     }
 
+    /**
+     * Logs current account out.
+     */
     public void logOut(){
         instance = null;
+    }
+
+    /**
+     * Sets the current profile being used inside of the app
+     * @param profile profile to switch to
+     */
+    public void setCurrentProfile(Profile profile) {
+        currentProfile = profile;
+    }
+
+    /**
+     * Returns the profile that is currently being used.
+     * @return current profile
+     */
+    public Profile getCurrentProfile() {
+        return currentProfile;
     }
 }
