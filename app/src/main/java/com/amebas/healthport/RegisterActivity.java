@@ -1,14 +1,14 @@
 package com.amebas.healthport;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +17,17 @@ public class RegisterActivity extends AppCompatActivity
 {
     private static final int MIN_PASSWORD_LENGTH = 8;
 
+    private FirebaseFirestore db;
+    private DatabaseManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        db = FirebaseFirestore.getInstance();
+        dbManager = new DatabaseManager(db);
     }
 
     /**
@@ -35,12 +41,11 @@ public class RegisterActivity extends AppCompatActivity
         String msg = checkFields(values.get("email"), values.get("password"), values.get("pass_confirm"));
         if (msg.length() > 0)
         {
-            Snackbar snack = Snackbar.make(view, msg, Snackbar.LENGTH_INDEFINITE);
-            snack.setAction(R.string.ok_button, v -> snack.dismiss());
-            snack.show();
+            showSnackbar(view, msg);
             return;
         }
         Account acct = new Account(values.get("email"), values.get("password"), "");
+        addAccount(acct);
     }
 
     /**
@@ -117,16 +122,74 @@ public class RegisterActivity extends AppCompatActivity
     private void showCancelAlert()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to cancel?");
+        builder.setMessage(getString(R.string.cancel_confirm));
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Yes", (dialog, id) -> {
+        builder.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
             dialog.cancel();
             returnToStart();
         });
-        builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
+        builder.setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    /**
+     * Displays confirmation alert for successfully registering for application.
+     */
+    private void showConfirmationAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.signup_confirm));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(getString(R.string.ok), (dialog, id) -> {
+            dialog.cancel();
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    /**
+     * Displays a snackbar with a given message.
+     *
+     * @param view  the view to search for root from.
+     * @param msg   the message to display.
+     */
+    private void showSnackbar(View view, String msg)
+    {
+        Snackbar snack = Snackbar.make(view, msg, Snackbar.LENGTH_INDEFINITE);
+        snack.setAction(R.string.ok, v -> snack.dismiss());
+        snack.show();
+    }
+
+    /**
+     * Create an account in the database. If account already exists, fails. If successful, display
+     * confirmation alert. If failed for any other reason, display snackbar.
+     *
+     * @param acct  the account to create.
+     */
+    private void addAccount(Account acct)
+    {
+        // @TODO: loading visual
+        // Check if account exists.
+        if (!dbManager.doesAccountExist())
+        {
+            showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
+            return;
+        }
+        dbManager.addAccount(acct)
+            .addOnSuccessListener(result ->
+            {
+                showConfirmationAlert();
+            })
+            .addOnFailureListener(result ->
+            {
+                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
+            });
     }
 }
