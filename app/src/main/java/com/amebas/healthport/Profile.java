@@ -1,5 +1,7 @@
 package com.amebas.healthport;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.time.LocalDate;
 
 public class Profile {
@@ -7,23 +9,25 @@ public class Profile {
     public static final String DOB = "dob";
     public static final String NAME = "name";
 
-    private LocalDate dob;
+    private String dob;
     private String name;
     private String documents;
+    private DocumentReference documentReference;
 
     public Profile(){}
 
-    public Profile(LocalDate dob, String name, String documents){
+    public Profile(String dob, String name, String documents, DocumentReference documentReference){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
+        this.documentReference = documentReference;
     }
 
-    public LocalDate getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
@@ -45,5 +49,9 @@ public class Profile {
 
     public void addDocuments(String document) {
         this.documents += "," + document;
+    }
+
+    public DocumentReference getDocumentReference() {
+        return this.documentReference;
     }
 }
