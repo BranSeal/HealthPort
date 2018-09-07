@@ -33,6 +33,8 @@
     <string name="login_text">Login</string>
     <string name="register_text">Sign Up</string>
     <string name="ok">Ok</string>
+    <string name="select_profile">Select a Profile</string>
+    <string name="select_a_profile">Select A Profile</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>

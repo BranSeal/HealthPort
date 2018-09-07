@@ -1,29 +1,29 @@
 package com.amebas.healthport;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Profile {
 
     public static final String DOB = "dob";
     public static final String NAME = "name";
 
-    private LocalDateTime dob;
+    private LocalDate dob;
     private String name;
     private String documents;
 
     public Profile(){}
 
-    public Profile(LocalDateTime dob, String name, String documents){
+    public Profile(LocalDate dob, String name, String documents){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
     }
 
-    public LocalDateTime getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
-    public void setDob(LocalDateTime dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 
