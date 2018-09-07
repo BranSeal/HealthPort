@@ -139,13 +139,25 @@ public class LoginActivity extends AppCompatActivity {
             TODO: Handle Async Call
             */
             Account acc = dbManager.getAccount(email, password);
+            if(acc.getEmail() == null) {
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "No account exists with the email and password combination",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                // should actually be doing nothing but i need to test the profile list page
+                Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
+                startActivity(profileSelectIntent);
+            } else {
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "Account retreived for " + acc.getEmail(),
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                //Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
+                //startActivity(profileSelectIntent);
+            }
 
-            Toast toast = Toast.makeText(
-                    getApplicationContext(),
-                    "Account retreived for " + acc.getEmail(),
-                    Toast.LENGTH_SHORT);
-            toast.show();
-            cancel(this.mEmailView);
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
         }

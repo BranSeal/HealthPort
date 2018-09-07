@@ -30,7 +30,7 @@
         <activity
             android:name=".ProfileSelectActivity"
             android:label="@string/select_profile"
-            android:icon="@drawable/ic_baseline_menu_24px"></activity>
+            android:theme="@style/Theme.AppCompat.Light"></activity>
     </application>
 
 </manifest>
