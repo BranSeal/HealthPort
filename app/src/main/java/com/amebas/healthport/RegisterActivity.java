@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -175,7 +176,8 @@ public class RegisterActivity extends AppCompatActivity
      */
     private void addAccount(Account acct)
     {
-        // @TODO: loading visual
+        Toast toast = Toast.makeText(this, R.string.signup_in_progress, Toast.LENGTH_LONG);
+        toast.show();
         // Check if account exists.
         if (!dbManager.doesAccountExist())
         {
@@ -185,6 +187,7 @@ public class RegisterActivity extends AppCompatActivity
         dbManager.addAccount(acct)
             .addOnSuccessListener(result ->
             {
+                toast.cancel();
                 showConfirmationAlert();
             })
             .addOnFailureListener(result ->
