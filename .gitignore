@@ -23,7 +23,7 @@ out/
 .gradle/
 build/
 gradle/
-gradle.bat
+gradle/wrapper/
 gradlew.bat
 
 # Local configuration file (sdk path, etc)
