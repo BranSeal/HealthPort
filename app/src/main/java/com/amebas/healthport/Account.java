@@ -51,4 +51,9 @@ public class Account {
     public void addProfile(Profile profile) {
         this.profiles.add(profile);
     }
+
+    @Override
+    public String toString() {
+        return this.email + " " + this.password;
+    }
 }

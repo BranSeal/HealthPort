@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -132,34 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
 
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            /*
-            TODO: Potentially replace with Firebase Auth
-            TODO: Handle Async Call
-            */
-            Account acc = dbManager.getAccount(email, password);
-            if(acc.getEmail() == null) {
-                Toast toast = Toast.makeText(
-                        getApplicationContext(),
-                        "No account exists with the email and password combination",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                // should actually be doing nothing but i need to test the profile list page
-                Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
-                startActivity(profileSelectIntent);
-            } else {
-                Toast toast = Toast.makeText(
-                        getApplicationContext(),
-                        "Account retreived for " + acc.getEmail(),
-                        Toast.LENGTH_SHORT);
-                toast.show();
-                //Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
-                //startActivity(profileSelectIntent);
-            }
-
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
+            new UserLoginTask(email, password).execute();
         }
 
     }
@@ -200,48 +174,48 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            //this is trashy im sorry
+            dbManager.getAccount(this.mEmail, this.mPassword);
+            int time = 1000;
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(time);
             } catch (InterruptedException e) {
-                return false;
+                e.printStackTrace();
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-
-            if (success) {
-                finish();
+            SessionManager instance = SessionManager.getInstance();
+            Account acc = instance.getSessionAccount();
+            if(acc == null) {
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "No account exists with the email and password combination",
+                        Toast.LENGTH_SHORT);
+                toast.show();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "Account retreived for " + acc.getEmail(),
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                goToProfilePage();
             }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
         }
     }
 
     public void cancel(View view) {
         Intent landingPageIntent = new Intent(this, MainActivity.class);
         startActivity(landingPageIntent);
+    }
+
+    public void goToProfilePage() {
+        Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
+        startActivity(profileSelectIntent);
     }
 
 }

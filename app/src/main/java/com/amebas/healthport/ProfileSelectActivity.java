@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,14 +40,15 @@ public class ProfileSelectActivity extends AppCompatActivity {
 
     //TODO Retrieve list of profiles for the currently logged in user and returns it
     private String[] getProfilesForAccount() {
-        //SessionManager sess = new SessionManager();
-        //List<Profile> profiles = sess.getSessionAccount().getProfiles();
-
-        int len = 4;
-        String[] profileArr = new String[len];
-        for (int i = 0; i < len; i++) {
-            profileArr[i] = "TempName";
+        SessionManager instance = SessionManager.getInstance();
+        Account acc = instance.getSessionAccount();
+        List<Profile> profiles = acc.getProfiles();
+        String[] profileArr = new String[profiles.size()];
+        for(int i = 0; i < profiles.size(); i++) {
+            Profile prof = profiles.get(i);
+            profileArr[i] = prof.getName();
         }
+
         //test profiles
         //i cant call the function below due to api requirements?
         //LocalDate now = LocalDate.max();

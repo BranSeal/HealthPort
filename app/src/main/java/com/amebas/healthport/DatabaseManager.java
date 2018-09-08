@@ -2,6 +2,7 @@ package com.amebas.healthport;
 
 import android.media.Rating;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
 import org.w3c.dom.Document;
+
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
@@ -40,31 +43,39 @@ public class DatabaseManager {
         });
     }
 
-    public Account getAccount(String email, String password) {
-        //add login validation in here
-
+    public void getAccount(String email, String password) {
         // Reference to Account in Firestore
         DocumentReference account = db.collection("accounts").document(email);
 
-        final Account[] acc = {null};
-        acc[0] = new Account();
         // Get Account From FireStore
         account.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
 
             // When "Get" Is Complete
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                SessionManager instance = SessionManager.getInstance();
                 if (task.isSuccessful()) {
+                    Account acc = new Account();
+                    ArrayList<Profile> arrList = new ArrayList<>();
+
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    acc[0].setEmail(documentSnapshot.getString("email"));
-                    acc[0].setPassword(documentSnapshot.getString("password"));
-                    //we cant set strings in the place of the account;
-                    //acc[0].setProfiles(documentSnapshot.getString("profiles"));
+
+                    acc.setEmail(documentSnapshot.getString("email"));
+                    acc.setPassword(documentSnapshot.getString("password"));
+                    String profiles = documentSnapshot.getString("profiles");
+                    String[] arr = profiles.split(", ");
+                    for(int i = 0; i < arr.length; i++) {
+                        Profile prof = new Profile("Test", "Anush", "none");
+                        arrList.add(prof);
+                    }
+                    acc.setProfiles(arrList);
+                    //best way i could think of to set the active account
+                    instance.setSessionAccount(acc);
+                } else {
+                    instance.setSessionAccount(null);
                 }
             }
         });
-
-        return acc[0];
     }
 
     public void updateAccount(Account account) {

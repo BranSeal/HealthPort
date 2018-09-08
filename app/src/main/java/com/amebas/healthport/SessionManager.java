@@ -11,7 +11,7 @@ public class SessionManager {
     private Profile currentProfile;
 
 
-    private static SessionManager getInstance() {
+    public static SessionManager getInstance() {
         if (instance == null)
             instance = new SessionManager();
         return instance;

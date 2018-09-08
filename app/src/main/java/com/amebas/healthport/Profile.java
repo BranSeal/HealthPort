@@ -44,4 +44,8 @@ public class Profile {
     public void addDocuments(String document) {
         this.documents += "," + document;
     }
+
+    public String toString() {
+        return name + " " + dob;
+    }
 }
