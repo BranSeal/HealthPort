@@ -58,7 +58,8 @@ public class DatabaseManager {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     acc[0].setEmail(documentSnapshot.getString("email"));
                     acc[0].setPassword(documentSnapshot.getString("password"));
-                    acc[0].setProfiles(documentSnapshot.getString("profiles"));
+                    //we cant set strings in the place of the account;
+                    //acc[0].setProfiles(documentSnapshot.getString("profiles"));
                 }
             }
         });
