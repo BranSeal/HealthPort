@@ -31,9 +31,14 @@
             android:name=".ProfileSelectActivity"
             android:label="@string/select_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".AccountDashboardActivity"
+        <activity
+            android:name=".AccountDashboardActivity"
             android:label="Welcome!"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".NewProfile"
+            android:label="@string/title_activity_new_profile"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
