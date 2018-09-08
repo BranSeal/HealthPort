@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity
             showSnackbar(view, msg);
             return;
         }
-        Account acct = new Account(values.get("email"), values.get("password"), "");
+        Account acct = new Account(values.get("email"), values.get("password"));
         addAccount(acct);
     }
 
@@ -179,20 +179,20 @@ public class RegisterActivity extends AppCompatActivity
         Toast toast = Toast.makeText(this, R.string.signup_in_progress, Toast.LENGTH_LONG);
         toast.show();
         // Check if account exists.
-        if (!dbManager.doesAccountExist())
-        {
-            showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
-            return;
-        }
-        dbManager.addAccount(acct)
-            .addOnSuccessListener(result ->
-            {
-                toast.cancel();
-                showConfirmationAlert();
-            })
-            .addOnFailureListener(result ->
-            {
-                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
-            });
+//        if (!dbManager.doesAccountExist())
+//        {
+//            showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
+//            return;
+//        }
+//        dbManager.addAccount(acct)
+//            .addOnSuccessListener(result ->
+//            {
+//                toast.cancel();
+//                showConfirmationAlert();
+//            })
+//            .addOnFailureListener(result ->
+//            {
+//                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
+//            });
     }
 }
