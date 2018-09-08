@@ -26,6 +26,8 @@
     <!-- Profile -->
     <string name="new_profile_header">Create a new profile:</string>
     <string name="dob_field">Date of Birth</string>
+    <string name="done_button">Done</string>
+    <string name="back_button">Back</string>
 
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>
@@ -37,7 +39,7 @@
     <string name="no">No</string>
     <string name="login_text">Login</string>
     <string name="register_text">Sign Up</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="select_profile">Select a Profile</string>
     <string name="select_a_profile">Select A Profile</string>
 

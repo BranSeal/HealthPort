@@ -5,15 +5,23 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewProfile">
+    tools:context=".NewProfile"
+    android:background="@color/text_color">
 
-    <TextView
+    <EditText
         android:id="@+id/firstName2"
-        android:layout_width="wrap_content"
+        android:layout_width="288dp"
         android:layout_height="wrap_content"
-        android:text="@string/first_name_field"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="145dp" />
+        android:layout_marginEnd="69dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="69dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="64dp"
+        android:hint="@string/first_name_field"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newProfileText" />
 
     <TextView
         android:id="@+id/newProfileText"
@@ -31,20 +39,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/firstName"
-        android:layout_width="wrap_content"
+        android:layout_width="288dp"
         android:layout_height="wrap_content"
-        android:text="@string/last_name_field"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="180dp" />
+        android:layout_marginEnd="69dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="69dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/last_name_field"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstName2" />
 
-    <TextView
+    <EditText
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="288dp"
         android:layout_height="wrap_content"
-        android:text="@string/dob_field"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="219dp" />
+        android:layout_marginEnd="69dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="69dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/dob_field"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstName" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="132dp"
+        android:background="@android:color/holo_red_light"
+        android:text="@string/back_button"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="132dp"
+        android:background="@android:color/holo_green_light"
+        android:text="@string/done_button"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </android.support.constraint.ConstraintLayout>
