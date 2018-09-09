@@ -56,4 +56,8 @@ public class Account {
     public String toString() {
         return this.email + " " + this.password;
     }
+
+    public void deleteProfile(Profile p) {
+        profiles.remove(p);
+    }
 }
