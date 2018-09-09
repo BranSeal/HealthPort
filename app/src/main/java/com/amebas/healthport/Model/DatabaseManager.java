@@ -138,20 +138,28 @@ public class DatabaseManager {
 
     public void updateProfile(final Profile p) {
         // create reference for Profile, for use inside transaction
-        final DocumentReference profileRef =
-                p.getDocumentReference();
-        profileRef.set(p, SetOptions.merge());
+        SessionManager session = SessionManager.getInstance();
+        DocumentReference profileReference =
+                db.collection("accounts").document(
+                        session.getSessionAccount().getEmail()).collection(
+                        "profiles").document(
+                        p.getName());
+        profileReference.set(p, SetOptions.merge());
     }
 
     public Task<Void> addProfile(final Profile p) {
         // create reference for Profile, for use inside transaction
-        final DocumentReference profileRef =
-                p.getDocumentReference();
+        SessionManager session = SessionManager.getInstance();
+        DocumentReference profileReference =
+                db.collection("accounts").document(
+                        session.getSessionAccount().getEmail()).collection(
+                        "profiles").document(
+                        p.getName());
 
         return db.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                transaction.set(profileRef, p);
+                transaction.set(profileReference, p);
                 return null;
             }
         });
@@ -162,7 +170,12 @@ public class DatabaseManager {
     }
 
     public Profile getProfile(Profile profile) {
-        DocumentReference profileReference = profile.getDocumentReference();
+        SessionManager session = SessionManager.getInstance();
+        DocumentReference profileReference =
+                db.collection("accounts").document(
+                        session.getSessionAccount().getEmail()).collection(
+                                "profiles").document(
+                                        profile.getName());
 
         final Profile[] p = {null};
         p[0] = new Profile();

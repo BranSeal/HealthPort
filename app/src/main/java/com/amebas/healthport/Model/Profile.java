@@ -12,15 +12,13 @@ public class Profile {
     private String dob;
     private String name;
     private String documents;
-    private DocumentReference documentReference;
 
     public Profile(){}
 
-    public Profile(String dob, String name, String documents, DocumentReference documentReference){
+    public Profile(String dob, String name, String documents){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
-        this.documentReference = documentReference;
     }
 
     public String getDob() {
@@ -49,10 +47,6 @@ public class Profile {
 
     public void addDocuments(String document) {
         this.documents += "," + document;
-    }
-
-    public DocumentReference getDocumentReference() {
-        return this.documentReference;
     }
   
     public String toString() {
