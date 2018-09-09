@@ -1,5 +1,7 @@
 package com.amebas.healthport.Model;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 /**
  * Simple singleton to hold a global variable for who is currently logged in.
  * Author: Brandon
@@ -9,6 +11,7 @@ public class SessionManager {
     private static SessionManager instance = null;
     private Account account;
     private Profile currentProfile;
+    private DatabaseManager dbMgr = new DatabaseManager(FirebaseFirestore.getInstance());
 
 
     public static SessionManager getInstance() {
@@ -54,5 +57,10 @@ public class SessionManager {
      */
     public Profile getCurrentProfile() {
         return currentProfile;
+    }
+
+    public void addProfile(Profile p) {
+        this.account.addProfile(p);
+        dbMgr.addProfile(p, this.account);
     }
 }
