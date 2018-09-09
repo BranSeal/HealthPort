@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -178,21 +182,25 @@ public class RegisterActivity extends AppCompatActivity
     {
         Toast toast = Toast.makeText(this, R.string.signup_in_progress, Toast.LENGTH_LONG);
         toast.show();
-        // Check if account exists.
-//        if (!dbManager.doesAccountExist())
-//        {
-//            showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
-//            return;
-//        }
-//        dbManager.addAccount(acct)
-//            .addOnSuccessListener(result ->
-//            {
-//                toast.cancel();
-//                showConfirmationAlert();
-//            })
-//            .addOnFailureListener(result ->
-//            {
-//                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
-//            });
+        //Check if account exists.
+        dbManager.doesAccountExist(acct.getEmail()).addOnSuccessListener(result ->
+                {
+                    if (result.exists()) {
+                        showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                }
+        );
+        dbManager.addAccount(acct)
+            .addOnSuccessListener(result ->
+            {
+                toast.cancel();
+                showConfirmationAlert();
+            })
+            .addOnFailureListener(result ->
+            {
+                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
+            });
     }
 }

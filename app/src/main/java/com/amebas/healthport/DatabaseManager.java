@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 public class DatabaseManager {
 
     private FirebaseFirestore db;
@@ -63,18 +65,23 @@ public class DatabaseManager {
                 SessionManager instance = SessionManager.getInstance();
                 if (task.isSuccessful()) {
                     Account acc = new Account();
-                    ArrayList<Profile> arrList = new ArrayList<>();
                     DocumentSnapshot documentSnapshot = task.getResult();
                     acc.setEmail(documentSnapshot.getString("email"));
                     acc.setPassword(documentSnapshot.getString("password"));
                     //best way i could think of to set the active account
                     instance.setSessionAccount(acc);
+                    getProfilesWhenGettingAccount(account);
+                    Log.d(TAG,
+                            "Account Retrieved" +
+                                    SessionManager.getInstance().getSessionAccount().getEmail());
                 } else {
                     instance.setSessionAccount(null);
                 }
             }
         });
-      
+    }
+
+    private void getProfilesWhenGettingAccount(DocumentReference account){
         // Get Profiles per Account from FireStore
         CollectionReference profiles = account.collection("profiles");
         profiles.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -84,34 +91,35 @@ public class DatabaseManager {
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
                     List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                    Profile[] listOfProfiles = new Profile[documents.size()];
-                    int i = 0;
+                    ArrayList<Profile> listOfProfiles = new ArrayList<>();
                     for(DocumentSnapshot d: documents) {
                         Profile newProf = new Profile();
                         newProf.setName(d.getString("name"));
                         newProf.setDob(d.getString("dob"));
                         newProf.setDocuments(d.getString("documents"));
-                        listOfProfiles[i] = newProf;
+                        listOfProfiles.add(newProf);
                     }
                     Account acc = instance.getSessionAccount();
-                    acc.setProfiles(listofProfiles);
+                    acc.setProfiles(listOfProfiles);
                     instance.setSessionAccount(acc);
                 }
             }
         });
     }
-
     public Task<DocumentSnapshot> doesAccountExist(String email) {
         DocumentReference t = db.collection("accounts").document(email);
-        boolean doesExist = false;
         return t.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
 
             // When "Get" Is Complete
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    documentSnapshot.exists();
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
                 }
             }
         });

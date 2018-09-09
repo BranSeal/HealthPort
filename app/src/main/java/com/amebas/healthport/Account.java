@@ -15,7 +15,7 @@ public class Account {
     public Account(){}
 
     public Account(String email, String password) {
-        this(email, password, new ArrayList<>());
+        this(email, password, new ArrayList<Profile>());
     }
 
     public Account(String email, String password, List<Profile> profiles){
