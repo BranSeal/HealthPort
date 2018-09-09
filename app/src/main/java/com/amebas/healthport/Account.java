@@ -1,5 +1,6 @@
 package com.amebas.healthport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
@@ -14,8 +15,7 @@ public class Account {
     public Account(){}
 
     public Account(String email, String password) {
-        this.email = email;
-        this.password = password;
+        this(email, password, new ArrayList<>());
     }
 
     public Account(String email, String password, List<Profile> profiles){
