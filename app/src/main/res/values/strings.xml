@@ -41,7 +41,8 @@
     <string name="register_text">Sign Up</string>
     <string name="ok">OK</string>
     <string name="select_profile">Select a Profile</string>
-    <string name="select_a_profile">Select A Profile</string>
+    <string name="select_a_profile">Select a Profile</string>
+    <string name="add_profile_button">+ Add Profile</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
@@ -50,4 +51,5 @@
     <string name="reg_failed">Sign up failed. Please try again.</string>
     <string name="email_exists">Sign up failed. Email already in use.</string>
     <string name="title_activity_new_profile">NewProfile</string>
+    <string name="logout">Log Out</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.amebas.healthport.Model.Account;
+import com.amebas.healthport.Model.MainActivity;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Model.SessionManager;
@@ -65,5 +66,16 @@ public class ProfileSelectActivity extends AppCompatActivity {
     public void goToAddProfile(View view) {
         Intent createProfileIntent = new Intent(this, NewProfileActivity.class);
         startActivity(createProfileIntent);
+    }
+
+    /**
+     * Logs user out and sends them back to landing screen.
+     *
+     * @param view  the view called from.
+     */
+    public void logout(View view)
+    {
+        Intent landingIntent = new Intent(this, MainActivity.class);
+        startActivity(landingIntent);
     }
 }
