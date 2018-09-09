@@ -1,4 +1,4 @@
-package com.amebas.healthport.Model;
+package com.amebas.healthport.Activitiy;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amebas.healthport.Activitiy.LoginActivity;
+import com.amebas.healthport.Model.DatabaseManager;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Activitiy.RegisterActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
