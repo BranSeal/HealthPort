@@ -147,12 +147,11 @@ public class DatabaseManager {
         profileReference.set(p, SetOptions.merge());
     }
 
-    public Task<Void> addProfile(final Profile p) {
+    public Task<Void> addProfile(final Profile p, Account account) {
         // create reference for Profile, for use inside transaction
-        SessionManager session = SessionManager.getInstance();
         DocumentReference profileReference =
                 db.collection("accounts").document(
-                        session.getSessionAccount().getEmail()).collection(
+                        account.getEmail()).collection(
                         "profiles").document(
                         p.getName());
 
@@ -167,31 +166,5 @@ public class DatabaseManager {
 
     public void deleteProfile(Profile profile){
 
-    }
-
-    public Profile getProfile(Profile profile) {
-        SessionManager session = SessionManager.getInstance();
-        DocumentReference profileReference =
-                db.collection("accounts").document(
-                        session.getSessionAccount().getEmail()).collection(
-                                "profiles").document(
-                                        profile.getName());
-
-        final Profile[] p = {null};
-        p[0] = new Profile();
-        // Get Account From FireStore
-        profileReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
-
-            // When "Get" Is Complete
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    p[0] = documentSnapshot.toObject(Profile.class);
-                }
-            }
-        });
-
-        return p[0];
     }
 }
