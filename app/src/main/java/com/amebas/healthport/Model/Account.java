@@ -5,9 +5,6 @@ import java.util.List;
 
 public class Account {
 
-    public static final String EMAIL = "email";
-    public static final String PASSWORD = "password";
-
     private String email;
     private String password;
     private List<Profile> profiles;
@@ -15,7 +12,7 @@ public class Account {
     public Account(){}
 
     public Account(String email, String password) {
-        this(email, password, new ArrayList<Profile>());
+        this(email, password, new ArrayList<>());
     }
 
     public Account(String email, String password, List<Profile> profiles){
