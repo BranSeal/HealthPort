@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.amebas.healthport.Model.Account;
-import com.amebas.healthport.Model.MainActivity;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Model.SessionManager;
