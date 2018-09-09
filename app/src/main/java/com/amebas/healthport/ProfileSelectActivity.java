@@ -1,18 +1,13 @@
 package com.amebas.healthport;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileSelectActivity extends AppCompatActivity {
@@ -48,11 +43,6 @@ public class ProfileSelectActivity extends AppCompatActivity {
             Profile prof = profiles.get(i);
             profileArr[i] = prof.getName();
         }
-
-        //test profiles
-        //i cant call the function below due to api requirements?
-        //LocalDate now = LocalDate.max();
-        //Profile prof1 = new Profile(now, "Anush", null);
         return profileArr;
     }
 
@@ -65,5 +55,10 @@ public class ProfileSelectActivity extends AppCompatActivity {
         //TODO set active profile to profile selected
         Intent dashboardIntent = new Intent(this ,AccountDashboardActivity.class);
         startActivity(dashboardIntent);
+    }
+
+    public void goToAddProfile(View view) {
+        Intent createProfileIntent = new Intent(this, NewProfileActivity.class);
+        startActivity(createProfileIntent);
     }
 }
