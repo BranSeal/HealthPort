@@ -1,11 +1,6 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Model;
 
-import android.icu.text.SimpleDateFormat;
-import android.media.Rating;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.widget.Toast;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,12 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
 
-import org.w3c.dom.Document;
-
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;

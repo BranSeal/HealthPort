@@ -1,4 +1,4 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Activitiy;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.amebas.healthport.Model.Account;
+import com.amebas.healthport.Model.Profile;
+import com.amebas.healthport.R;
+import com.amebas.healthport.Model.SessionManager;
 
 import java.util.List;
 

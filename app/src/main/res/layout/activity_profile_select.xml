@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/text_color"
     android:orientation="vertical"
-    tools:context=".ProfileSelectActivity">
+    tools:context=".Activitiy.ProfileSelectActivity">
 
     <ListView
         android:id="@+id/profileList"

@@ -1,4 +1,4 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Model;
 
 import java.util.ArrayList;
 import java.util.List;

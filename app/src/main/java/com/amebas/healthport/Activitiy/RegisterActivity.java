@@ -1,22 +1,23 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Activitiy;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.amebas.healthport.Activitiy.LoginActivity;
+import com.amebas.healthport.Model.Account;
+import com.amebas.healthport.Model.DatabaseManager;
+import com.amebas.healthport.Model.MainActivity;
+import com.amebas.healthport.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends AppCompatActivity
 {

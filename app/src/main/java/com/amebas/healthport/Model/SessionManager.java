@@ -1,4 +1,4 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Model;
 
 /**
  * Simple singleton to hold a global variable for who is currently logged in.

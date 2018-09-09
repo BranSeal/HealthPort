@@ -1,4 +1,4 @@
-package com.amebas.healthport;
+package com.amebas.healthport.Model;
 
 import com.google.firebase.firestore.DocumentReference;
 
