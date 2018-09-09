@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.amebas.healthport.Model.DatabaseManager;
 import com.amebas.healthport.Model.Profile;
+import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.R;
 
 public class NewProfileActivity extends AppCompatActivity {
@@ -24,10 +26,11 @@ public class NewProfileActivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Todo: Add proper parsing for First Name, Last Name, and DOB before adding new profile
-                Profile p = new Profile();
-
+                Profile p = new Profile( dateOfBirth.getText().toString(), firstName.getText().toString() + " " + lastName.getText().toString(),null );
+                SessionManager sessionManager = SessionManager.getInstance();
+                sessionManager.addProfile(p);
                 //If valid input
-               goToSelect();
+                goToSelect();
             }
         });
     }
