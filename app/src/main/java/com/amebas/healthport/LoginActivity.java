@@ -33,6 +33,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+
+    private FirebaseFirestore db;
+    private DatabaseManager dbManager;
 
     // UI references.
     private EditText mEmailView;
@@ -78,6 +84,10 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
         //mLoginFormView = findViewById(R.id.login_form);
+
+        // initializes FireBase Firestore
+        db = FirebaseFirestore.getInstance();
+        dbManager = new DatabaseManager(db);
     }
 
 
@@ -124,12 +134,34 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            Toast toast = Toast.makeText(getApplicationContext(), "Going Home", Toast.LENGTH_SHORT);
-            toast.show();
-            cancel(this.mEmailView);
+            /*
+            TODO: Potentially replace with Firebase Auth
+            TODO: Handle Async Call
+            */
+            Account acc = dbManager.getAccount(email, password);
+            if(acc.getEmail() == null) {
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "No account exists with the email and password combination",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                // should actually be doing nothing but i need to test the profile list page
+                Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
+                startActivity(profileSelectIntent);
+            } else {
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "Account retreived for " + acc.getEmail(),
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                //Intent profileSelectIntent = new Intent(this, ProfileSelectActivity.class);
+                //startActivity(profileSelectIntent);
+            }
+
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
         }
+
     }
 
     private boolean isEmailValid(String email) {

@@ -14,6 +14,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="login_to_healthport">Login to HealthPort</string>
+    <string name="login_to_healthport">Login to\nHealthPort</string>
     <string name="appName">HealthPort</string>
+    <string name="register_header">Register for\nHealthPort</string>
+    <string name="register_button">Register</string>
+    <string name="first_name_field">First Name</string>
+    <string name="last_name_field">Last Name</string>
+    <string name="email_field">Email Address</string>
+    <string name="password_field">Password</string>
+    <string name="confirm_password_field">Confirm Password</string>
+    <string name="login_text">Login</string>
+    <string name="register_text">Register</string>
+    <string name="select_profile">Select a Profile</string>
+    <string name="select_a_profile">Select A Profile</string>
 </resources>
