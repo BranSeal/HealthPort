@@ -183,24 +183,31 @@ public class RegisterActivity extends AppCompatActivity
         Toast toast = Toast.makeText(this, R.string.signup_in_progress, Toast.LENGTH_LONG);
         toast.show();
         //Check if account exists.
-        dbManager.doesAccountExist(acct.getEmail()).addOnSuccessListener(result ->
-                {
-                    if (result.exists()) {
-                        showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                }
-        );
-        dbManager.addAccount(acct)
+        dbManager.doesAccountExist(acct.getEmail())
             .addOnSuccessListener(result ->
             {
-                toast.cancel();
-                showConfirmationAlert();
+                if (result.exists())
+                {
+                    toast.cancel();
+                    showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.email_exists));
+                }
+                else
+                {
+                    // Only add account if fails (account doesn't already exist).
+                    dbManager.addAccount(acct)
+                        .addOnSuccessListener(result2 ->
+                        {
+                            toast.cancel();
+                            showConfirmationAlert();
+                        })
+                        .addOnFailureListener(result2 ->
+                            showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed))
+                        );
+                }
             })
             .addOnFailureListener(result ->
-            {
-                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed));
-            });
+                showSnackbar(findViewById(R.id.reg_coord_layout), getString(R.string.reg_failed))
+            );
+
     }
 }
