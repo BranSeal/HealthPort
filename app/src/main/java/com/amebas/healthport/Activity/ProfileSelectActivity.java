@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activitiy;
+package com.amebas.healthport.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

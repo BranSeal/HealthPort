@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activitiy;
+package com.amebas.healthport.Activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
