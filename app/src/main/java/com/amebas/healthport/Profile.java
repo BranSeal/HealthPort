@@ -1,5 +1,9 @@
 package com.amebas.healthport;
 
+import com.google.firebase.firestore.DocumentReference;
+
+import java.time.LocalDate;
+
 public class Profile {
 
     public static final String DOB = "dob";
@@ -8,13 +12,15 @@ public class Profile {
     private String dob;
     private String name;
     private String documents;
+    private DocumentReference documentReference;
 
     public Profile(){}
 
-    public Profile(String dob, String name, String documents){
+    public Profile(String dob, String name, String documents, DocumentReference documentReference){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
+        this.documentReference = documentReference;
     }
 
     public String getDob() {
@@ -45,6 +51,10 @@ public class Profile {
         this.documents += "," + document;
     }
 
+    public DocumentReference getDocumentReference() {
+        return this.documentReference;
+    }
+  
     public String toString() {
         return name + " " + dob;
     }
