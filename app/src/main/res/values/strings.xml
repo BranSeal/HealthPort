@@ -24,9 +24,8 @@
     <string name="confirm_password_field">Confirm Password</string>
 
     <!-- Profile -->
-    <string name="new_profile_header">Create a new profile:</string>
+    <string name="new_profile_header">Create a New\nProfile</string>
     <string name="dob_field">Date of Birth</string>
-    <string name="done_button">Done</string>
     <string name="back_button">Back</string>
 
     <!-- Notifications -->
@@ -43,6 +42,7 @@
     <string name="select_profile">Select a Profile</string>
     <string name="select_a_profile">Select a Profile</string>
     <string name="add_profile_button">+ Add Profile</string>
+    <string name="create_button">Create</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
