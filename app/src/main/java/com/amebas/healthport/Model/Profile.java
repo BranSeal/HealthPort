@@ -52,4 +52,8 @@ public class Profile {
     public String toString() {
         return name + " " + dob;
     }
+
+    public boolean equals(Profile p) {
+        return this.name.equals(p.getName());
+    }
 }

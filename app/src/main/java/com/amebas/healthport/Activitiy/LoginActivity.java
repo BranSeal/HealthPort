@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amebas.healthport.Model.MainActivity;
 import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.DatabaseManager;
 import com.amebas.healthport.R;

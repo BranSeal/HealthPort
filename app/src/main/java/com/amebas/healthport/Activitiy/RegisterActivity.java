@@ -9,10 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amebas.healthport.Activitiy.LoginActivity;
 import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.DatabaseManager;
-import com.amebas.healthport.Model.MainActivity;
 import com.amebas.healthport.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 

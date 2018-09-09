@@ -63,4 +63,9 @@ public class SessionManager {
         this.account.addProfile(p);
         dbMgr.addProfile(p, this.account);
     }
+
+    public void deleteProfile(Profile p) {
+        this.account.deleteProfile(p);
+        dbMgr.deleteProfile(p, this.account);
+    }
 }
