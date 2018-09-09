@@ -164,7 +164,22 @@ public class DatabaseManager {
         });
     }
 
-    public void deleteProfile(Profile profile){
+    public void deleteProfile(Profile profile, Account account){
+        // create reference for Profile, for use inside transaction
+        DocumentReference profileReference =
+                db.collection("accounts").document(
+                        account.getEmail()).collection(
+                        "profiles").document(
+                        profile.getName());
+        profileReference.delete().addOnCompleteListener(new OnCompleteListener<Void>(){
 
+            // When "Get" Is Complete
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Deleted profile");
+                }
+            }
+        });
     }
 }
