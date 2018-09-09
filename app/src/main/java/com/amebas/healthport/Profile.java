@@ -54,4 +54,8 @@ public class Profile {
     public DocumentReference getDocumentReference() {
         return this.documentReference;
     }
+  
+    public String toString() {
+        return name + " " + dob;
+    }
 }

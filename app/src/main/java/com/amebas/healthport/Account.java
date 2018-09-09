@@ -1,5 +1,8 @@
 package com.amebas.healthport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
 
     public static final String EMAIL = "email";
@@ -7,11 +10,15 @@ public class Account {
 
     private String email;
     private String password;
-    private String profiles;
+    private List<Profile> profiles;
 
     public Account(){}
 
-    public Account(String email, String password, String profiles){
+    public Account(String email, String password) {
+        this(email, password, new ArrayList<>());
+    }
+
+    public Account(String email, String password, List<Profile> profiles){
         this.email = email;
         this.password = password;
         this.profiles = profiles;
@@ -33,15 +40,20 @@ public class Account {
         this.password = password;
     }
 
-    public String getProfiles() {
+    public List<Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(String profiles) {
+    public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
     }
 
-    public void addProfile(String profile) {
-        this.profiles += "," + profile;
+    public void addProfile(Profile profile) {
+        this.profiles.add(profile);
+    }
+
+    @Override
+    public String toString() {
+        return this.email + " " + this.password;
     }
 }

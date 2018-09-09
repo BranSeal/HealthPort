@@ -16,15 +16,38 @@
     </string>
     <string name="login_to_healthport">Login to\nHealthPort</string>
     <string name="appName">HealthPort</string>
-    <string name="register_header">Register for\nHealthPort</string>
-    <string name="register_button">Register</string>
+    <string name="register_header">Sign Up for\nHealthPort</string>
     <string name="first_name_field">First Name</string>
     <string name="last_name_field">Last Name</string>
     <string name="email_field">Email Address</string>
     <string name="password_field">Password</string>
     <string name="confirm_password_field">Confirm Password</string>
+
+    <!-- Profile -->
+    <string name="new_profile_header">Create a new profile:</string>
+    <string name="dob_field">Date of Birth</string>
+    <string name="done_button">Done</string>
+    <string name="back_button">Back</string>
+
+    <!-- Notifications -->
+    <string name="signup_in_progress">Trying to create account...</string>
+    <string name="cancel_confirm">Are you sure you want to cancel?</string>
+    <string name="signup_confirm">You\'re signed up for HealthPort!</string>
+
+    <!-- Buttons -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="login_text">Login</string>
-    <string name="register_text">Register</string>
+    <string name="register_text">Sign Up</string>
+    <string name="ok">OK</string>
     <string name="select_profile">Select a Profile</string>
     <string name="select_a_profile">Select A Profile</string>
+
+    <!-- Error messages -->
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="pass_not_matching">Passwords do not match</string>
+    <string name="pass_not_long">Password must be greater than 8 characters</string>
+    <string name="reg_failed">Sign up failed. Please try again.</string>
+    <string name="email_exists">Sign up failed. Email already in use.</string>
+    <string name="title_activity_new_profile">NewProfile</string>
 </resources>

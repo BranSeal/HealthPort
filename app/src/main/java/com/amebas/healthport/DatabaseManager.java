@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
@@ -48,36 +50,37 @@ public class DatabaseManager {
         });
     }
 
-    /*
-    / Parses database for account with email and password
-    */
-    public Account getAccount(String email, String password) {
-        //add login validation in here
-
+    public void getAccount(String email, String password) {
         // Reference to Account in Firestore
         DocumentReference account = db.collection("accounts").document(email);
 
-        final Account[] acc = {null};
-        acc[0] = new Account();
         // Get Account From FireStore
         account.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
 
             // When "Get" Is Complete
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                SessionManager instance = SessionManager.getInstance();
                 if (task.isSuccessful()) {
+                    Account acc = new Account();
+                    ArrayList<Profile> arrList = new ArrayList<>();
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    acc[0].setEmail(documentSnapshot.getString("email"));
-                    acc[0].setPassword(documentSnapshot.getString("password"));
+                    acc.setEmail(documentSnapshot.getString("email"));
+                    acc.setPassword(documentSnapshot.getString("password"));
+                    //best way i could think of to set the active account
+                    instance.setSessionAccount(acc);
+                } else {
+                    instance.setSessionAccount(null);
                 }
             }
         });
-
+      
         // Get Profiles per Account from FireStore
         CollectionReference profiles = account.collection("profiles");
         profiles.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                SessionManager instance = SessionManager.getInstance();
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
                     List<DocumentSnapshot> documents = querySnapshot.getDocuments();
@@ -90,12 +93,12 @@ public class DatabaseManager {
                         newProf.setDocuments(d.getString("documents"));
                         listOfProfiles[i] = newProf;
                     }
-                    acc[0].setProfiles(listOfProfiles);
+                    Account acc = instance.getSessionAccount();
+                    acc.setProfiles(listofProfiles);
+                    instance.setSessionAccount(acc);
                 }
             }
         });
-
-        return acc[0];
     }
 
     public Task<DocumentSnapshot> doesAccountExist(String email) {
