@@ -33,13 +33,13 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Activity.AccountDashboardActivity"
-            android:label="Welcome!"
+            android:label="git stWelcome!"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Activity.NewProfileActivity"
             android:label="@string/title_activity_new_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Activitiy.ViewProfile"></activity>
+        <activity android:name=".Activity.ViewProfile"></activity>
     </application>
 
 </manifest>
