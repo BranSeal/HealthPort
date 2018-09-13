@@ -53,4 +53,7 @@
     <string name="title_activity_new_profile">NewProfile</string>
     <string name="logout">Log Out</string>
     <string name="fields_empty">All fields are required</string>
+    <string name="upload_document">Upload a new Document!</string>
+    <string name="take_a_picture">Take a Picture!</string>
+    <string name="phone_upload">Upload from phone!</string>
 </resources>

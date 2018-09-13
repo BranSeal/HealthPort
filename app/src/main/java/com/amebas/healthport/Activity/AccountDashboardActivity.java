@@ -1,12 +1,15 @@
 package com.amebas.healthport.Activity;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.Profile;
@@ -26,6 +29,13 @@ public class AccountDashboardActivity extends AppCompatActivity {
         SessionManager instance = SessionManager.getInstance();
         Profile currentProfile = instance.getCurrentProfile();
         getSupportActionBar().setTitle("Welcome " + currentProfile.getName() + "!");
+
+        com.github.clans.fab.FloatingActionButton fab = findViewById(R.id.menu_item);
+        com.github.clans.fab.FloatingActionButton fab2 = findViewById(R.id.menu_item2);
+        fab.setOnClickListener(view -> Snackbar.make(view, "Action 1 here!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
+        fab2.setOnClickListener(view -> Snackbar.make(view, "Action 2 Here!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
     }
 
     @Override
