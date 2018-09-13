@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@color/superLightGreyButtonColor"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -61,27 +60,28 @@
         fab:menu_shadowRadius="4dp"
         fab:menu_shadowXOffset="1dp"
         fab:menu_shadowYOffset="3dp"
-        fab:menu_showShadow="true">
+        fab:menu_showShadow="true"
+        android:layout_alignParentEnd="true">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/superLightGreyButtonColor"
+            android:background="@color/superLightGreyButtonColor"
             android:padding="5dp"
-            android:src="@drawable/ic_baseline_account_circle_48"
+            android:src="@drawable/ic_camera_alt_white_24dp"
             fab:fab_label="@string/take_a_picture"
-            fab:fab_size="mini" />
+            fab:fab_size="mini"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/superLightGreyButtonColor"
+            android:background="@color/superLightGreyButtonColor"
             android:padding="5dp"
-            android:src="@drawable/ic_baseline_menu_24px"
+            android:src="@drawable/ic_file_upload_white_24dp"
             fab:fab_label="@string/phone_upload"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
