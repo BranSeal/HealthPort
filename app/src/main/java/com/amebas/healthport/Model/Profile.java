@@ -3,19 +3,17 @@ package com.amebas.healthport.Model;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Profile {
 
-    public static final String DOB = "dob";
-    public static final String NAME = "name";
-
     private String dob;
     private String name;
-    private String documents;
+    private List<Document> documents;
 
     public Profile(){}
 
-    public Profile(String dob, String name, String documents){
+    public Profile(String dob, String name, List<Document> documents){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
@@ -37,16 +35,16 @@ public class Profile {
         this.name = name;
     }
 
-    public String getDocuments() {
+    public List<Document> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(String documents) {
+    public void setDocuments(List<Document> documents) {
         this.documents = documents;
     }
 
-    public void addDocuments(String document) {
-        this.documents += "," + document;
+    public void addDocuments(Document document) {
+        this.documents.add(document);
     }
   
     public String toString() {
