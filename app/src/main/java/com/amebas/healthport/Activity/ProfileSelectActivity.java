@@ -48,7 +48,8 @@ public class ProfileSelectActivity extends AppCompatActivity {
         Account acc = instance.getSessionAccount();
         profiles = acc.getProfiles();
         if(profiles == null) {
-            //probably should throw an error
+            showToast("Something went wrong, please login again");
+            logout();
             return null;
         } else {
             String[] profileArr = new String[profiles.size()];
@@ -80,11 +81,17 @@ public class ProfileSelectActivity extends AppCompatActivity {
     /**
      * Logs user out and sends them back to landing screen.
      *
-     * @param view  the view called from.
      */
-    public void logout(View view)
-    {
+    public void logout() {
         Intent landingIntent = new Intent(this, MainActivity.class);
         startActivity(landingIntent);
+    }
+
+    public void showToast(String text) {
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                text,
+                Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
