@@ -56,14 +56,22 @@ public class DatabaseManager {
                 if (task.isSuccessful()) {
                     Account acc = new Account();
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    acc.setEmail(documentSnapshot.getString("email"));
-                    acc.setPassword(documentSnapshot.getString("password"));
-                    //best way i could think of to set the active account
-                    instance.setSessionAccount(acc);
-                    getProfilesWhenGettingAccount(account);
-                    Log.d(TAG,
-                            "Account Retrieved" +
-                                    SessionManager.getInstance().getSessionAccount().getEmail());
+                    String cloudEmail = documentSnapshot.getString("email");
+                    String cloudPassword = documentSnapshot.getString("password");
+                    if(!cloudEmail.equals(email) || !cloudPassword.equals(password)) {
+                        acc = null;
+                        instance.setSessionAccount(acc);
+                        Log.d(TAG,"Anush: " + "PassEntered: " + password + ", passCloud: " + cloudPassword);
+                        Log.d(TAG,"Anush: " + "EmailEntered: " + email + ", emailCloud: " + cloudEmail);
+                    } else {
+                        acc.setEmail(cloudEmail);
+                        acc.setPassword(cloudPassword);
+                        getProfilesWhenGettingAccount(account);
+                        instance.setSessionAccount(acc);
+                        Log.d(TAG,
+                                "Account Retrieved" +
+                                        SessionManager.getInstance().getSessionAccount().getEmail());
+                    }
                 } else {
                     instance.setSessionAccount(null);
                 }

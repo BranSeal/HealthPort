@@ -99,6 +99,4 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT);
         toast.show();
     }
-
-
 }
