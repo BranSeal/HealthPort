@@ -1,6 +1,10 @@
 package com.amebas.healthport.Activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.R;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 public class AccountDashboardActivity extends AppCompatActivity {
 
@@ -30,12 +37,42 @@ public class AccountDashboardActivity extends AppCompatActivity {
         Profile currentProfile = instance.getCurrentProfile();
         getSupportActionBar().setTitle("Welcome " + currentProfile.getName() + "!");
 
-        com.github.clans.fab.FloatingActionButton fab = findViewById(R.id.menu_item);
-        com.github.clans.fab.FloatingActionButton fab2 = findViewById(R.id.menu_item2);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Action 1 here!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
-        fab2.setOnClickListener(view -> Snackbar.make(view, "Action 2 Here!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        SpeedDialView speedDialView = findViewById(R.id.speedDial);
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.firstFab, R.drawable.ic_file_upload_white_24dp)
+                        .setLabel("Upload a File")
+                        .setTheme(R.style.HealthPort)
+                        .create()
+        );
+
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.secondFab, R.drawable.ic_camera_alt_white_24dp)
+                        .setLabel("Take a Picture")
+                        .setTheme(R.style.HealthPort)
+                        .create()
+        );
+
+        int grey = getResources().getColor(R.color.superLightGreyButtonColor);
+        FloatingActionButton mainFab = speedDialView.getMainFab();
+        mainFab.setBackgroundTintList(ColorStateList.valueOf(grey));
+        mainFab.setRippleColor(grey);
+
+        speedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
+                switch (speedDialActionItem.getId()) {
+                    case R.id.firstFab:
+                        showToast("Pictures are worth five words");
+                        return false; // true to keep the Speed Dial open
+                    case R.id.secondFab:
+                        showToast("So you wanna take a picture eh?");
+                        return false; // true to keep the Speed Dial open
+                    default:
+                        return false;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -54,4 +91,14 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void showToast(String text) {
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                text,
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
 }

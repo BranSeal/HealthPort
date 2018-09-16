@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="HealthPort" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/superLightGreyButtonColor</item>
+        <item name="colorAccent">@color/lightGreyAccent</item>
+    </style>
+
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
