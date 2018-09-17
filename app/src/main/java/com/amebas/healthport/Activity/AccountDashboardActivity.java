@@ -2,21 +2,16 @@ package com.amebas.healthport.Activity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.R;
@@ -24,6 +19,8 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 public class AccountDashboardActivity extends AppCompatActivity {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +54,9 @@ public class AccountDashboardActivity extends AppCompatActivity {
         mainFab.setBackgroundTintList(ColorStateList.valueOf(grey));
         mainFab.setRippleColor(grey);
 
+
+        // Note: To ensure that launching the camera/file browser works, make sure that app permissions
+        // are enabled
         speedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
             @Override
             public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
@@ -65,7 +65,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
                         showToast("Pictures are worth five words");
                         return false; // true to keep the Speed Dial open
                     case R.id.secondFab:
-                        showToast("So you wanna take a picture eh?");
+                        dispatchTakePictureIntent();
                         return false; // true to keep the Speed Dial open
                     default:
                         return false;
@@ -73,6 +73,13 @@ public class AccountDashboardActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override

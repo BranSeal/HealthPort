@@ -94,7 +94,8 @@ public class DatabaseManager {
                         Profile newProf = new Profile();
                         newProf.setName(d.getString("name"));
                         newProf.setDob(d.getString("dob"));
-                        newProf.setDocuments(d.getString("documents"));
+                        // TODO: Fix back before merging to development once emily fixes this
+                        //newProf.setDocuments(d.getString("documents"));
                         listOfProfiles.add(newProf);
                     }
                     Account acc = instance.getSessionAccount();
