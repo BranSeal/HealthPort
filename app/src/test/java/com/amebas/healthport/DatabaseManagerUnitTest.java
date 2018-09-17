@@ -30,16 +30,4 @@ public class DatabaseManagerUnitTest {
         PowerMockito.mockStatic(FirebaseFirestore.class);
         when(FirebaseFirestore.getInstance()).thenReturn(mockedFirebaseFirestore);
     }
-
-    @Test
-    public void test_AddAccount() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DatabaseManager dbManager = new DatabaseManager(db);
-
-        dbManager.addAccount(new Account("testEmail", "testPassword", "profiles"));
-
-        assertEquals(dbManager.getAccount(
-                "testEmail", "testPassword"),
-                new Account("testEmail", "testPassword", "profiles"));
-    }
 }

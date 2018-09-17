@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Activitiy.MainActivity"
+            android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -20,25 +20,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activitiy.LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Activitiy.RegisterActivity"
+            android:name=".Activity.RegisterActivity"
             android:label="Register"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Activitiy.ProfileSelectActivity"
+            android:name=".Activity.ProfileSelectActivity"
             android:label="@string/select_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Activitiy.AccountDashboardActivity"
-            android:label="Welcome!"
+            android:name=".Activity.AccountDashboardActivity"
+            android:label="git stWelcome!"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Activitiy.NewProfileActivity"
+            android:name=".Activity.NewProfileActivity"
             android:label="@string/title_activity_new_profile"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".Activity.ViewProfile"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fab2" type="id">32</item>
+    <item name="firstFab" type="id">1234</item>
+    <item name="secondFab" type="id">1235</item>
+</resources>

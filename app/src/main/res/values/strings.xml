@@ -24,9 +24,8 @@
     <string name="confirm_password_field">Confirm Password</string>
 
     <!-- Profile -->
-    <string name="new_profile_header">Create a new profile:</string>
+    <string name="new_profile_header">Create a New\nProfile</string>
     <string name="dob_field">Date of Birth</string>
-    <string name="done_button">Done</string>
     <string name="back_button">Back</string>
 
     <!-- Notifications -->
@@ -41,7 +40,9 @@
     <string name="register_text">Sign Up</string>
     <string name="ok">OK</string>
     <string name="select_profile">Select a Profile</string>
-    <string name="select_a_profile">Select A Profile</string>
+    <string name="select_a_profile">Select a Profile</string>
+    <string name="add_profile_button">+ Add Profile</string>
+    <string name="create_button">Create</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
@@ -50,4 +51,9 @@
     <string name="reg_failed">Sign up failed. Please try again.</string>
     <string name="email_exists">Sign up failed. Email already in use.</string>
     <string name="title_activity_new_profile">NewProfile</string>
+    <string name="logout">Log Out</string>
+    <string name="fields_empty">All fields are required</string>
+    <string name="upload_document">Upload a new Document!</string>
+    <string name="take_a_picture">Take a Picture!</string>
+    <string name="phone_upload">Upload from phone!</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.amebas.healthport;
 
-import com.amebas.healthport.Activitiy.RegisterActivity;
+import com.amebas.healthport.Activity.RegisterActivity;
 
 import org.junit.Before;
 import org.junit.Test;
