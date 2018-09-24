@@ -8,7 +8,7 @@ public class Document {
 
     public Document(){}
 
-    public Document(String[] referenceIDs, String name, String[] tags){
+    public Document(String[] referenceIDs, String name, String[] tags, byte[] pictureBytes){
         this.referenceIDs = referenceIDs;
         this.name = name;
         this.tags = tags;
