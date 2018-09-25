@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -14,9 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
@@ -28,6 +30,12 @@ public class DatabaseManager {
         this.db = db;
     }
 
+    /**Add Account into FireBase FireStore
+     * Asynchronously calls database's run transation
+     * Must add listener when calling this function
+     * @param account Account to add into FireBase FireStore
+     * @return void asynchronous task
+     */
     public Task<Void> addAccount(final Account account) {
         // create reference for Account, for use inside transaction
         final DocumentReference accountRef =
@@ -42,6 +50,12 @@ public class DatabaseManager {
         });
     }
 
+    /**Get Account from FireBase FireStore
+     * Asynchronously calls database's get function for account, profiles, and documents
+     * May not return account immediately
+     * @param email email provided by user
+     * @param password password provided by user
+     */
     public void getAccount(String email, String password) {
         // Reference to Account in Firestore
         DocumentReference account = db.collection("accounts").document(email);
@@ -66,8 +80,8 @@ public class DatabaseManager {
                     } else {
                         acc.setEmail(cloudEmail);
                         acc.setPassword(cloudPassword);
-                        getProfilesWhenGettingAccount(account);
                         instance.setSessionAccount(acc);
+                        getProfiles(instance);
                         Log.d(TAG,
                                 "Account Retrieved" +
                                         SessionManager.getInstance().getSessionAccount().getEmail());
@@ -79,32 +93,81 @@ public class DatabaseManager {
         });
     }
 
-    private void getProfilesWhenGettingAccount(DocumentReference account){
+    private void getProfiles(SessionManager instance){
+        Account account = instance.getSessionAccount();
         // Get Profiles per Account from FireStore
-        CollectionReference profiles = account.collection("profiles");
+        CollectionReference profiles =
+                db.collection("accounts").document(account.getEmail()).collection("profiles");
         profiles.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                SessionManager instance = SessionManager.getInstance();
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
-                    List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                    ArrayList<Profile> listOfProfiles = new ArrayList<>();
-                    for(DocumentSnapshot d: documents) {
+                    List<DocumentSnapshot> firebaseProfiles = querySnapshot.getDocuments();
+                    for(DocumentSnapshot p: firebaseProfiles) {
                         Profile newProf = new Profile();
-                        newProf.setName(d.getString("name"));
-                        newProf.setDob(d.getString("dob"));
-                        // TODO: Fix back before merging to development once emily fixes this
-                        //newProf.setDocuments(d.getString("documents"));
-                        listOfProfiles.add(newProf);
+                        newProf.setName(p.getString("name"));
+                        newProf.setDob(p.getString("dob"));
+                        account.addProfile(newProf);
+                        getDocuments(instance, newProf);
                     }
-                    Account acc = instance.getSessionAccount();
-                    acc.setProfiles(listOfProfiles);
-                    instance.setSessionAccount(acc);
                 }
             }
         });
     }
+
+    public void getDocuments(SessionManager instance, Profile profile) {
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        // FireBase CloudStorage Instance
+        StorageReference storageRef = storage.getReference();
+
+        CollectionReference profileDocuments =
+                db.collection("accounts").document(
+                        instance.getSessionAccount().getEmail()).collection(
+                                "profiles").document(
+                                        profile.getName()).collection("documents");
+
+        profileDocuments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    List<DocumentSnapshot> firebaseDocuments = querySnapshot.getDocuments();
+                    for(DocumentSnapshot p: firebaseDocuments) {
+                        Document d = new Document();
+                        d.setName(p.getString("name"));
+                        d.setReferenceIDs(p.getString("referenceIDs").split(","));
+                        d.setTags(p.getString("tags").split(","));
+                        profile.addDocuments(d);
+                        for (String referenceID: d.getReferenceIDs()) {
+                            // Create a reference with an initial file path and name
+                            StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
+
+                            final long ONE_MEGABYTE = 1024 * 1024;
+                            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    // Data for ref is returns, use this as needed
+                                    instance.getSessionAccount().updateProfile(profile);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /** Returns account information if exists, null if it does not exist
+     * @param email Account's Email and reference tag
+     * @return Asynchronous DocumentSnapshot containing account data if it exists, null if not
+     */
     public Task<DocumentSnapshot> doesAccountExist(String email) {
         DocumentReference t = db.collection("accounts").document(email);
         return t.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
@@ -124,6 +187,11 @@ public class DatabaseManager {
         });
     }
 
+    /** Updates Account in FireBase FireStore
+     * Must use listener when calling this function, utlizes database's asynchronous update function
+     * @param account Account to be updated
+     * @return void asynchronous task
+     */
     public Task<Void> updateAccount(final Account account) {
         DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
         accountRef.update("email", account.getEmail());
@@ -137,14 +205,14 @@ public class DatabaseManager {
                 .addOnSuccessListener(new OnSuccessListener <Void> () {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // TODO: Add on success and on failure code
+                        Log.d(TAG, "Successfully updated account");
                     }
                 });
     }
 
-    public void deleteAccount(Account account) {
-    }
-
+    /** Updates profile in FireBase FireStore
+     * @param p Profile to be updated
+     */
     public void updateProfile(final Profile p) {
         // create reference for Profile, for use inside transaction
         SessionManager session = SessionManager.getInstance();
@@ -156,6 +224,13 @@ public class DatabaseManager {
         profileReference.set(p, SetOptions.merge());
     }
 
+    /** Add Profile to Account
+     * Asynchronously calls database's run transaction
+     * May not add profile immediately
+     * @param p Profile to be added
+     * @param account Account to be updated
+     * @return
+     */
     public Task<Void> addProfile(final Profile p, Account account) {
         // create reference for Profile, for use inside transaction
         DocumentReference profileReference =
@@ -173,6 +248,10 @@ public class DatabaseManager {
         });
     }
 
+    /** Deletes profile from account
+     * @param profile profile to be deleted
+     * @param account account to be updated
+     */
     public void deleteProfile(Profile profile, Account account){
         // create reference for Profile, for use inside transaction
         DocumentReference profileReference =
@@ -187,6 +266,8 @@ public class DatabaseManager {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Deleted profile");
+                } else {
+                    Log.d(TAG, "Unable to delete profile");
                 }
             }
         });

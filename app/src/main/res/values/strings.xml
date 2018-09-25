@@ -2,6 +2,9 @@
     <string name="app_name">HealthPort</string>
     <string name="title_activity_login">Sign in</string>
 
+    <!-- Titles -->
+    <string name="title_file_preview">Previewing File</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -27,6 +30,12 @@
     <string name="new_profile_header">Create a New\nProfile</string>
     <string name="dob_field">Date of Birth</string>
     <string name="back_button">Back</string>
+
+    <!-- File Preview -->
+    <string name="pages_header">Pages</string>
+    <string name="filepreview_profile_select_header">Assign to</string>
+    <string name="filepreview_name_header">File Name</string>
+    <string name="tags">Tags</string>
 
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>

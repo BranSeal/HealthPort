@@ -46,6 +46,12 @@
             android:label="@string/title_activity_new_profile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activity.ViewProfile"></activity>
+        <activity
+            android:name=".Activity.FilePreviewActivity"
+            android:label="@string/title_file_preview"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
     </application>
 
 </manifest>

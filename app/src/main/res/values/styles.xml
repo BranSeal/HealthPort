@@ -17,4 +17,15 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="EditTextTheme">
+        <item name="colorControlNormal">@color/hint_color</item>
+        <item name="android:colorControlActivated">@color/text_color</item>
+        <item name="android:colorControlHighlight">@color/text_color</item>
+    </style>
+
+    <style name="EditTextHoverHint" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

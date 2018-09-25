@@ -49,6 +49,15 @@ public class Account {
         this.profiles.add(profile);
     }
 
+    public void updateProfile(Profile newProfile) {
+        for (Profile oldProfile : this.profiles) {
+            if (oldProfile.equals(newProfile)) {
+                this.profiles.remove(oldProfile);
+                this.profiles.add(newProfile);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return this.email + " " + this.password;
