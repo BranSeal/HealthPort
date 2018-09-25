@@ -21,6 +21,7 @@ import com.leinardi.android.speeddial.SpeedDialView;
 public class AccountDashboardActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int FILE_SELECT_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
             public boolean onActionSelected(SpeedDialActionItem speedDialActionItem) {
                 switch (speedDialActionItem.getId()) {
                     case R.id.firstFab:
-                        showToast("Pictures are worth five words");
+                        dispatchChooseFileIntent();
                         return false; // true to keep the Speed Dial open
                     case R.id.secondFab:
                         dispatchTakePictureIntent();
@@ -80,6 +81,20 @@ public class AccountDashboardActivity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+    private void dispatchChooseFileIntent() {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            //intent.setType("*/*");      //all files
+            intent.setType("*/*");   //XML file only
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+            try {
+                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
+            } catch (android.content.ActivityNotFoundException ex) {
+                // Potentially direct the user to the Market with a Dialog
+                Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
+            }
     }
 
     @Override
