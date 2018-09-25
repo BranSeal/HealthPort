@@ -176,7 +176,7 @@
             android:id="@+id/tag_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tags"
+            android:hint="@string/tags"
             android:textColor="@color/text_color" />
     </android.support.design.widget.TextInputLayout>
 
