@@ -26,6 +26,10 @@ public class FilePreviewActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filepreview);
+        String photoPath = (getIntent().getData() == null) ?
+                "N/A" : getIntent().getData().toString();
+
+        Log.d("Image", photoPath);
 
         // @TODO Replace this array with array of profile names
         String[] arraySpinner = new String[] {

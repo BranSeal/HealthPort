@@ -10,6 +10,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -82,9 +83,24 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                dispatchFilePreview();
+            } else if (resultCode == RESULT_CANCELED) {
+                File deleteF = (mCurrentPhotoPath!= null) ? new File(mCurrentPhotoPath) : null;
+                boolean deleted = false;
+                if (deleteF != null)
+                    deleted = deleteF.delete();
+                Log.w("Delete Check", "Empty file: " + mCurrentPhotoPath + "Deleted: " + deleted);
+            }
+        }
+    }
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -104,6 +120,16 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
+        }
+    }
+
+    private void dispatchFilePreview() {
+        Intent intent = new Intent(this, FilePreviewActivity.class);
+        if (mCurrentPhotoPath != null) {
+            intent.setData(Uri.parse(mCurrentPhotoPath));
+            startActivity(intent);
+        } else {
+            throw new RuntimeException("mCurrentPhotoPath was never set!");
         }
     }
 
