@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import com.amebas.healthport.Model.DatabaseManager;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Model.SessionManager;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A login screen that offers login via email/password.
@@ -158,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             //this is trashy im sorry
             dbManager.getAccount(this.mEmail, this.mPassword);
-            int time = 1000;
+            int time = 2000;
             try {
                 Thread.sleep(time);
             } catch (InterruptedException e) {
@@ -182,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                         getApplicationContext(),
                         "Account retreived for " + acc.getEmail(),
                         Toast.LENGTH_SHORT);
+                Log.d(TAG,"Anush login activity: " + acc);
                 toast.show();
                 goToProfilePage();
             }
