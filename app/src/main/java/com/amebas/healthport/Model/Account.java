@@ -1,5 +1,6 @@
 package com.amebas.healthport.Model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,13 @@ public class Account {
     }
 
     public void addProfile(Profile profile) {
-        this.profiles.add(profile);
+        if(this.profiles == null) {
+            ArrayList<Profile> arrList = new ArrayList<>();
+            arrList.add(profile);
+            this.profiles = arrList;
+        } else {
+            this.profiles.add(profile);
+        }
     }
 
     public void updateProfile(Profile newProfile) {

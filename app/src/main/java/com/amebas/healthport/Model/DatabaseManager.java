@@ -81,7 +81,7 @@ public class DatabaseManager {
                         acc.setEmail(cloudEmail);
                         acc.setPassword(cloudPassword);
                         instance.setSessionAccount(acc);
-                        getProfiles(instance);
+                        getProfiles();
                         Log.d(TAG,
                                 "Account Retrieved" +
                                         SessionManager.getInstance().getSessionAccount().getEmail());
@@ -93,7 +93,8 @@ public class DatabaseManager {
         });
     }
 
-    private void getProfiles(SessionManager instance){
+    private void getProfiles(){
+        SessionManager instance = SessionManager.getInstance();
         Account account = instance.getSessionAccount();
         // Get Profiles per Account from FireStore
         CollectionReference profiles =
