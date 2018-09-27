@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkGreyPrimary">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/superLightGreyButtonColor"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:elevation="@dimen/top_z_index"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/doc_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/superLightGreyButtonColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/page_num_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/page_num"
+            android:textColor="@color/darkGreyPrimary"
+            android:textSize="@dimen/button_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="329dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/page_num_title">
+
+        </com.github.barteksc.pdfviewer.PDFView>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/close_button"
+        android:layout_width="@dimen/x_button_size"
+        android:layout_height="@dimen/x_button_size"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:focusable="false"
+        android:onClick="exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/x_button" />
+
+</android.support.constraint.ConstraintLayout>
