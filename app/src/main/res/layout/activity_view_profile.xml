@@ -2,108 +2,163 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overallView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.ViewProfile">
 
-    <Button
-        android:id="@+id/edit_profile"
-        android:layout_width="160dp"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/rounded_button"
-        android:text="Edit Profile"
-        android:textAllCaps="false"
-        android:textSize="@dimen/button_text_size"
-        app:layout_constraintBottom_toTopOf="@+id/cancel_link"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/delete_profile"
-        android:layout_width="160dp"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="32dp"
-        android:background="@drawable/rounded_button"
-        android:text="Delete Profile"
-        android:textAllCaps="false"
-        android:textSize="@dimen/button_text_size"
-        app:layout_constraintBottom_toTopOf="@+id/cancel_link"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/topBox"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/lightGreyAccent"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edit_profile" />
-
-    <TextView
-        android:id="@+id/cancel_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginLeft="164dp"
-        android:layout_marginRight="165dp"
-        android:layout_marginStart="164dp"
-        android:onClick="returnToDashboard"
-        android:text="Cancel"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/nameContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="152dp"
-        android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/nameText"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dobContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="107dp"
-        android:layout_marginLeft="69dp"
-        android:layout_marginRight="107dp"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="28dp"
-        android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
-        app:layout_constraintStart_toEndOf="@+id/dobText"
-        app:layout_constraintTop_toBottomOf="@+id/nameContent" />
-
-    <TextView
-        android:id="@+id/nameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="152dp"
-        android:text="Name: "
-        android:textSize="24sp"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/dobText"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
-        android:text="Date Of Birth:"
-        android:textSize="24sp"
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profileIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="142dp"
+            android:layout_marginLeft="142dp"
+            android:layout_marginRight="142dp"
+            android:layout_marginStart="142dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_baseline_account_circle_48"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nameContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="174dp"
+            android:layout_marginLeft="174dp"
+            android:layout_marginRight="174dp"
+            android:layout_marginStart="174dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:text="Temp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileIcon" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:background="@color/superLightGreyButtonColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameText" />
+        app:layout_constraintTop_toBottomOf="@+id/topBox">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/emailView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/text_color"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:padding="@dimen/activity_horizontal_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivContactItem3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_email_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/emailContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:text="Holder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toEndOf="@+id/ivContactItem3"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/dobView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@color/text_color"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:padding="@dimen/activity_horizontal_margin"
+            app:layout_constraintStart_toStartOf="@id/emailView"
+            app:layout_constraintTop_toBottomOf="@+id/emailView">
+
+            <ImageView
+                android:id="@+id/dobIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_cake_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dobContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:text="Holder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toEndOf="@+id/dobIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="177dp"
+            android:layout_marginLeft="176dp"
+            android:layout_marginRight="177dp"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="175dp"
+            android:onClick="returnToDashboard"
+            android:text="Back"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dobView" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>
