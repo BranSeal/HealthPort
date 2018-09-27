@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -33,6 +34,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.2'
     implementation "com.leinardi.android:speed-dial:1.0.2"
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
