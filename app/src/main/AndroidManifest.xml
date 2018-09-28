@@ -62,6 +62,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
+        <activity
+            android:name=".Activity.PagePreviewActivity"
+            android:label="Viewing Page"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
 
 
     </application>

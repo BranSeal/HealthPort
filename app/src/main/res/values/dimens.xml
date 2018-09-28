@@ -25,4 +25,5 @@
     <dimen name="doc_thumb_container_height">200dp</dimen>
     <dimen name="file_preview_header_size">20dp</dimen>
     <dimen name="top_z_index">3dp</dimen>
+    <dimen name="x_button_size">50sp</dimen>
 </resources>
