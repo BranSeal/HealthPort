@@ -22,6 +22,7 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
 
     public DocumentsAdapter(Context context, ArrayList<Document> documents) {
         super(context, 0, documents);
+        mDisplayedValues = documents;
     }
 
     @Override
@@ -53,7 +54,6 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint,FilterResults results) {
-
                 mDisplayedValues = (ArrayList<Document>) results.values; // has the filtered values
                 notifyDataSetChanged();  // notifies the data with new filtered values
             }
@@ -61,10 +61,10 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
-                ArrayList<Product> FilteredArrList = new ArrayList<Product>();
+                ArrayList<Document> FilteredArrList = new ArrayList<>();
 
                 if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<Product>(mDisplayedValues); // saves the original data in mOriginalValues
+                    mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
                 /********
@@ -81,9 +81,9 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
                 } else {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < mOriginalValues.size(); i++) {
-                        String data = mOriginalValues.get(i).name;
+                        String data = mOriginalValues.get(i).getName();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
-                            FilteredArrList.add(new Product(mOriginalValues.get(i).name,mOriginalValues.get(i).price));
+                            FilteredArrList.add(new Document(mOriginalValues.get(i).getName(),mOriginalValues.get(i).getTags()));
                         }
                     }
                     // set the Filtered result to return
