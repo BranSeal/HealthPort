@@ -21,6 +21,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
 }
 
 dependencies {
@@ -35,12 +38,15 @@ dependencies {
     implementation "com.leinardi.android:speed-dial:1.0.2"
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.leinardi.android:speed-dial:1.0.2'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'org.apache.pdfbox:pdfbox:2.0.11'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

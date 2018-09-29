@@ -36,6 +36,7 @@
     <string name="filepreview_profile_select_header">Assign to</string>
     <string name="filepreview_name_header">File Name</string>
     <string name="tags">Tags</string>
+    <string name="page_num">Page</string>
 
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>
