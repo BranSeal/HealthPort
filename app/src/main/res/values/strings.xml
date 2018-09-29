@@ -37,6 +37,7 @@
     <string name="filepreview_name_header">File Name</string>
     <string name="tags">Tags</string>
     <string name="page_num">Page</string>
+    <string name="add_page">+ Add</string>
 
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>
