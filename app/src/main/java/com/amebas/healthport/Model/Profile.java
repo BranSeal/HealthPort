@@ -3,17 +3,18 @@ package com.amebas.healthport.Model;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
 
     private String dob;
     private String name;
-    private List<Document> documents;
+    private ArrayList<Document> documents;
 
     public Profile(){}
 
-    public Profile(String dob, String name, List<Document> documents){
+    public Profile(String dob, String name, ArrayList<Document> documents){
         this.dob = dob;
         this.name = name;
         this.documents = documents;
@@ -35,16 +36,23 @@ public class Profile {
         this.name = name;
     }
 
-    public List<Document> getDocuments() {
+    public ArrayList<Document> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(List<Document> documents) {
+    public void setDocuments(ArrayList<Document> documents) {
         this.documents = documents;
     }
 
     public void addDocuments(Document document) {
-        this.documents.add(document);
+        if(this.documents == null) {
+            ArrayList<Document> arrList = new ArrayList<>();
+            arrList.add(document);
+            this.documents = arrList;
+        } else {
+            this.documents.add(document);
+        }
+
     }
   
     public String toString() {

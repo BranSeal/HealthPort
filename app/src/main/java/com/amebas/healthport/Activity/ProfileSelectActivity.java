@@ -14,8 +14,6 @@ import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Model.SessionManager;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileSelectActivity extends AppCompatActivity {
@@ -28,7 +26,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_select);
 
         String[] profiles = getProfilesForAccount();
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_design, R.id.label, profiles);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.listview_design, R.id.title, profiles);
 
         ListView listview = findViewById(R.id.profileList);
         listview.setAdapter(adapter);
@@ -42,7 +40,10 @@ public class ProfileSelectActivity extends AppCompatActivity {
         });
     }
 
-    //TODO Retrieve list of profiles for the currently logged in user and returns it
+    /**
+     * This function retrieves the current profiles for the account logged in and displays them
+     * @return
+     */
     private String[] getProfilesForAccount() {
         SessionManager instance = SessionManager.getInstance();
         Account acc = instance.getSessionAccount();

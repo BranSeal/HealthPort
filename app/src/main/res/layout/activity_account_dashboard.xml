@@ -53,23 +53,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:sdMainFabClosedSrc="@drawable/ic_baseline_add_24px"/>
 
-
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/documentViewer"
-        android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/superLightGreyButtonColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight=".7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarView"
-        app:layout_constraintVertical_weight=".9">
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarView">
 
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
+
+
+    <ListView
+        android:id="@+id/documentViewer"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
+
+    </ListView>
 
 </android.support.constraint.ConstraintLayout>

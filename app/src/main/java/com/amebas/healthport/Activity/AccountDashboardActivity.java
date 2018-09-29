@@ -9,14 +9,21 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amebas.healthport.Adapter.DocumentsAdapter;
+import com.amebas.healthport.Model.Document;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.R;
@@ -26,13 +33,18 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class AccountDashboardActivity extends AppCompatActivity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final int FILE_SELECT_CODE = 0;
     private String mCurrentPhotoPath;
+    private DocumentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +72,17 @@ public class AccountDashboardActivity extends AppCompatActivity {
                         .create()
         );
 
+        //attempts to set the fab grey permanenetly
         int grey = getResources().getColor(R.color.superLightGreyButtonColor);
         FloatingActionButton mainFab = speedDialView.getMainFab();
         mainFab.setBackgroundTintList(ColorStateList.valueOf(grey));
         mainFab.setRippleColor(grey);
+
+
+        //temporary code to populate the current profile with documents
+        populateProfileWithDocuments();
+        //populate listview with documents
+        populateDocuments();
 
 
         // Note: To ensure that launching the camera/file browser works, make sure that app permissions
@@ -81,6 +100,25 @@ public class AccountDashboardActivity extends AppCompatActivity {
                     default:
                         return false;
                 }
+            }
+        });
+
+        EditText etSearch = findViewById(R.id.etSearch);
+        // Add Text Change Listener to EditText
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Call back the Adapter with current character to Filter
+                adapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -191,5 +229,63 @@ public class AccountDashboardActivity extends AppCompatActivity {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * This function populates the listview with the current user's documents
+     */
+    public void populateDocuments() {
+        ArrayList<Document> documents = getDocuments();
+        this.adapter = new DocumentsAdapter(this, documents);
+
+        ListView listview = findViewById(R.id.documentViewer);
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener((parent, view, position, id) -> {
+            Document document =  (Document) parent.getItemAtPosition(position);
+            showToast(document.getName() + document.getTagString());
+            //openDocument(document, position);
+        });
+    }
+
+    /**
+     * This functions relays the user to the document viewer for the document opened
+     * @param document the string containing the file directory of the document selected
+     * @param position the position in the listview of the document
+     */
+    public void openDocument(String document, int position) {
+
+    }
+
+    /**
+     * This function stringifies the documents in order to be populated into the listview
+     * @return docuemnt list
+     */
+    public ArrayList<Document> getDocuments() {
+        SessionManager instance = SessionManager.getInstance();
+        Profile currProfile = instance.getCurrentProfile();
+        return currProfile.getDocuments();
+    }
+
+    //temporary document population function
+    public void populateProfileWithDocuments() {
+        SessionManager instance = SessionManager.getInstance();
+        Profile currProfile = instance.getCurrentProfile();
+
+        Log.d(TAG,"Anush: " + "Current Profile: " + currProfile);
+
+        String[] tags1 = {"test1", "test2"};
+        String[] tags2 = {"test3", "test4"};
+        String[] tags3 = {"test5", "test6"};
+
+        Document doc1 = new Document("doc1");
+        doc1.setTags(tags1);
+        Document doc2 = new Document("doc2");
+        doc2.setTags(tags2);
+        Document doc3 = new Document("doc3");
+        doc3.setTags(tags3);
+        currProfile.addDocuments(doc1);
+        currProfile.addDocuments(doc2);
+        currProfile.addDocuments(doc3);
     }
 }
