@@ -1,5 +1,7 @@
 package com.amebas.healthport.Model;
 
+import java.util.Arrays;
+
 public class Document {
 
     private String[] referenceIDs;
@@ -7,6 +9,15 @@ public class Document {
     private String[] tags;
 
     public Document(){}
+
+    public Document(String name) {
+        this.name = name;
+    }
+
+    public Document(String name, String[] tags) {
+        this.name = name;
+        this.tags = tags;
+    }
 
     public Document(String[] referenceIDs, String name, String[] tags, byte[] pictureBytes){
         this.referenceIDs = referenceIDs;
@@ -34,5 +45,9 @@ public class Document {
 
     public void setTags(String[] tags) {
         this.tags = tags;
+    }
+
+    public String getTagString() {
+        return Arrays.toString(this.tags);
     }
 }
