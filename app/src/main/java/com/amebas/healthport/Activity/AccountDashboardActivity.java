@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amebas.healthport.Model.Profile;
@@ -38,12 +40,11 @@ public class AccountDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_dashboard);
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
         SessionManager instance = SessionManager.getInstance();
         Profile currentProfile = instance.getCurrentProfile();
-        getSupportActionBar().setTitle("Welcome " + currentProfile.getName() + "!");
+
+        TextView welcomeText = findViewById(R.id.welcomeText);
+        welcomeText.setText("Welcome " + currentProfile.getName() + "!");
 
         SpeedDialView speedDialView = findViewById(R.id.speedDial);
         speedDialView.addActionItem(
@@ -83,6 +84,11 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void toProfile(View view) {
+        Intent profileIntent = new Intent(this, ViewProfile.class);
+        startActivity(profileIntent);
     }
 
     @Override

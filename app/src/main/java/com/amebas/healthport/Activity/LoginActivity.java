@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             //this is trashy im sorry
             dbManager.getAccount(this.mEmail, this.mPassword);
-            int time = 2000;
+            int time = 1300;
             try {
                 Thread.sleep(time);
             } catch (InterruptedException e) {
