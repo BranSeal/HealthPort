@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
@@ -15,9 +16,8 @@ import java.io.File;
 public class PagePreviewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private File current_page;
-    private File all_pages;
-    private int page_num;
+    private Pdf document;
+    private int page_num; // Should be 1+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,26 +27,22 @@ public class PagePreviewActivity extends AppCompatActivity {
 
         pdfView = findViewById(R.id.pdfView);
 
-        // Gets the pdf info from bundled intent. Only current_page and page_num are necessary
-        // for this screen; all_pages is used for when returning back to previous.
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            current_page = (File) extras.getSerializable("current");
-            all_pages = (File) extras.getSerializable("all_pages");
+            document = (Pdf) extras.getSerializable("doc");
             page_num = extras.getInt("page_num");
+            page_num = (page_num < 1) ? 1 : page_num;
         }
-        if (page_num > 0)
+        TextView label = findViewById(R.id.page_num_title);
+        label.setText(getString(R.string.page_num) + " " + page_num);
+        if (document != null)
         {
-            TextView label = findViewById(R.id.page_num_title);
-            label.setText(getString(R.string.page_num) + " " + page_num);
-        }
-        if (current_page != null)
-        {
-            pdfView.fromFile(current_page)
+            pdfView.fromFile(document.getLocation())
                 .onError(t -> {
                     Log.d("ERROR", "Failed to load pdf");
                 })
+                .pages(page_num - 1)
                 .load();
         }
     }
@@ -61,7 +57,7 @@ public class PagePreviewActivity extends AppCompatActivity {
     {
         Intent filePreviewIntent = new Intent(this, FilePreviewActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("all_pages", all_pages);
+        bundle.putSerializable("doc", document);
         filePreviewIntent.putExtras(bundle);
         startActivity(filePreviewIntent);
     }
