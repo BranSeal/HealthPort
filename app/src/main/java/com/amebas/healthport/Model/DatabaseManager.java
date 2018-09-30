@@ -1,5 +1,6 @@
 package com.amebas.healthport.Model;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -15,9 +16,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -110,14 +116,14 @@ public class DatabaseManager {
                         newProf.setName(p.getString("name"));
                         newProf.setDob(p.getString("dob"));
                         account.addProfile(newProf);
-                        getDocuments(instance, newProf);
+                        getDocumentsWhenGettingProfile(instance, newProf);
                     }
                 }
             }
         });
     }
 
-    public void getDocuments(SessionManager instance, Profile profile) {
+    private void getDocumentsWhenGettingProfile(SessionManager instance, Profile profile) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // FireBase CloudStorage Instance
@@ -138,31 +144,114 @@ public class DatabaseManager {
                     for(DocumentSnapshot p: firebaseDocuments) {
                         Document d = new Document();
                         d.setName(p.getString("name"));
-                        d.setReferenceIDs(p.getString("referenceIDs").split(","));
-                        d.setTags(p.getString("tags").split(","));
+                        ArrayList<String> r = new ArrayList<String>();
+                        d.setReferenceIDs((ArrayList<String>) p.get("referenceIDs"));
+                        d.setTags((ArrayList<String>) p.get("tags"));
                         profile.addDocuments(d);
                         for (String referenceID: d.getReferenceIDs()) {
                             // Create a reference with an initial file path and name
                             StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
 
-                            final long ONE_MEGABYTE = 1024 * 1024;
-                            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                @Override
-                                public void onSuccess(byte[] bytes) {
-                                    // Data for ref is returns, use this as needed
-                                    instance.getSessionAccount().updateProfile(profile);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle any errors
-                                }
-                            });
+                            try {
+                                File localFile = File.createTempFile("images", "jpg");
+
+                                pathReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        // Local temp file has been created
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any errors
+                                    }
+                                });
+                            } catch (IOException e) {
+                                Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+                            }
                         }
                     }
                 }
             }
         });
+    }
+
+    public void updateDocument(Document document){
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        // FireBase CloudStorage Instance
+        StorageReference storageRef = storage.getReference();
+
+        //Session Instance
+        SessionManager instance = SessionManager.getInstance();
+        Profile profile = instance.getCurrentProfile();
+
+        //Update Document in FireStore
+        DocumentReference profileDocument =
+                db.collection("accounts").document(
+                        instance.getSessionAccount().getEmail()).collection(
+                        "profiles").document(
+                        profile.getName()).collection(
+                                "documents").document(document.getName());
+        profileDocument.set(document, SetOptions.merge());
+
+        //Upload file(s) to FireBase Storage
+        for (String d : document.getReferenceIDs()) {
+            uploadDocument(d);
+        }
+    }
+
+    private void uploadDocument(String referenceID){
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        // FireBase CloudStorage Instance
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference image = storageRef.child("images/" + referenceID);
+
+        Uri file = Uri.fromFile(new File(referenceID));
+        UploadTask uploadTask = image.putFile(file);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Log.d(TAG,"Could not upload document" + exception.toString());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                //TODO: Confirmation that file is uploaded
+            }
+        });
+    }
+
+    public void getDocumentFromStorage(String referenceID) {
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        // Create a reference with an initial file path and name
+        StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
+
+        try {
+            File localFile = File.createTempFile("images", "jpg");
+
+            pathReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        } catch (IOException e) {
+            Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+        }
     }
 
     /** Returns account information if exists, null if it does not exist
