@@ -37,8 +37,6 @@ public class DocConfirmActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.msg)).setText(R.string.confirm_add);
             }
         }
-        doc = new File("/sdcard/Download/Full-Time Resume.pdf");
-        title.setText(doc.getName());
         if (doc != null)
         {
             pdfView.fromFile(doc)
