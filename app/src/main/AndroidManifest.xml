@@ -67,6 +67,11 @@
             android:label="Viewing Page"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true" />
+        <activity
+            android:name=".Activity.DocConfirmActivity"
+            android:label="Document created"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
 
 
     </application>

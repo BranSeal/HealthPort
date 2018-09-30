@@ -38,6 +38,8 @@
     <string name="tags">Tags</string>
     <string name="page_num">Page</string>
     <string name="add_page">+ Add</string>
+    <string name="confirm_add">Document Created</string>
+    <string name="confirm_upd">Document Updated</string>
 
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>
