@@ -15,11 +15,12 @@ import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 
 /**
  * Class to handle PDF files.
  */
-public class Pdf {
+public class Pdf implements Serializable{
 
     private File location;
     private PDDocument pdf;
