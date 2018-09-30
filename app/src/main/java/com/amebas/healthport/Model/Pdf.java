@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.tom_roush.pdfbox.multipdf.PDFMergerUtility;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
@@ -14,6 +15,7 @@ import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -38,6 +40,34 @@ public class Pdf implements Serializable{
     }
 
     /**
+     * Appends pdf files together
+     *
+     * @param context  context method is being called in.
+     * @param pdf1     pdf to append to.
+     * @param pdf2     pdf to append.
+     * @param dest     destination path to save new pdf.
+     * @return merged pdf instance.
+     */
+    static public Pdf append(Context context, Pdf pdf1, Pdf pdf2, File dest)
+    {
+        PDFBoxResourceLoader.init(context);
+        PDFMergerUtility merger = new PDFMergerUtility();
+        merger.setDestinationFileName(dest.getAbsolutePath());
+        try
+        {
+            merger.addSource(pdf1.getLocation());
+            merger.addSource(pdf2.getLocation());
+            merger.mergeDocuments(true);
+            return new Pdf(dest, PDDocument.load(dest));
+        }
+        catch (java.io.IOException e)
+        {
+            Log.d("ERROR", "Save dest does not exist");
+        }
+        return null;
+    }
+
+    /**
      * Creates a pdf instance from an image file.
      *
      * @param context  the context in app method is being called in.
@@ -54,6 +84,10 @@ public class Pdf implements Serializable{
         // Create page to place image in.
         InputStream in = new FileInputStream(img);
         Bitmap bitmap = BitmapFactory.decodeFile(img.getAbsolutePath());
+        File temp = File.createTempFile("temp", ".png", context.getCacheDir());
+        FileOutputStream out = new FileOutputStream(temp);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
+        out.close();
         Log.d("SIZE", "Width: " + bitmap.getWidth());
         Log.d("SIZE", "Height: " + bitmap.getHeight());
         PDRectangle rect = new PDRectangle(bitmap.getWidth(), bitmap.getHeight());
@@ -61,7 +95,7 @@ public class Pdf implements Serializable{
         document.addPage(page);
 
         // Populate page with image.
-        PDImageXObject image = PDImageXObject.createFromFile(img.getAbsolutePath(), document);
+        PDImageXObject image = PDImageXObject.createFromFile(temp.getAbsolutePath(), document);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
         contentStream.drawImage(image, 0, 0);
         contentStream.close();
@@ -70,6 +104,7 @@ public class Pdf implements Serializable{
         // Save changes
         document.save(dest);
         document.close();
+        temp.delete();
 
         return new Pdf(dest, document);
     }

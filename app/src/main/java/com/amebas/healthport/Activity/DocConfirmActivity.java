@@ -6,15 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.R;
 import com.github.barteksc.pdfviewer.PDFView;
-
-import java.io.File;
 
 public class DocConfirmActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private File doc;
+    private Pdf doc;
     private TextView title;
 
     @Override
@@ -29,8 +28,8 @@ public class DocConfirmActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            doc = (File) extras.getSerializable("doc");
-            title.setText(doc.getName());
+            doc = (Pdf) extras.getSerializable("doc");
+            title.setText(doc.getLocation().getName());
             // Pass in intents whether document was created or updated. Changes title accordingly.
             if (extras.getBoolean("isNew"))
             {
@@ -39,7 +38,7 @@ public class DocConfirmActivity extends AppCompatActivity {
         }
         if (doc != null)
         {
-            pdfView.fromFile(doc)
+            pdfView.fromFile(doc.getLocation())
             .onError(t -> {
                 Log.d("ERROR", "Failed to load pdf");
             })
