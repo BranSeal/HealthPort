@@ -1,12 +1,13 @@
 package com.amebas.healthport.Model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Document {
 
-    private String[] referenceIDs;
+    // REFERENCEID SHOULD BE THE ABSOLUTE PATH FOR EACH IMAGE
+    private ArrayList<String> referenceIDs;
     private String name;
-    private String[] tags;
+    private ArrayList<String> tags;
 
     public Document(){}
 
@@ -14,12 +15,12 @@ public class Document {
         this.name = name;
     }
 
-    public Document(String name, String[] tags) {
+    public Document(String name, ArrayList<String> tags) {
         this.name = name;
         this.tags = tags;
     }
 
-    public Document(String[] referenceIDs, String name, String[] tags, byte[] pictureBytes){
+    public Document(ArrayList<String> referenceIDs, String name, ArrayList<String> tags){
         this.referenceIDs = referenceIDs;
         this.name = name;
         this.tags = tags;
@@ -33,21 +34,21 @@ public class Document {
         this.name = name;
     }
 
-    public String[] getReferenceIDs() { return referenceIDs; }
+    public ArrayList<String> getReferenceIDs() { return referenceIDs; }
 
-    public void setReferenceIDs(String[] referenceIDs) {
+    public void setReferenceIDs(ArrayList<String> referenceIDs) {
         this.referenceIDs = referenceIDs;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
     public String getTagString() {
-        return Arrays.toString(this.tags);
+        return this.tags.toString();
     }
 }

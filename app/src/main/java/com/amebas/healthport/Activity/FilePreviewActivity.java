@@ -20,10 +20,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.R;
@@ -43,6 +45,9 @@ public class FilePreviewActivity extends AppCompatActivity
     private String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final int FILE_SELECT_CODE = 0;
+    private List<String> pages;
+    ArrayAdapter pagesAdapter;
+    ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,13 +58,10 @@ public class FilePreviewActivity extends AppCompatActivity
                 "N/A" : getIntent().getData().toString();
 
         Log.d("Image", photoPath);
-
-        // @TODO Replace this array with array of profile names
-        // This code breaks because of a null pointer exception from Model classes.
-//        SessionManager instance = SessionManager.getInstance();
-//        List<Profile> profiles = instance.getSessionAccount().getProfiles();
-//        String[] arraySpinner = (String []) profiles.toArray();
-        String[] arraySpinner = {"User1", "User2", "User3"};
+        SessionManager instance = SessionManager.getInstance();
+        Account acc = instance.getSessionAccount();
+        List<Profile> profiles  = acc.getProfiles();
+        String[] arraySpinner = getProfilesForAccount();
         Spinner s = findViewById(R.id.profile_select);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
@@ -100,6 +102,19 @@ public class FilePreviewActivity extends AppCompatActivity
                 builder.show();
             }
         });
+        pages = new ArrayList<>();
+        pages.add("Page 1");
+        pagesAdapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
+
+        listview = findViewById(R.id.table_scroll);
+        listview.setAdapter(pagesAdapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showToast("Yeet");
+            }
+        });
     }
 
     /**
@@ -119,8 +134,10 @@ public class FilePreviewActivity extends AppCompatActivity
         if (requestCode == REQUEST_TAKE_PHOTO) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                // TODO: ADD FILE TO LIST OF PAGES
-
+                int pageIndex = pages.size() + 1;
+                pages.add("Page " + pageIndex);
+                pagesAdapter = new ArrayAdapter<>(this, R.layout.listview_design, R.id.title, pages);
+                listview.setAdapter(pagesAdapter);
             } else if (resultCode == RESULT_CANCELED) {
                 File deleteF = (mCurrentPhotoPath!= null) ? new File(mCurrentPhotoPath) : null;
                 boolean deleted = false;
@@ -197,5 +214,34 @@ public class FilePreviewActivity extends AppCompatActivity
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private String[] getProfilesForAccount() {
+        SessionManager instance = SessionManager.getInstance();
+        Account acc = instance.getSessionAccount();
+        List<Profile> profiles = acc.getProfiles();
+        if(profiles == null) {
+            showToast("Something went wrong, please login again");
+            return null;
+        } else {
+            String[] profileArr = new String[profiles.size()];
+            for (int i = 0; i < profiles.size(); i++) {
+                Profile prof = profiles.get(i);
+                profileArr[i] = prof.getName();
+            }
+            return profileArr;
+        }
+    }
+    public void showToast(String text) {
+        Toast toast = Toast.makeText(
+                getApplicationContext(),
+                text,
+                Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void goToDashboard(View view) {
+        Intent intent = new Intent(this, AccountDashboardActivity.class);
+        startActivity(intent);
     }
 }
