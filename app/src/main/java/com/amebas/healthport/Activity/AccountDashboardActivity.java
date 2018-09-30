@@ -274,9 +274,15 @@ public class AccountDashboardActivity extends AppCompatActivity {
 
         Log.d(TAG,"Anush: " + "Current Profile: " + currProfile);
 
-        String[] tags1 = {"test1", "test2"};
-        String[] tags2 = {"test3", "test4"};
-        String[] tags3 = {"test5", "test6"};
+        ArrayList<String> tags1 = new ArrayList<String>();
+        tags1.add("test1");
+        tags1.add("test2");
+        ArrayList<String> tags2 = new ArrayList<String>();
+        tags1.add("test3");
+        tags1.add("test4");
+        ArrayList<String> tags3 = new ArrayList<String>();
+        tags1.add("test5");
+        tags1.add("test6");
 
         Document doc1 = new Document("doc1");
         doc1.setTags(tags1);
