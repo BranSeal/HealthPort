@@ -1,5 +1,6 @@
 package com.amebas.healthport.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.R;
 import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.File;
 
 public class DocConfirmActivity extends AppCompatActivity {
 
@@ -28,7 +31,7 @@ public class DocConfirmActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            doc = (Pdf) extras.getSerializable("doc");
+            doc = new Pdf((File) extras.getSerializable("doc"));
             title.setText(doc.getLocation().getName());
             // Pass in intents whether document was created or updated. Changes title accordingly.
             if (extras.getBoolean("isNew"))
@@ -54,7 +57,8 @@ public class DocConfirmActivity extends AppCompatActivity {
      */
     public void exit(View v)
     {
-        // @TODO: go to dashboard.
+        Intent intent = new Intent(this, AccountDashboardActivity.class);
+        startActivity(intent);
     }
 
 }

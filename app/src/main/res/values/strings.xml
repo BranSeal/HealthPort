@@ -63,6 +63,8 @@
     <string name="pass_not_long">Password must be greater than 8 characters</string>
     <string name="reg_failed">Sign up failed. Please try again.</string>
     <string name="email_exists">Sign up failed. Email already in use.</string>
+    <string name="no_filename">Must give document a name.</string>
+    <string name="file_exists">Document with this name already exists, please try another.</string>
     <string name="title_activity_new_profile">NewProfile</string>
     <string name="logout">Log Out</string>
     <string name="fields_empty">All fields are required</string>

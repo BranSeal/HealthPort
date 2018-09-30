@@ -17,12 +17,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.Serializable;
 
 /**
  * Class to handle PDF files.
  */
-public class Pdf implements Serializable{
+public class Pdf {
 
     private File location;
     private PDDocument pdf;
@@ -37,6 +36,25 @@ public class Pdf implements Serializable{
     {
         this.location = location;
         this.pdf = pdf;
+    }
+
+    /**
+     * Creates new pdf object from file.
+     *
+     * @param location  location of file.
+     */
+    public Pdf(File location)
+    {
+        this.location = location;
+        try
+        {
+            this.pdf = PDDocument.load(location);
+        }
+        catch (java.io.IOException e)
+        {
+            Log.d("ERROR", "File not found");
+            this.pdf = new PDDocument();
+        }
     }
 
     /**
@@ -88,8 +106,6 @@ public class Pdf implements Serializable{
         FileOutputStream out = new FileOutputStream(temp);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
         out.close();
-        Log.d("SIZE", "Width: " + bitmap.getWidth());
-        Log.d("SIZE", "Height: " + bitmap.getHeight());
         PDRectangle rect = new PDRectangle(bitmap.getWidth(), bitmap.getHeight());
         PDPage page = new PDPage(rect);
         document.addPage(page);

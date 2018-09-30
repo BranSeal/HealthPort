@@ -30,7 +30,7 @@ public class PagePreviewActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            document = (Pdf) extras.getSerializable("doc");
+            document = new Pdf(((File) extras.getSerializable("doc")));
             page_num = extras.getInt("page_num");
             page_num = (page_num < 1) ? 1 : page_num;
         }
@@ -57,7 +57,7 @@ public class PagePreviewActivity extends AppCompatActivity {
     {
         Intent filePreviewIntent = new Intent(this, FilePreviewActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("doc", document);
+        bundle.putSerializable("doc", document.getLocation());
         filePreviewIntent.putExtras(bundle);
         startActivity(filePreviewIntent);
     }

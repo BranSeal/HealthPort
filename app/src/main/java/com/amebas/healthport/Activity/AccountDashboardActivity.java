@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,18 +23,20 @@ import android.widget.Toast;
 
 import com.amebas.healthport.Adapter.DocumentsAdapter;
 import com.amebas.healthport.Model.Document;
+import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
+import com.amebas.healthport.Model.Storage;
 import com.amebas.healthport.R;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -144,6 +145,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
             }
         }
     }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -169,7 +171,20 @@ public class AccountDashboardActivity extends AppCompatActivity {
     private void dispatchFilePreview() {
         Intent intent = new Intent(this, FilePreviewActivity.class);
         if (mCurrentPhotoPath != null) {
-            intent.setData(Uri.parse(mCurrentPhotoPath));
+            File temp = new Storage(this).getTempFile("temp.pdf");
+            Pdf pdf;
+            try
+            {
+                pdf = Pdf.fromImage(this, new File(mCurrentPhotoPath), temp);
+            }
+            catch (java.io.IOException e)
+            {
+                Log.d("ERROR", "File not found");
+                pdf = new Pdf(temp, new PDDocument());
+            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("doc", pdf.getLocation());
+            intent.putExtras(bundle);
             startActivity(intent);
         } else {
             throw new RuntimeException("mCurrentPhotoPath was never set!");
@@ -207,19 +222,16 @@ public class AccountDashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void showToast(String text) {
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                text,
-                Toast.LENGTH_SHORT);
-        toast.show();
+    public void showToast(String text)
+    {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new Storage(this).getImgDir();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -272,26 +284,20 @@ public class AccountDashboardActivity extends AppCompatActivity {
         SessionManager instance = SessionManager.getInstance();
         Profile currProfile = instance.getCurrentProfile();
 
-        Log.d(TAG,"Anush: " + "Current Profile: " + currProfile);
-
-        ArrayList<String> tags1 = new ArrayList<String>();
-        tags1.add("test1");
-        tags1.add("test2");
-        ArrayList<String> tags2 = new ArrayList<String>();
-        tags1.add("test3");
-        tags1.add("test4");
-        ArrayList<String> tags3 = new ArrayList<String>();
-        tags1.add("test5");
-        tags1.add("test6");
-
-        Document doc1 = new Document("doc1");
-        doc1.setTags(tags1);
-        Document doc2 = new Document("doc2");
-        doc2.setTags(tags2);
-        Document doc3 = new Document("doc3");
-        doc3.setTags(tags3);
-        currProfile.addDocuments(doc1);
-        currProfile.addDocuments(doc2);
-        currProfile.addDocuments(doc3);
+        ArrayList<Document> docs = new ArrayList<>();
+        File dir = new Storage(this).getUserDocs(currProfile.getName());
+        File[] files = dir.listFiles() == null ? new File[0] : dir.listFiles();
+        for (File file: files)
+        {
+            if (!file.isDirectory())
+            {
+                Document doc = new Document(file.getName());
+                ArrayList<String> tags = new ArrayList<>();
+                tags.add("Plz");
+                doc.setTags(tags);
+                docs.add(doc);
+            }
+        }
+        currProfile.setDocuments(docs);
     }
 }

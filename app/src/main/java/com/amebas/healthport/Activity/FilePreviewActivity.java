@@ -1,7 +1,6 @@
 package com.amebas.healthport.Activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,9 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amebas.healthport.Model.Account;
+import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
+import com.amebas.healthport.Model.Storage;
 import com.amebas.healthport.R;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,33 +39,38 @@ import java.util.ArrayList;
 
 public class FilePreviewActivity extends AppCompatActivity
 {
-
-    private String tags = "";
     private AlertDialog.Builder builder;
     private String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
     private static final int FILE_SELECT_CODE = 0;
-    private List<String> pages;
     ArrayAdapter pagesAdapter;
-    ListView listview;
+
+    private Pdf pdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filepreview);
-        String photoPath = (getIntent().getData() == null) ?
-                "N/A" : getIntent().getData().toString();
 
-        Log.d("Image", photoPath);
-        SessionManager instance = SessionManager.getInstance();
-        Account acc = instance.getSessionAccount();
-        List<Profile> profiles  = acc.getProfiles();
-        String[] arraySpinner = getProfilesForAccount();
+        // Get passed pdf.
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            pdf = new Pdf((File) extras.getSerializable("doc"));
+        }
+        else
+        {
+            Log.d("ERROR", "Was not passed a PDF, creating empty");
+            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"), new PDDocument());
+        }
+
+        // Create profile select dropdown.
         Spinner s = findViewById(R.id.profile_select);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
+                android.R.layout.simple_spinner_item, getProfilesForAccount());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Profile current = SessionManager.getInstance().getCurrentProfile();
         s.setAdapter(adapter);
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -79,41 +84,31 @@ public class FilePreviewActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
+        s.setSelection(adapter.getPosition(current.getName()));
 
+        // Create "Add page" dialog
         String[] colors = {"Take picture", "Upload file"};
-
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose what to do:");
-        builder.setItems(colors, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    dispatchTakePictureIntent();
-                } else if (which == 1) {
-                    dispatchChooseFileIntent();
-                }
+        builder.setItems(colors, (dialog, which) -> {
+            if (which == 0) {
+                dispatchTakePictureIntent();
+            } else if (which == 1) {
+                dispatchChooseFileIntent();
             }
         });
+        Button add_button = findViewById(R.id.add_button);
+        add_button.setOnClickListener(view -> builder.show());
 
-        Button add_button = (Button) findViewById(R.id.add_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                builder.show();
-            }
-        });
-        pages = new ArrayList<>();
-        pages.add("Page 1");
-        pagesAdapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
-
-        listview = findViewById(R.id.table_scroll);
-        listview.setAdapter(pagesAdapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showToast("Yeet");
-            }
+        // Set pages view.
+        populatePages(pdf);
+        ((ListView) findViewById(R.id.table_scroll)).setOnItemClickListener((parent, view, pos, id) -> {
+            Intent intent = new Intent(this, PagePreviewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("doc", pdf.getLocation());
+            bundle.putInt("page_num", pos + 1);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 
@@ -128,16 +123,48 @@ public class FilePreviewActivity extends AppCompatActivity
         return (text.length() > 0) ? text.split(" ") : new String[0];
     }
 
+    /**
+     * Fills out the list view of pages.
+     *
+     * @param pdf  the pdf file to get pages from.
+     */
+    private void populatePages(Pdf pdf)
+    {
+        int num_pages = pdf.getPdf().getNumberOfPages();
+        ArrayList<String> pages = new ArrayList<>(num_pages);
+        for (int i = 0; i < num_pages; i++)
+        {
+            pages.add(getString(R.string.page_num) + " " + (i + 1));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
+        ((ListView) findViewById(R.id.table_scroll)).setAdapter(adapter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == REQUEST_TAKE_PHOTO) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                int pageIndex = pages.size() + 1;
-                pages.add("Page " + pageIndex);
-                pagesAdapter = new ArrayAdapter<>(this, R.layout.listview_design, R.id.title, pages);
-                listview.setAdapter(pagesAdapter);
+                // Create new PDF with new image
+                File img = new File(mCurrentPhotoPath);
+                Storage temp = new Storage(this);
+                File temp_pdf = temp.getTempFile("temp2.pdf");
+                Pdf new_pdf;
+                try
+                {
+                    new_pdf = Pdf.fromImage(this, img, temp_pdf);
+                }
+                catch (java.io.IOException e)
+                {
+                    Log.d("ERROR", "File not Found");
+                    new_pdf = new Pdf(temp_pdf, new PDDocument());
+                }
+                // Merge PDFs
+                this.pdf = Pdf.append(this, this.pdf, new_pdf, this.pdf.getLocation());
+                populatePages(this.pdf);
+                // Delete 2nd temp
+                temp_pdf.delete();
             } else if (resultCode == RESULT_CANCELED) {
                 File deleteF = (mCurrentPhotoPath!= null) ? new File(mCurrentPhotoPath) : null;
                 boolean deleted = false;
@@ -147,6 +174,7 @@ public class FilePreviewActivity extends AppCompatActivity
             }
         }
     }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -204,7 +232,7 @@ public class FilePreviewActivity extends AppCompatActivity
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new Storage(this).getImgDir();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -217,8 +245,7 @@ public class FilePreviewActivity extends AppCompatActivity
     }
 
     private String[] getProfilesForAccount() {
-        SessionManager instance = SessionManager.getInstance();
-        Account acc = instance.getSessionAccount();
+        Account acc = SessionManager.getInstance().getSessionAccount();
         List<Profile> profiles = acc.getProfiles();
         if(profiles == null) {
             showToast("Something went wrong, please login again");
@@ -241,7 +268,86 @@ public class FilePreviewActivity extends AppCompatActivity
     }
 
     public void goToDashboard(View view) {
-        Intent intent = new Intent(this, AccountDashboardActivity.class);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.cancel_confirm));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
+            dialog.cancel();
+            Storage storage = new Storage(this);
+            storage.clearTemp();
+            storage.clearImgDir();
+            Intent intent = new Intent(this, AccountDashboardActivity.class);
+            startActivity(intent);
+        });
+        builder.setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel());
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    /**
+     * Checks inputs, sees if file name was given and if file with same name already exists.
+     *
+     * @param v  the view that called this method.
+     */
+    public void checkInputs(View v)
+    {
+        String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
+        if (filename.length() < 1)
+        {
+            showErrorAlert(getString(R.string.no_filename));
+            return;
+        }
+        String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
+        File dir = new Storage(this).getUserDocs(profile);
+        File file = new File(dir, filename + ".pdf");
+        if (file.exists())
+        {
+            showErrorAlert(getString(R.string.file_exists));
+            return;
+        }
+        createDocument(file, profile, getTags());
+    }
+
+    /**
+     * Creates document, adding to local storage and database.
+     *
+     * @param path     where to save new document.
+     * @param profile  profile to assign to.
+     * @param tags     list of tags given to the document.
+     */
+    public void createDocument(File path, String profile, String[] tags)
+    {
+        try
+        {
+            pdf.getPdf().save(path);
+        }
+        catch (java.io.IOException e)
+        {
+            Log.d("ERROR", "Path doesn't exist");
+        }
+        Storage storage = new Storage(this);
+        storage.clearTemp();
+        storage.clearImgDir();
+        Intent intent = new Intent(this, DocConfirmActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doc", path);
+        intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    /**
+     * Displays alert for any invalid inputs
+     *
+     * @msg  the message to display.
+     */
+    private void showErrorAlert(String msg)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
+        builder.setCancelable(true);
+        builder.setPositiveButton(getString(R.string.ok), (dialog, id) -> dialog.cancel());
+        builder.create().show();
     }
 }
