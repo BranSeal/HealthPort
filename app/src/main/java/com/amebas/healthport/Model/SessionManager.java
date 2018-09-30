@@ -21,6 +21,15 @@ public class SessionManager {
     }
 
     /**
+     * Gets database manager.
+     *
+     * @return database manager.
+     */
+    public DatabaseManager getDatabase() {
+        return this.dbMgr;
+    }
+
+    /**
      * Set who is currently logged in.
      * @param acc Account that will be tied to the logged in session
      */

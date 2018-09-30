@@ -79,9 +79,6 @@ public class AccountDashboardActivity extends AppCompatActivity {
         mainFab.setBackgroundTintList(ColorStateList.valueOf(grey));
         mainFab.setRippleColor(grey);
 
-
-        //temporary code to populate the current profile with documents
-        populateProfileWithDocuments();
         //populate listview with documents
         populateDocuments();
 
@@ -284,7 +281,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
         SessionManager instance = SessionManager.getInstance();
         Profile currProfile = instance.getCurrentProfile();
 
-        ArrayList<Document> docs = new ArrayList<>();
+        ArrayList<Document> docs = currProfile.getDocuments();
         File dir = new Storage(this).getUserDocs(currProfile.getName());
         File[] files = dir.listFiles() == null ? new File[0] : dir.listFiles();
         for (File file: files)

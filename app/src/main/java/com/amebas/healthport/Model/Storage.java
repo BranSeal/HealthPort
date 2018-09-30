@@ -82,6 +82,28 @@ public class Storage extends File {
     }
 
     /**
+     * Clears profile's storage directory.
+     *
+     * @param profile  the profile whose directory to clear
+     */
+    public void clearUserDocs(String profile)
+    {
+        if (profile == "")
+        {
+            profile = "_";
+        }
+        profile = profile.replaceAll("\\s+","");
+        File dir = new File(this.docs, profile);
+        if (dir.exists())
+        {
+            for (File file: dir.listFiles())
+            {
+                file.delete();
+            }
+        }
+    }
+
+    /**
      * Gets the image directory.
      *
      * @return the image directory.

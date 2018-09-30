@@ -10,7 +10,7 @@ public class Profile {
 
     private String dob;
     private String name;
-    private ArrayList<Document> documents;
+    private ArrayList<Document> documents = new ArrayList<>();
 
     public Profile(){}
 
@@ -44,16 +44,7 @@ public class Profile {
         this.documents = documents;
     }
 
-    public void addDocuments(Document document) {
-        if(this.documents == null) {
-            ArrayList<Document> arrList = new ArrayList<>();
-            arrList.add(document);
-            this.documents = arrList;
-        } else {
-            this.documents.add(document);
-        }
-
-    }
+    public void addDocuments(Document document) { this.documents.add(document); }
   
     public String toString() {
         return name + " " + dob;

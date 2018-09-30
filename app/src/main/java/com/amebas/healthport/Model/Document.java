@@ -49,6 +49,6 @@ public class Document {
     }
 
     public String getTagString() {
-        return this.tags.toString();
+        return (this.tags != null) ? this.tags.toString() : "[]";
     }
 }

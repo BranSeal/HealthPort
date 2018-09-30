@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amebas.healthport.Model.Account;
+import com.amebas.healthport.Model.Document;
 import com.amebas.healthport.Model.Pdf;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
@@ -327,9 +328,22 @@ public class FilePreviewActivity extends AppCompatActivity
         {
             Log.d("ERROR", "Path doesn't exist");
         }
+        // Upload to database.
+        ArrayList<String> tag_list = new ArrayList<>();
+        for (String tag: tags)
+        {
+            tag_list.add(tag);
+        }
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(path.getAbsolutePath());
+        Document doc = new Document(paths, path.getName(), tag_list);
+        SessionManager.getInstance().getDatabase().updateDocument(doc);
+        SessionManager.getInstance().getCurrentProfile().getDocuments().add(doc);
+        // Clear temp files
         Storage storage = new Storage(this);
         storage.clearTemp();
         storage.clearImgDir();
+        // Move to confirmation page.
         Intent intent = new Intent(this, DocConfirmActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("doc", path);
