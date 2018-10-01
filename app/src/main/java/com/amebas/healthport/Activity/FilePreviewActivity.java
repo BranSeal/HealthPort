@@ -337,8 +337,21 @@ public class FilePreviewActivity extends AppCompatActivity
         ArrayList<String> paths = new ArrayList<>();
         paths.add(path.getAbsolutePath());
         Document doc = new Document(paths, path.getName(), tag_list);
-        SessionManager.getInstance().getDatabase().updateDocument(doc);
-        SessionManager.getInstance().getCurrentProfile().getDocuments().add(doc);
+        Profile to_assign = null;
+        for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
+        {
+            if (p.getName().equals(profile))
+            {
+                to_assign = p;
+                break;
+            }
+        }
+        if (to_assign == null)
+        {
+            to_assign = SessionManager.getInstance().getCurrentProfile();
+        }
+        SessionManager.getInstance().getDatabase().updateDocument(doc, to_assign);
+        to_assign.getDocuments().add(doc);
         // Clear temp files
         Storage storage = new Storage(this);
         storage.clearTemp();

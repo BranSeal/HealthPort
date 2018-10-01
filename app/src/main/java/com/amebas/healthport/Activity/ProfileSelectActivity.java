@@ -31,12 +31,9 @@ public class ProfileSelectActivity extends AppCompatActivity {
         ListView listview = findViewById(R.id.profileList);
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String profile = (String) parent.getItemAtPosition(position);
-                startDashboard(profile, position);
-            }
+        listview.setOnItemClickListener(( parent, view, position, id) -> {
+            String profile = (String) parent.getItemAtPosition(position);
+            startDashboard(profile, position);
         });
     }
 
@@ -50,7 +47,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
         profiles = acc.getProfiles();
         if(profiles == null) {
             showToast("Something went wrong, please login again");
-            logout();
+            logout(findViewById(R.id.logout_link));
             return null;
         } else {
             String[] profileArr = new String[profiles.size()];
@@ -82,8 +79,9 @@ public class ProfileSelectActivity extends AppCompatActivity {
     /**
      * Logs user out and sends them back to landing screen.
      *
+     * @param v  the view that calls the method.
      */
-    public void logout() {
+    public void logout(View v) {
         Intent landingIntent = new Intent(this, MainActivity.class);
         startActivity(landingIntent);
     }

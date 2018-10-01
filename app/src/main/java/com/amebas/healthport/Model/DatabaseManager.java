@@ -176,7 +176,7 @@ public class DatabaseManager {
         });
     }
 
-    public void updateDocument(Document document){
+    public void updateDocument(Document document, Profile profile){
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // FireBase CloudStorage Instance
@@ -184,7 +184,6 @@ public class DatabaseManager {
 
         //Session Instance
         SessionManager instance = SessionManager.getInstance();
-        Profile profile = instance.getCurrentProfile();
 
         //Update Document in FireStore
         DocumentReference profileDocument =
