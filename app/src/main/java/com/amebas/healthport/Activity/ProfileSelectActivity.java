@@ -13,6 +13,7 @@ import com.amebas.healthport.Model.Account;
 import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.R;
 import com.amebas.healthport.Model.SessionManager;
+import com.amebas.healthport.Utilities.GeneralUtilities;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
         Account acc = instance.getSessionAccount();
         profiles = acc.getProfiles();
         if(profiles == null) {
-            showToast("Something went wrong, please login again");
+            GeneralUtilities.showToast(getApplicationContext(), "Something went wrong, please login again");
             logout(findViewById(R.id.logout_link));
             return null;
         } else {
@@ -84,13 +85,5 @@ public class ProfileSelectActivity extends AppCompatActivity {
     public void logout(View v) {
         Intent landingIntent = new Intent(this, MainActivity.class);
         startActivity(landingIntent);
-    }
-
-    public void showToast(String text) {
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                text,
-                Toast.LENGTH_SHORT);
-        toast.show();
     }
 }

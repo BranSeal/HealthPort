@@ -29,6 +29,7 @@ import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.Model.Storage;
 import com.amebas.healthport.R;
+import com.amebas.healthport.Utilities.GeneralUtilities;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
@@ -249,7 +250,7 @@ public class FilePreviewActivity extends AppCompatActivity
         Account acc = SessionManager.getInstance().getSessionAccount();
         List<Profile> profiles = acc.getProfiles();
         if(profiles == null) {
-            showToast("Something went wrong, please login again");
+            GeneralUtilities.showToast(getApplicationContext(), "Something went wrong, please login again");
             return null;
         } else {
             String[] profileArr = new String[profiles.size()];
@@ -259,13 +260,6 @@ public class FilePreviewActivity extends AppCompatActivity
             }
             return profileArr;
         }
-    }
-    public void showToast(String text) {
-        Toast toast = Toast.makeText(
-                getApplicationContext(),
-                text,
-                Toast.LENGTH_SHORT);
-        toast.show();
     }
 
     public void goToDashboard(View view) {

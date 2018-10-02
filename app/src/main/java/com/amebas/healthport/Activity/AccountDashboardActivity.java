@@ -28,6 +28,7 @@ import com.amebas.healthport.Model.Profile;
 import com.amebas.healthport.Model.SessionManager;
 import com.amebas.healthport.Model.Storage;
 import com.amebas.healthport.R;
+import com.amebas.healthport.Utilities.GeneralUtilities;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -219,11 +220,6 @@ public class AccountDashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void showToast(String text)
-    {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-    }
-
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -252,7 +248,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
 
         listview.setOnItemClickListener((parent, view, position, id) -> {
             Document document =  (Document) parent.getItemAtPosition(position);
-            showToast(document.getName() + document.getTagString());
+            GeneralUtilities.showToast(getApplicationContext(), document.getName() + document.getTagString());
             //openDocument(document, position);
         });
     }
