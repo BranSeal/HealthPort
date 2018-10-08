@@ -354,6 +354,7 @@ public class FilePreviewActivity extends AppCompatActivity
         Intent intent = new Intent(this, DocConfirmActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("doc", path);
+        bundle.putBoolean("isNew", true);
         intent.putExtras(bundle);
         startActivity(intent);
     }
