@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activity;
+package com.amebas.ref_u_store.Activity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -21,14 +21,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amebas.healthport.Adapter.DocumentsAdapter;
-import com.amebas.healthport.Model.Document;
-import com.amebas.healthport.Model.Pdf;
-import com.amebas.healthport.Model.Profile;
-import com.amebas.healthport.Model.SessionManager;
-import com.amebas.healthport.Model.Storage;
-import com.amebas.healthport.R;
-import com.amebas.healthport.Utilities.GeneralUtilities;
+import com.amebas.ref_u_store.Adapter.DocumentsAdapter;
+import com.amebas.ref_u_store.Model.Document;
+import com.amebas.ref_u_store.Model.Pdf;
+import com.amebas.ref_u_store.Model.Profile;
+import com.amebas.ref_u_store.Model.SessionManager;
+import com.amebas.ref_u_store.Model.Storage;
+import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;

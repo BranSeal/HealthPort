@@ -1,4 +1,4 @@
-package com.amebas.healthport.Model;
+package com.amebas.ref_u_store.Model;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 

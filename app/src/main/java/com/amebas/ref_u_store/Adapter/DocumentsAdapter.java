@@ -1,4 +1,4 @@
-package com.amebas.healthport.Adapter;
+package com.amebas.ref_u_store.Adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,8 +10,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.amebas.healthport.Model.Document;
-import com.amebas.healthport.R;
+import com.amebas.ref_u_store.Model.Document;
+import com.amebas.ref_u_store.R;
 
 import java.util.ArrayList;
 

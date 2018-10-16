@@ -1,6 +1,6 @@
-package com.amebas.healthport;
+package com.amebas.ref_u_store;
 
-import com.amebas.healthport.Activity.RegisterActivity;
+import com.amebas.ref_u_store.Activity.RegisterActivity;
 
 import org.junit.Before;
 import org.junit.Test;

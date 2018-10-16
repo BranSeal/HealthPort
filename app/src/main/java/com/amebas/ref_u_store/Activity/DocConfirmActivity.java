@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activity;
+package com.amebas.ref_u_store.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.amebas.healthport.Model.Pdf;
-import com.amebas.healthport.R;
+import com.amebas.ref_u_store.Model.Pdf;
+import com.amebas.ref_u_store.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;

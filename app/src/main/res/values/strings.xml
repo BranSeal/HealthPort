@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HealthPort</string>
+    <string name="app_name">Ref-U-Store</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Titles -->
@@ -17,9 +17,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="login_to_healthport">Login to\nHealthPort</string>
-    <string name="appName">HealthPort</string>
-    <string name="register_header">Sign Up for\nHealthPort</string>
+    <string name="login_to_healthport">Login to\nRef-U-Store</string>
+    <string name="appName">Ref-U-Store</string>
+    <string name="register_header">Sign Up for\nRef-U-Store</string>
     <string name="first_name_field">First Name</string>
     <string name="last_name_field">Last Name</string>
     <string name="email_field">Email Address</string>
@@ -44,7 +44,7 @@
     <!-- Notifications -->
     <string name="signup_in_progress">Trying to create account...</string>
     <string name="cancel_confirm">Are you sure you want to cancel?</string>
-    <string name="signup_confirm">You\'re signed up for HealthPort!</string>
+    <string name="signup_confirm">You\'re signed up for Ref-U-Store!</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>

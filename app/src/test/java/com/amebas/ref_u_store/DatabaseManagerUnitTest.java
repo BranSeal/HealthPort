@@ -1,7 +1,7 @@
-package com.amebas.healthport;
+package com.amebas.ref_u_store;
 
-import com.amebas.healthport.Model.Account;
-import com.amebas.healthport.Model.DatabaseManager;
+import com.amebas.ref_u_store.Model.Account;
+import com.amebas.ref_u_store.Model.DatabaseManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.junit.Before;

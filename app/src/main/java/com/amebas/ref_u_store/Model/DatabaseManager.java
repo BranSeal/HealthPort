@@ -1,4 +1,4 @@
-package com.amebas.healthport.Model;
+package com.amebas.ref_u_store.Model;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;

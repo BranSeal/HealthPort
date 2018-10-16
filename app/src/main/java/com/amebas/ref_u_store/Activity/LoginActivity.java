@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activity;
+package com.amebas.ref_u_store.Activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -17,10 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amebas.healthport.Model.Account;
-import com.amebas.healthport.Model.DatabaseManager;
-import com.amebas.healthport.R;
-import com.amebas.healthport.Model.SessionManager;
+import com.amebas.ref_u_store.Model.Account;
+import com.amebas.ref_u_store.Model.DatabaseManager;
+import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Model.SessionManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;

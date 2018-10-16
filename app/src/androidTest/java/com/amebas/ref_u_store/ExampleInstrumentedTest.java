@@ -1,4 +1,4 @@
-package com.amebas.healthport;
+package com.amebas.ref_u_store;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

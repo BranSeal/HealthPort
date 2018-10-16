@@ -1,4 +1,4 @@
-package com.amebas.healthport.Activity;
+package com.amebas.ref_u_store.Activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.amebas.healthport.Model.DatabaseManager;
-import com.amebas.healthport.R;
+import com.amebas.ref_u_store.Model.DatabaseManager;
+import com.amebas.ref_u_store.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
