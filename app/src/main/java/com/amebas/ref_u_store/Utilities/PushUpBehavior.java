@@ -37,4 +37,10 @@ public class PushUpBehavior extends CoordinatorLayout.Behavior<ConstraintLayout>
         child.setTranslationY(translationY);
         return true;
     }
+
+    @Override
+    public void onDependentViewRemoved(CoordinatorLayout parent, ConstraintLayout child, View dependency)
+    {
+        child.setTranslationY(0);
+    }
 }

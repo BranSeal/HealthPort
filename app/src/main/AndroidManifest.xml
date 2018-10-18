@@ -76,7 +76,8 @@
             android:name=".Activity.DeleteProfileActivity"
             android:label="Profile deleted"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true"/>
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"/>
 
     </application>
 

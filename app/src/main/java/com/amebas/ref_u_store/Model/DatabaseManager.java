@@ -56,6 +56,42 @@ public class DatabaseManager {
         });
     }
 
+    /**
+     * Checks an account's credentials against the database.
+     *
+     * @param email     the email of the account to check.
+     * @param password  the password to check against the account.
+     * @param av        the actions to perform based on results of the check.
+     * @return the async task of calling the database.
+     */
+    public Task<DocumentSnapshot> checkCredentials(String email, String password, AccountValidator av)
+    {
+        DocumentReference account = db.collection("accounts").document(email);
+        return account.get()
+            .addOnCompleteListener(task ->
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot account_data = task.getResult();
+                    if (account_data.getString("email") == null)
+                    {
+                        av.invalidEmail();
+                    }
+                    else
+                    {
+                        if (account_data.getString("password").equals(password))
+                        {
+                            av.validCredentials();
+                        }
+                        else
+                        {
+                            av.invalidPass();
+                        }
+                    }
+                }
+            });
+    }
+
     /**Get Account from FireBase FireStore
      * Asynchronously calls database's get function for account, profiles, and documents
      * May not return account immediately
@@ -340,25 +376,27 @@ public class DatabaseManager {
     /** Deletes profile from account
      * @param profile profile to be deleted
      * @param account account to be updated
+     * @param listener
      */
-    public void deleteProfile(Profile profile, Account account){
+    public void deleteProfile(Profile profile, Account account, OnCompleteListener<Void> listener){
         // create reference for Profile, for use inside transaction
         DocumentReference profileReference =
                 db.collection("accounts").document(
                         account.getEmail()).collection(
                         "profiles").document(
                         profile.getName());
-        profileReference.delete().addOnCompleteListener(new OnCompleteListener<Void>(){
-
-            // When "Get" Is Complete
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "Deleted profile");
-                } else {
-                    Log.d(TAG, "Unable to delete profile");
-                }
-            }
-        });
+        profileReference.delete().addOnCompleteListener(listener);
+//        new OnCompleteListener<Void>(){
+//
+//            // When "Get" Is Complete
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                    Log.d(TAG, "Deleted profile");
+//                } else {
+//                    Log.d(TAG, "Unable to delete profile");
+//                }
+//            }
+//        });
     }
 }

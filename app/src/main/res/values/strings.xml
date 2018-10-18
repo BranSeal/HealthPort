@@ -46,6 +46,7 @@
     <string name="signup_in_progress">Trying to create account...</string>
     <string name="cancel_confirm">Are you sure you want to cancel?</string>
     <string name="signup_confirm">You\'re signed up for Ref-U-Store!</string>
+    <string name="delete_confirm">Profile was successfully deleted.</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>
@@ -76,6 +77,8 @@
     <string name="delete_warning">
         Warning! Deleting a profile will delete ALL documents assigned to it. Are you sure you want to delete?
     </string>
-    <string name="delete_confirm">If so, enter the account password to delete profile.</string>
+    <string name="delete_warning2">If so, enter the account password to delete profile.</string>
     <string name="incorrect_password">Wrong password, please try again.</string>
+    <string name="failed_connection">Connection failed, please try again.</string>
+    <string name="failed_delete">Failed to delete profile. Please try again</string>
 </resources>

@@ -73,8 +73,16 @@ public class SessionManager {
         dbMgr.addProfile(p, this.account);
     }
 
+    /**
+     * Deletes profile from current session. Does not affect database.
+     *
+     * @param p  profile to delete.
+     */
     public void deleteProfile(Profile p) {
         this.account.deleteProfile(p);
-        dbMgr.deleteProfile(p, this.account);
+        if (getCurrentProfile().equals(p))
+        {
+            setCurrentProfile(null);
+        }
     }
 }
