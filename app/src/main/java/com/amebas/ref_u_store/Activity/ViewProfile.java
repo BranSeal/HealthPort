@@ -41,4 +41,9 @@ public class ViewProfile extends AppCompatActivity {
         Intent dashboardIntent = new Intent(this, AccountDashboardActivity.class);
         startActivity(dashboardIntent);
     }
+
+    public void editProfile(View view){
+        Intent editIntent = new Intent(this, EditProfile.class);
+        startActivity(editIntent);
+    }
 }
