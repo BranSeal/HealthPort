@@ -12,11 +12,13 @@ import com.amebas.ref_u_store.R;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class PagePreviewActivity extends AppCompatActivity {
 
     private PDFView pdfView;
     private Pdf document;
+    private HashMap<String, String> values;
     private int page_num; // Should be 1+
 
     @Override
@@ -33,6 +35,7 @@ public class PagePreviewActivity extends AppCompatActivity {
             document = new Pdf(((File) extras.getSerializable("doc")));
             page_num = extras.getInt("page_num");
             page_num = (page_num < 1) ? 1 : page_num;
+            values = (HashMap<String, String>) extras.getSerializable("values");
         }
         TextView label = findViewById(R.id.page_num_title);
         label.setText(getString(R.string.page_num) + " " + page_num);
@@ -58,6 +61,7 @@ public class PagePreviewActivity extends AppCompatActivity {
         Intent filePreviewIntent = new Intent(this, FilePreviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("doc", document.getLocation());
+        bundle.putSerializable("values", values);
         filePreviewIntent.putExtras(bundle);
         startActivity(filePreviewIntent);
     }

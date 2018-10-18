@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -104,14 +105,33 @@ public class FilePreviewActivity extends AppCompatActivity
 
         // Set pages view.
         populatePages(pdf);
-        ((ListView) findViewById(R.id.table_scroll)).setOnItemClickListener((parent, view, pos, id) -> {
+        ((ListView) findViewById(R.id.table_scroll)).setOnItemClickListener((parent, view, pos, id) ->
+        {
+            // Load in current values for file preview.
+            HashMap<String, String> values = new HashMap<>();
+            values.put("filename", ((EditText) findViewById(R.id.filename_input)).getText().toString());
+            values.put("tags", ((EditText) findViewById(R.id.tag_input)).getText().toString());
+            values.put("profile_name", ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString());
             Intent intent = new Intent(this, PagePreviewActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("doc", pdf.getLocation());
             bundle.putInt("page_num", pos + 1);
+            bundle.putSerializable("values", values);
             intent.putExtras(bundle);
             startActivity(intent);
         });
+
+        // Load previous values if they exist.
+        if (extras != null)
+        {
+            HashMap<String, String> values = (HashMap<String, String>) extras.getSerializable("values");
+            if (values != null)
+            {
+                ((EditText) findViewById(R.id.filename_input)).setText(values.get("filename"));
+                ((EditText) findViewById(R.id.tag_input)).setText(values.get("tags"));
+                s.setSelection(adapter.getPosition(values.get("profile_name")));
+            }
+        }
     }
 
     /**
