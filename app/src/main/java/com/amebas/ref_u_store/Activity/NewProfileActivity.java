@@ -35,19 +35,15 @@ public class NewProfileActivity extends AppCompatActivity {
     /**
      * Attempts to create a new profile.
      */
-    public void createProfile(View view)
-    {
+    public void createProfile(View view) {
         Map<String, String> values = getFields();
-        if (fieldsAreValid(values.get("first"), values.get("last"), values.get("dob")))
-        {
+        if (fieldsAreValid(values.get("first"), values.get("last"), values.get("dob"))) {
             Profile p = new Profile(values.get("dob"), values.get("first") + " " + values.get("last"), null );
             SessionManager sessionManager = SessionManager.getInstance();
             sessionManager.addProfile(p);
             //If valid input
             goToSelect();
-        }
-        else
-        {
+        } else {
             Snackbar snack = Snackbar.make(view, getString(R.string.fields_empty), Snackbar.LENGTH_INDEFINITE);
             snack.setAction(R.string.ok, v -> snack.dismiss());
             snack.show();
