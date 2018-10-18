@@ -156,7 +156,7 @@ public class FilePreviewActivity extends AppCompatActivity
         ArrayList<String> pages = new ArrayList<>(num_pages);
         for (int i = 0; i < num_pages; i++)
         {
-            pages.add(getString(R.string.page_num) + " " + (i + 1));
+            pages.add(getString(R.string.page) + " " + (i + 1));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
         ((ListView) findViewById(R.id.table_scroll)).setAdapter(adapter);

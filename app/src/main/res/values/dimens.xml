@@ -26,4 +26,5 @@
     <dimen name="file_preview_header_size">20dp</dimen>
     <dimen name="top_z_index">3dp</dimen>
     <dimen name="x_button_size">50sp</dimen>
+    <dimen name="overlay_button_size">60sp</dimen>
 </resources>

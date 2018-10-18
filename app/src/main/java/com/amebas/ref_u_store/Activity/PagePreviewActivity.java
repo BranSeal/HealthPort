@@ -1,5 +1,6 @@
 package com.amebas.ref_u_store.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class PagePreviewActivity extends AppCompatActivity {
             values = (HashMap<String, String>) extras.getSerializable("values");
         }
         TextView label = findViewById(R.id.page_num_title);
-        label.setText(getString(R.string.page_num) + " " + page_num);
+        label.setText(getString(R.string.page_view_header) + " " + page_num);
         if (document != null)
         {
             pdfView.fromFile(document.getLocation())
@@ -64,5 +65,26 @@ public class PagePreviewActivity extends AppCompatActivity {
         bundle.putSerializable("values", values);
         filePreviewIntent.putExtras(bundle);
         startActivity(filePreviewIntent);
+    }
+
+    /**
+     * Asks whether to delete the page from the document. If confirms, deletes page and returns
+     * to file preview screen. If not, does nothing.
+     *
+     * @param v  the view calling the function.
+     */
+    public void delete(View v)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.page_delete_confirm));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
+            dialog.cancel();
+        });
+        builder.setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel());
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

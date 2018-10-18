@@ -8,4 +8,5 @@
     <color name="superLightGreyButtonColor">#ced7db</color>
     <color name="text_color">#dfe7ea</color>
     <color name="hint_color">#919b9f</color>
+    <color name="overlay_button_color">#99009688</color>
 </resources>
