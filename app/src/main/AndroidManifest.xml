@@ -72,7 +72,11 @@
             android:label="Document created"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true" />
-
+        <activity
+            android:name=".Activity.DeleteProfileActivity"
+            android:label="Profile deleted"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true"/>
 
     </application>
 

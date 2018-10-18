@@ -4,6 +4,7 @@
 
     <!-- Titles -->
     <string name="title_file_preview">Previewing File</string>
+    <string name="caution">Caution</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -56,6 +57,7 @@
     <string name="select_a_profile">Select a Profile</string>
     <string name="add_profile_button">+ Add Profile</string>
     <string name="create_button">Create</string>
+    <string name="delete_button">Delete</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
@@ -71,4 +73,9 @@
     <string name="upload_document">Upload a new Document!</string>
     <string name="take_a_picture">Take a Picture!</string>
     <string name="phone_upload">Upload from phone!</string>
+    <string name="delete_warning">
+        Warning! Deleting a profile will delete ALL documents assigned to it. Are you sure you want to delete?
+    </string>
+    <string name="delete_confirm">If so, enter the account password to delete profile.</string>
+    <string name="incorrect_password">Wrong password, please try again.</string>
 </resources>
