@@ -20,6 +20,17 @@ public class Profile {
         this.documents = documents;
     }
 
+    @Override
+    public Profile clone(){
+        Profile cloned;
+        try {
+            cloned = (Profile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            cloned = new Profile(this.getDob(), this.getName(), this.getDocuments());
+        }
+        return cloned;
+    }
+
     public String getDob() {
         return dob;
     }
