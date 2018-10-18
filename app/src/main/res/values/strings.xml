@@ -29,7 +29,9 @@
 
     <!-- Profile -->
     <string name="new_profile_header">Create a New\nProfile</string>
-    <string name="dob_field">Date of Birth</string>
+    <string name="dob_field">Date of Birth (DOB)</string>
+    <string name="email">Email Address:</string>
+    <string name="dob">Date of Birth (DOB):</string>
     <string name="back_button">Back</string>
 
     <!-- File Preview -->
