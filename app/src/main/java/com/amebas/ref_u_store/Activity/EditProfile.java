@@ -48,7 +48,7 @@ public class EditProfile extends AppCompatActivity {
 
         DatabaseManager db = instance.getDatabase();
         db.updateProfile(currProfile);
-        db.deleteProfile(oldProfile, account);
+        // TODO: Add ability to update currently existing profile because right now it will just add a new profile with new name
         Log.d("Anush: Old Profile", oldProfile.toString());
         Log.d("Anush: New Profile", currProfile.toString());
         goToViewProfile(null);
