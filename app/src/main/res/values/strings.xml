@@ -85,4 +85,5 @@
     <string name="incorrect_password">Wrong password, please try again.</string>
     <string name="failed_connection">Connection failed, please try again.</string>
     <string name="failed_delete">Failed to delete profile. Please try again</string>
+    <string name="no_pages">Document must have at least one page.</string>
 </resources>

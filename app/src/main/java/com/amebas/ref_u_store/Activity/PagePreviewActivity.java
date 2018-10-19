@@ -81,6 +81,15 @@ public class PagePreviewActivity extends AppCompatActivity {
 
         builder.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
             dialog.cancel();
+            try
+            {
+                document.removePage(this, page_num);
+                exit(v);
+            }
+            catch (java.io.IOException e)
+            {
+                Log.d("ERROR", "Page deletion failed: " + e.getMessage());
+            }
         });
         builder.setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel());
 

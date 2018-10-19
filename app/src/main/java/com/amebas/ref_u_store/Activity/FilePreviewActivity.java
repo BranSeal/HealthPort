@@ -308,6 +308,11 @@ public class FilePreviewActivity extends AppCompatActivity
      */
     public void checkInputs(View v)
     {
+        if (pdf.getPdf().getPages().getCount() < 1)
+        {
+            showErrorAlert(getString(R.string.no_pages));
+            return;
+        }
         String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
         if (filename.length() < 1)
         {

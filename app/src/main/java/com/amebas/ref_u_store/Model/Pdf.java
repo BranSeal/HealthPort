@@ -126,6 +126,21 @@ public class Pdf {
     }
 
     /**
+     * Removes a page from the document.
+     *
+     * @param context   the app context the method is being called in.
+     * @param page_num  the page number of the page to delete, starting from 1.
+     * @throws java.io.IOException if file path cannot be found.
+     */
+    public void removePage(Context context, int page_num) throws java.io.IOException
+    {
+        PDFBoxResourceLoader.init(context);
+        this.pdf.removePage(page_num - 1);
+        this.pdf.save(this.location);
+        this.pdf.close();
+    }
+
+    /**
      * Gets file location.
      *
      * @return file location.
