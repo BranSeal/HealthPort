@@ -21,6 +21,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/screen_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:elevation="@dimen/top_z_index"
+        android:text="@string/file_preview_screen_header"
+        android:textColor="@color/darkGreyPrimary"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
+    <TextView
         android:id="@+id/pages_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

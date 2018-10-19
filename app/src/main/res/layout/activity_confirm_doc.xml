@@ -20,20 +20,20 @@
 
     <TextView
         android:id="@+id/msg"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:elevation="@dimen/top_z_index"
         android:text="@string/confirm_upd"
         android:textAlignment="center"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/header_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/darkGreyPrimary"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/docname"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:scrollHorizontally="true"
@@ -51,8 +51,9 @@
         android:textColor="@color/hint_color"
         android:textSize="@dimen/cancel_text_size"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msg" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
@@ -63,7 +64,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
