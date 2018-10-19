@@ -27,4 +27,5 @@
     <dimen name="top_z_index">3dp</dimen>
     <dimen name="x_button_size">50sp</dimen>
     <dimen name="overlay_button_size">60sp</dimen>
+    <dimen name="list_thumb_size">25dp</dimen>
 </resources>
