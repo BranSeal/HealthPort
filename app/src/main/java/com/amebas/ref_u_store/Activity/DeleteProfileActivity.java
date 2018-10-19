@@ -43,7 +43,7 @@ public class DeleteProfileActivity extends AppCompatActivity {
     {
         snack = showSnackbar("Checking password...");
         SessionManager.getInstance().getDatabase().checkCredentials(
-            "name@email.com",
+            SessionManager.getInstance().getSessionAccount().getEmail(),
             ((TextInputEditText) findViewById(R.id.PasswordInput)).getText().toString(),
             new AccountValidator()
             {
