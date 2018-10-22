@@ -90,7 +90,6 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             // Create new PDF with new image
             File img = new File(selector.getImgPath());
-            Log.d("DEBUG", selector.getImgPath());
             Storage temp = new Storage(this);
             File temp_pdf = temp.getTempFile("temp2.pdf");
             Pdf new_pdf;
@@ -149,15 +148,6 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     public abstract void makeChanges(View v);
 
     /**
-     * Uploads a document to a profile locally and to the database.
-     *
-     * @param doc           the document to upload.
-     * @param profile_name  the name of the profile to upload to.
-     * @param path          the path the document was saved to.
-     */
-    public abstract void uploadDocument(Document doc, String profile_name, File path);
-
-    /**
      * Checks inputs, sees if file name was given and if file with same name already exists.
      * Override with to add additional checks.
      *
@@ -196,11 +186,36 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             Log.d("ERROR", "Path doesn't exist");
         }
-        clearTemporaries();
         ArrayList<String> paths = new ArrayList<>();
         paths.add(path.getAbsolutePath());
         Document doc = new Document(paths, path.getName(), tags);
         return doc;
+    }
+
+    /**
+     * Uploads a document to a profile locally and to the database.
+     *
+     * @param doc           the document to upload.
+     * @param profile_name  the name of the profile to upload to.
+     */
+    public void uploadDocument(Document doc, String profile_name)
+    {
+        Profile to_assign = null;
+        for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
+        {
+            if (p.getName().equals(profile_name))
+            {
+                to_assign = p;
+                break;
+            }
+        }
+        if (to_assign == null)
+        {
+            to_assign = SessionManager.getInstance().getCurrentProfile();
+        }
+        SessionManager.getInstance().getDatabase().updateDocument(doc, to_assign);
+        to_assign.getDocuments().add(doc);
+        clearTemporaries();
     }
 
     /**
@@ -234,6 +249,16 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     protected Pdf getPdf()
     {
         return this.pdf;
+    }
+
+    /**
+     * Sets the pdf instance being worked with.
+     *
+     * @param pdf  the pdf to set.
+     */
+    protected void setPdf(Pdf pdf)
+    {
+        this.pdf = pdf;
     }
 
     /**

@@ -6,6 +6,7 @@
     <string name="title_file_preview">Previewing File</string>
     <string name="caution">Caution</string>
     <string name="choose_file">Select a File to Upload</string>
+    <string name="title_file_edit">Editing File</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -68,6 +69,7 @@
     <string name="delete_button">Delete</string>
     <string name="pic_button">Take picture</string>
     <string name="up_button">Upload file</string>
+    <string name="update_button">Update</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>

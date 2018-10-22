@@ -1,0 +1,144 @@
+package com.amebas.ref_u_store.Activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import com.amebas.ref_u_store.Model.Document;
+import com.amebas.ref_u_store.Model.Pdf;
+import com.amebas.ref_u_store.Model.Profile;
+import com.amebas.ref_u_store.Model.SessionManager;
+import com.amebas.ref_u_store.Model.Storage;
+import com.amebas.ref_u_store.R;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+
+import java.io.File;
+
+/**
+ * Activity for editing details of existing documents.
+ */
+public class EditFileActivity extends FilePreviewAbstract
+{
+    private String old_name;
+    private String old_profile;
+    private File old_path;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        // Update confirmation button for editing.
+        Button update_button = findViewById(R.id.confirm_button);
+        update_button.setText(getString(R.string.update_button));
+    }
+
+    @Override
+    public Bundle loadBundle(int pos)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isEdit", true);
+        bundle.putInt("page_num", pos + 1);
+        bundle.putString("old_name", old_name);
+        bundle.putString("old_profile", old_profile);
+        bundle.putSerializable("old_path", old_path);
+        bundle.putSerializable("doc", getPdf().getLocation());
+
+        return bundle;
+    }
+
+    @Override
+    public void unloadBundle(Bundle b)
+    {
+        this.old_name = b.getString("old_name");
+        this.old_profile = b.getString("old_profile");
+        if (b.getSerializable("old_path") != null)
+        {
+            this.old_path = (File) b.getSerializable("old_path");
+        }
+        else
+        {
+            this.old_path = getPdf().getLocation();
+            createTempPdf();
+        }
+    }
+
+    @Override
+    public void makeChanges(View v)
+    {
+        if (areInputsValid())
+        {
+            deleteOld();
+            String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
+            String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
+            File dir = new Storage(this).getUserDocs(profile);
+            File file = new File(dir, filename + ".pdf");
+            Document d = createDocument(file, getTags());
+            uploadDocument(d, profile);
+            // Move to confirmation page.
+            Intent intent = new Intent(this, DocConfirmActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("doc", file);
+            bundle.putBoolean("isNew", false);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * Deletes old file.
+     */
+    public void deleteOld()
+    {
+        // Delete file in local storage.
+        if (old_path.exists())
+        {
+            old_path.delete();
+        }
+        // Delete file in profile's document list.
+        Document to_delete = null;
+        for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
+        {
+            if (p.getName().equals(old_profile))
+            {
+                for (Document d: p.getDocuments())
+                {
+                    if (d.getName().equals(old_name + ".pdf"))
+                    {
+                        to_delete = d;
+                        break;
+                    }
+                }
+                if (to_delete != null)
+                {
+                    p.getDocuments().remove(to_delete);
+                }
+                break;
+            }
+        }
+        // Delete file in database.
+        SessionManager.getInstance().getDatabase().deleteDocument(old_profile, old_name + ".pdf", old_path.toString());
+    }
+
+    /**
+     * Creates a temporary PDF to make changes in.
+     */
+    private void createTempPdf()
+    {
+        Pdf pdf = getPdf();
+        Storage storage = new Storage(this);
+        File temp_dir = storage.getTempFile("temporary_file.pdf");
+        try
+        {
+            pdf.getPdf().save(temp_dir);
+            setPdf(new Pdf(temp_dir, PDDocument.load(temp_dir)));
+        }
+        catch (java.io.IOException e)
+        {
+            Log.d("ERROR", "Was unable to save to temporary directory");
+        }
+    }
+}

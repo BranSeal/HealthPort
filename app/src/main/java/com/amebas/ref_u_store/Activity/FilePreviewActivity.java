@@ -1,6 +1,5 @@
 package com.amebas.ref_u_store.Activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.amebas.ref_u_store.Model.Document;
-import com.amebas.ref_u_store.Model.Profile;
-import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
@@ -43,7 +40,14 @@ public class FilePreviewActivity extends FilePreviewAbstract
             File dir = new Storage(this).getUserDocs(profile);
             File file = new File(dir, filename + ".pdf");
             Document d = createDocument(file, getTags());
-            uploadDocument(d, profile, file);
+            uploadDocument(d, profile);
+            // Move to confirmation page.
+            Intent intent = new Intent(this, DocConfirmActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("doc", file);
+            bundle.putBoolean("isNew", true);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
@@ -64,32 +68,5 @@ public class FilePreviewActivity extends FilePreviewAbstract
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void uploadDocument(Document doc, String profile_name, File path)
-    {
-        Profile to_assign = null;
-        for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
-        {
-            if (p.getName().equals(profile_name))
-            {
-                to_assign = p;
-                break;
-            }
-        }
-        if (to_assign == null)
-        {
-            to_assign = SessionManager.getInstance().getCurrentProfile();
-        }
-        SessionManager.getInstance().getDatabase().updateDocument(doc, to_assign);
-        to_assign.getDocuments().add(doc);
-        // Move to confirmation page.
-        Intent intent = new Intent(this, DocConfirmActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("doc", path);
-        bundle.putBoolean("isNew", true);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 }

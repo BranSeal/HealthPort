@@ -21,6 +21,11 @@ public class PagePreviewActivity extends AppCompatActivity {
     private Pdf document;
     private HashMap<String, String> values;
     private int page_num; // Should be 1+
+    // Fields for if editing.
+    private boolean isEdit;
+    private String old_name;
+    private String old_profile;
+    private File old_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +42,13 @@ public class PagePreviewActivity extends AppCompatActivity {
             page_num = extras.getInt("page_num");
             page_num = (page_num < 1) ? 1 : page_num;
             values = (HashMap<String, String>) extras.getSerializable("values");
+            isEdit = extras.getBoolean("isEdit");
+            if (isEdit)
+            {
+                old_name = extras.getString("old_name");
+                old_profile = extras.getString("old_profile");
+                old_path = (File) extras.getSerializable("old_path");
+            }
         }
         TextView label = findViewById(R.id.page_num_title);
         label.setText(getString(R.string.page_view_header) + " " + page_num);
@@ -59,12 +71,23 @@ public class PagePreviewActivity extends AppCompatActivity {
      */
     public void exit(View v)
     {
-        Intent filePreviewIntent = new Intent(this, FilePreviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("doc", document.getLocation());
         bundle.putSerializable("values", values);
-        filePreviewIntent.putExtras(bundle);
-        startActivity(filePreviewIntent);
+        Intent returnIntent;
+        if (isEdit)
+        {
+            bundle.putString("old_name", old_name);
+            bundle.putString("old_profile", old_profile);
+            bundle.putSerializable("old_path", old_path);
+            returnIntent = new Intent(this, EditFileActivity.class);
+        }
+        else
+        {
+            returnIntent = new Intent(this, FilePreviewActivity.class);
+        }
+        returnIntent.putExtras(bundle);
+        startActivity(returnIntent);
     }
 
     /**

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -248,8 +250,8 @@ public class AccountDashboardActivity extends AppCompatActivity {
 
         listview.setOnItemClickListener((parent, view, position, id) -> {
             Document document =  (Document) parent.getItemAtPosition(position);
-            GeneralUtilities.showToast(getApplicationContext(), document.getName() + document.getTagString());
-            //openDocument(document, position);
+//            GeneralUtilities.showToast(getApplicationContext(), document.getName() + document.getTagString());
+            openDocument(document, position);
         });
     }
 
@@ -258,8 +260,26 @@ public class AccountDashboardActivity extends AppCompatActivity {
      * @param document the string containing the file directory of the document selected
      * @param position the position in the listview of the document
      */
-    public void openDocument(String document, int position) {
-
+    public void openDocument(Document document, int position) {
+        String filename = document.getName().split(".pdf")[0];
+        String profile = SessionManager.getInstance().getCurrentProfile().getName();
+        HashMap<String, String> values = new HashMap<>();
+        values.put("filename", filename);
+        String tags = "";
+        for (String tag: document.getTags())
+        {
+            tags += tag + " ";
+        }
+        values.put("tags", tags);
+        values.put("profile_name", profile);
+        Intent intent = new Intent(this, EditFileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doc", new File(document.getReferenceIDs().get(0)));
+        bundle.putSerializable("values", values);
+        bundle.putString("old_name", filename);
+        bundle.putString("old_profile", profile);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

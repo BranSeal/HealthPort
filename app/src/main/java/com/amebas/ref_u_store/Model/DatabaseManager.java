@@ -264,6 +264,33 @@ public class DatabaseManager {
         });
     }
 
+    /**
+     * Deletes a document in the database. Deletes both the reference under a profile, as well
+     * as the actual file.
+     *
+     * @param profile_name  the name of the profile to delete from.
+     * @param doc_name      the name of the document to delete. Should include the file extension.
+     * @param referenceID   the path to the document in the cloud storage.
+     */
+    public void deleteDocument(String profile_name, String doc_name, String referenceID)
+    {
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        // Delete document reference under profile
+        DocumentReference cloud_doc = db.collection("accounts")
+            .document(SessionManager.getInstance().getSessionAccount().getEmail())
+            .collection("profiles")
+            .document(profile_name)
+            .collection("documents")
+            .document(doc_name);
+        cloud_doc.delete();
+
+        // Delete actual document
+        StorageReference image = storage.getReference().child("images/" + referenceID);
+        image.delete();
+    }
+
     public void getDocumentFromStorage(String referenceID) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();

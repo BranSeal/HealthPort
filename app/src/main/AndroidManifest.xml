@@ -63,6 +63,12 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
+            android:name=".Activity.EditFileActivity"
+            android:label="@string/title_file_edit"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
             android:name=".Activity.PagePreviewActivity"
             android:label="Viewing Page"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
