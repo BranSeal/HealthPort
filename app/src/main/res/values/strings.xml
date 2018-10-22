@@ -55,6 +55,7 @@
     <string name="delete_confirm">Profile was successfully deleted.</string>
     <string name="page_delete_confirm">Are you sure you want to delete this page?</string>
     <string name="choice_confirm">Choose what to do:</string>
+    <string name="edit_confirm">Are you sure you want to make these changes?</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>

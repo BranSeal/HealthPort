@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.Document;
 import com.amebas.ref_u_store.Model.Pdf;
 import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
@@ -71,20 +73,32 @@ public class EditFileActivity extends FilePreviewAbstract
     {
         if (areInputsValid())
         {
-            deleteOld();
-            String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
-            String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
-            File dir = new Storage(this).getUserDocs(profile);
-            File file = new File(dir, filename + ".pdf");
-            Document d = createDocument(file, getTags());
-            uploadDocument(d, profile);
-            // Move to confirmation page.
-            Intent intent = new Intent(this, DocConfirmActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("doc", file);
-            bundle.putBoolean("isNew", false);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            // Ensure user actually wants to make changes.
+            GeneralUtilities.askConfirmation(this, getString(R.string.edit_confirm), new BinaryAction()
+            {
+                @Override
+                public void confirmAction()
+                {
+                    deleteOld();
+                    String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
+                    String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
+                    File dir = new Storage(getApplicationContext()).getUserDocs(profile);
+                    File file = new File(dir, filename + ".pdf");
+                    Document d = createDocument(file, getTags());
+                    uploadDocument(d, profile);
+                    // Move to confirmation page.
+                    Intent intent = new Intent(getApplicationContext(), DocConfirmActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("doc", file);
+                    bundle.putBoolean("isNew", false);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void denyAction() { }
+            });
+
         }
     }
 

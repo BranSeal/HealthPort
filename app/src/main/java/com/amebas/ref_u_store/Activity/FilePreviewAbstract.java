@@ -229,9 +229,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void confirmAction()
             {
-                Storage storage = new Storage(getApplicationContext());
-                storage.clearTemp();
-                storage.clearImgDir();
+                clearTemporaries();
                 Intent intent = new Intent(getApplicationContext(), AccountDashboardActivity.class);
                 startActivity(intent);
             }
