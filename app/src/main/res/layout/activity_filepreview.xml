@@ -206,7 +206,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginStart="50dp"
         android:background="@drawable/rounded_button"
-        android:onClick="checkInputs"
+        android:onClick="makeChanges"
         android:text="@string/create_button"
         android:textAllCaps="false"
         android:textSize="@dimen/button_text_size"
