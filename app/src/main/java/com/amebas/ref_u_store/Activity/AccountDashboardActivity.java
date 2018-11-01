@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amebas.ref_u_store.Adapter.DocumentsAdapter;
+import com.amebas.ref_u_store.Model.Account;
 import com.amebas.ref_u_store.Model.Document;
 import com.amebas.ref_u_store.Model.Pdf;
 import com.amebas.ref_u_store.Model.Profile;
@@ -296,9 +297,10 @@ public class AccountDashboardActivity extends AppCompatActivity {
     public void populateProfileWithDocuments() {
         SessionManager instance = SessionManager.getInstance();
         Profile currProfile = instance.getCurrentProfile();
+        Account currAccount = instance.getSessionAccount();
 
         ArrayList<Document> docs = currProfile.getDocuments();
-        File dir = new Storage(this).getUserDocs(currProfile.getName());
+        File dir = new Storage(this).getUserDocs(currAccount.getEmail(), currProfile.getName());
         File[] files = dir.listFiles() == null ? new File[0] : dir.listFiles();
         for (File file: files)
         {

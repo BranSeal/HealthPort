@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.amebas.ref_u_store.Model.Document;
+import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
@@ -37,7 +38,8 @@ public class FilePreviewActivity extends FilePreviewAbstract
         {
             String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
             String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
-            File dir = new Storage(this).getUserDocs(profile);
+            String email = SessionManager.getInstance().getSessionAccount().getEmail();
+            File dir = new Storage(this).getUserDocs(email, profile);
             File file = new File(dir, filename + ".pdf");
             Document d = createDocument(file, getTags());
             uploadDocument(d, profile);
@@ -60,7 +62,8 @@ public class FilePreviewActivity extends FilePreviewAbstract
         }
         String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
         String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
-        File dir = new Storage(this).getUserDocs(profile);
+        String email = SessionManager.getInstance().getSessionAccount().getEmail();
+        File dir = new Storage(this).getUserDocs(email, profile);
         File file = new File(dir, filename + ".pdf");
         if (file.exists())
         {

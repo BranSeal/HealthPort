@@ -63,17 +63,23 @@ public class Storage extends File {
     /**
      * Gets directory in storage for a profile's documents, creating it if nonexistent.
      *
-     * @param profile  profile whose directory to retrieve.
+     * @param account_email  the email for the active account.
+     * @param profile        profile whose directory to retrieve.
      * @return the profile' directory.
      */
-    public File getUserDocs(String profile)
+    public File getUserDocs(String account_email, String profile)
     {
         if (profile == "")
         {
             profile = "_";
         }
         profile = profile.replaceAll("\\s+","");
-        File dir = new File(this.docs, profile);
+        File dir = new File(this.docs, account_email);
+        if (!dir.exists())
+        {
+            dir.mkdir();
+        }
+        dir = new File(dir, profile);
         if (!dir.exists())
         {
             dir.mkdir();
@@ -84,21 +90,26 @@ public class Storage extends File {
     /**
      * Clears profile's storage directory.
      *
-     * @param profile  the profile whose directory to clear
+     * @param account_email  the email for the active account.
+     * @param profile        the profile whose directory to clear
      */
-    public void clearUserDocs(String profile)
+    public void clearUserDocs(String account_email, String profile)
     {
         if (profile == "")
         {
             profile = "_";
         }
         profile = profile.replaceAll("\\s+","");
-        File dir = new File(this.docs, profile);
+        File dir = new File(this.docs, account_email);
         if (dir.exists())
         {
-            for (File file: dir.listFiles())
+            dir = new File(dir, profile);
+            if (dir.exists())
             {
-                file.delete();
+                for (File file: dir.listFiles())
+                {
+                    file.delete();
+                }
             }
         }
     }
