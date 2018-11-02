@@ -18,37 +18,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="true"
+        android:background="@color/None"
+        android:elevation="@dimen/top_z_index"
+        android:onClick="exit"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
+        app:layout_constraintStart_toStartOf="@+id/Toolbar"
+        app:layout_constraintTop_toTopOf="@+id/Toolbar"
+        app:srcCompat="@drawable/back_arrow_alt" />
+
     <TextView
         android:id="@+id/page_num_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:elevation="@dimen/top_z_index"
         android:text="@string/page_view_header"
         android:textColor="@color/darkGreyPrimary"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
-        app:layout_constraintStart_toStartOf="@+id/Toolbar"
-        app:layout_constraintTop_toTopOf="@+id/Toolbar" />
-
-    <ImageButton
-        android:id="@+id/close_button"
-        android:layout_width="@dimen/overlay_button_size"
-        android:layout_height="@dimen/overlay_button_size"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:background="@drawable/circle_button"
-        android:elevation="@dimen/top_z_index"
-        android:onClick="exit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/back_arrow_overlay" />
+        app:layout_constraintEnd_toEndOf="@+id/Toolbar"
+        app:layout_constraintHorizontal_bias="0.366"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/Toolbar"
+        app:layout_constraintVertical_bias="0.533" />
 
     <ImageButton
         android:id="@+id/delete_button"
@@ -58,8 +65,10 @@
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/circle_button"
-        android:elevation="@dimen/top_z_index"
+        android:elevation="@dimen/button_z_index"
         android:onClick="delete"
+        android:padding="@dimen/button_padding"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/trash_overlay" />

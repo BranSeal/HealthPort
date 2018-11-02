@@ -25,9 +25,10 @@
     <dimen name="doc_thumb_container_height">200dp</dimen>
     <dimen name="file_preview_header_size">20dp</dimen>
     <dimen name="top_z_index">3dp</dimen>
+    <dimen name="button_z_index">12dp</dimen>
     <dimen name="x_button_size">50sp</dimen>
-    <dimen name="overlay_button_size">60sp</dimen>
+    <dimen name="overlay_button_size">70sp</dimen>
     <dimen name="list_thumb_size">25dp</dimen>
-    <dimen name="button_padding">12dp</dimen>
+    <dimen name="button_padding">14dp</dimen>
     <dimen name="menu_padding">20dp</dimen>
 </resources>
