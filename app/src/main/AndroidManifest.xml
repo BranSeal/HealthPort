@@ -84,6 +84,12 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".Activity.ViewDocActivity"
+            android:label="Viewing Document"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
+
 
     </application>
 

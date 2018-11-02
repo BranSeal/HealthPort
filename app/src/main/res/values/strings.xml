@@ -56,6 +56,7 @@
     <string name="page_delete_confirm">Are you sure you want to delete this page?</string>
     <string name="choice_confirm">Choose what to do:</string>
     <string name="edit_confirm">Are you sure you want to make these changes?</string>
+    <string name="delete_doc_ask">Are you sure you want to delete this document?</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>
@@ -71,6 +72,10 @@
     <string name="pic_button">Take picture</string>
     <string name="up_button">Upload file</string>
     <string name="update_button">Update</string>
+
+    <!--Menus-->
+    <string name="edit">Edit Document</string>
+    <string name="delete">Delete Document</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
