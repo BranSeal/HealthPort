@@ -10,9 +10,12 @@ public class Profile {
 
     private String dob;
     private String name;
-    private ArrayList<Document> documents = new ArrayList<>();
+    private ArrayList<Document> documents;
 
-    public Profile(){}
+    public Profile()
+    {
+        documents = new ArrayList<>();
+    }
 
     public Profile(String dob, String name, ArrayList<Document> documents){
         this.dob = dob;

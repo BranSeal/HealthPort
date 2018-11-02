@@ -3,6 +3,7 @@ package com.amebas.ref_u_store.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,6 +69,8 @@ public class ProfileSelectActivity extends AppCompatActivity {
         SessionManager instance = SessionManager.getInstance();
         Profile currentProfile = profiles.get(position);
         instance.setCurrentProfile(currentProfile);
+        Log.d("DEBUG", instance.getCurrentProfile().getName());
+        Log.d("DEBUG", instance.getCurrentProfile().getDocuments() != null ? "Not Null" : "Null");
         Intent dashboardIntent = new Intent(this ,AccountDashboardActivity.class);
         startActivity(dashboardIntent);
     }

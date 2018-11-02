@@ -12,6 +12,7 @@ import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class NewProfileActivity extends AppCompatActivity {
         Map<String, String> values = getFields();
         if (fieldsAreValid(values.get("first"), values.get("last"), values.get("dob")))
         {
-            Profile p = new Profile(values.get("dob"), values.get("first") + " " + values.get("last"), null );
+            Profile p = new Profile(values.get("dob"), values.get("first") + " " + values.get("last"), new ArrayList<>());
             SessionManager sessionManager = SessionManager.getInstance();
             sessionManager.addProfile(p);
             //If valid input
