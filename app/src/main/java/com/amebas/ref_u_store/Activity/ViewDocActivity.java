@@ -1,28 +1,71 @@
 package com.amebas.ref_u_store.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.amebas.ref_u_store.Model.BinaryAction;
+import com.amebas.ref_u_store.Model.Document;
+import com.amebas.ref_u_store.Model.Pdf;
+import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
+import com.github.barteksc.pdfviewer.PDFView;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Activity for viewing a document.
  */
 public class ViewDocActivity extends AppCompatActivity
 {
+    private static final int SPACING = 10;
+
+    private Document doc;
+    private File file;
+    private Pdf pdf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_doc);
+
+        // Load in document.
+        TextView title = findViewById(R.id.Title);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            doc = Document.fromMap((HashMap) extras.getSerializable("doc"));
+            file = new File(doc.getReferenceIDs().get(0));
+            pdf = new Pdf(file);
+            title.setText(file.getName().split(".pdf")[0]);
+        }
+
+        // Add pdf file to view.
+        PDFView pdfView = findViewById(R.id.pdfView);
+        if (file.exists())
+        {
+            pdfView.fromFile(file)
+                .spacing(ViewDocActivity.SPACING)
+                .onError(t -> Log.d("ERROR", "Failed to load pdf"))
+                .load();
+        }
+        else
+        {
+            Log.d("ERROR", "No Pdf to load");
+        }
     }
 
     /**
@@ -37,7 +80,7 @@ public class ViewDocActivity extends AppCompatActivity
         // Set delete item to red.
         MenuItem item = menu.getMenu().getItem(menu.getMenu().size() - 1);
         SpannableString s = new SpannableString(getString(R.string.delete));
-        s.setSpan(Color.RED, 0, s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
         item.setTitle(s);
         // Set listener.
         menu.setOnMenuItemClickListener(menu_item ->
@@ -73,6 +116,8 @@ public class ViewDocActivity extends AppCompatActivity
      */
     public void exit(View v)
     {
+        Intent intent = new Intent(this, AccountDashboardActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -80,6 +125,21 @@ public class ViewDocActivity extends AppCompatActivity
      */
     private void editDocument()
     {
+        String filename = doc.getName().split(".pdf")[0];
+        String profile = SessionManager.getInstance().getCurrentProfile().getName();
+        HashMap<String, String> values = new HashMap<>();
+        values.put("filename", filename);
+        values.put("tags", doc.getTagString());
+        values.put("profile_name", profile);
+        Intent intent = new Intent(this, EditFileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doc", new File(doc.getReferenceIDs().get(0)));
+        bundle.putSerializable("values", values);
+        bundle.putString("old_name", filename);
+        bundle.putString("old_profile", profile);
+        bundle.putString("old_tags", doc.getTagString());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

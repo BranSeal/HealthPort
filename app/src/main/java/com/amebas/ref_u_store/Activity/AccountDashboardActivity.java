@@ -261,24 +261,11 @@ public class AccountDashboardActivity extends AppCompatActivity {
      * @param document the string containing the file directory of the document selected
      * @param position the position in the listview of the document
      */
-    public void openDocument(Document document, int position) {
-        String filename = document.getName().split(".pdf")[0];
-        String profile = SessionManager.getInstance().getCurrentProfile().getName();
-        HashMap<String, String> values = new HashMap<>();
-        values.put("filename", filename);
-        String tags = "";
-        for (String tag: document.getTags())
-        {
-            tags += tag + " ";
-        }
-        values.put("tags", tags);
-        values.put("profile_name", profile);
-        Intent intent = new Intent(this, EditFileActivity.class);
+    public void openDocument(Document document, int position)
+    {
+        Intent intent = new Intent(this, ViewDocActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("doc", new File(document.getReferenceIDs().get(0)));
-        bundle.putSerializable("values", values);
-        bundle.putString("old_name", filename);
-        bundle.putString("old_profile", profile);
+        bundle.putSerializable("doc", (HashMap) document.toMap());
         intent.putExtras(bundle);
         startActivity(intent);
     }

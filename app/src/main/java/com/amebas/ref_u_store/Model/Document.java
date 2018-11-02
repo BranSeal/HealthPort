@@ -15,18 +15,23 @@ public class Document {
     private String name;
     private ArrayList<String> tags;
 
-    public Document(){}
-
-    public Document(String name) {
-        this.name = name;
+    public Document()
+    {
+        this(new ArrayList<>(), "", new ArrayList<>());
     }
 
-    public Document(String name, ArrayList<String> tags) {
-        this.name = name;
-        this.tags = tags;
+    public Document(String name)
+    {
+        this(new ArrayList<>(), name, new ArrayList<>());
     }
 
-    public Document(ArrayList<String> referenceIDs, String name, ArrayList<String> tags){
+    public Document(String name, ArrayList<String> tags)
+    {
+        this(new ArrayList<>(), name, tags);
+    }
+
+    public Document(ArrayList<String> referenceIDs, String name, ArrayList<String> tags)
+    {
         this.referenceIDs = referenceIDs;
         this.name = name;
         this.tags = tags;

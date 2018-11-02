@@ -285,6 +285,16 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     }
 
     /**
+     * Clear temporary directories.
+     */
+    protected void clearTemporaries()
+    {
+        Storage storage = new Storage(this);
+        storage.clearTemp();
+        storage.clearImgDir();
+    }
+
+    /**
      * Creates button for adding new pages to document.
      */
     private void createPageAddButton()
@@ -341,15 +351,5 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
         ((ListView) findViewById(R.id.table_scroll)).setAdapter(adapter);
-    }
-
-    /**
-     * Clear temporary directories.
-     */
-    private void clearTemporaries()
-    {
-        Storage storage = new Storage(this);
-        storage.clearTemp();
-        storage.clearImgDir();
     }
 }
