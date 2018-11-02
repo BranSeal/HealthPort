@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.Document;
 import com.amebas.ref_u_store.Model.Pdf;
+import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
@@ -23,7 +24,6 @@ import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Activity for viewing a document.
@@ -91,7 +91,7 @@ public class ViewDocActivity extends AppCompatActivity
                     editDocument();
                     return true;
                 case R.id.delete:
-                    deleteDocument();
+                    askToDelete();
                     return true;
                 default:
                     return false;
@@ -145,18 +145,49 @@ public class ViewDocActivity extends AppCompatActivity
     /**
      * Asks to delete a document. If confirms, deletes and returns to dashboard. If not, does nothing.
      */
-    private void deleteDocument()
+    private void askToDelete()
     {
         GeneralUtilities.askConfirmation(this, getString(R.string.delete_doc_ask), new BinaryAction()
         {
             @Override
             public void confirmAction()
             {
+                deleteDocument();
+                exit(findViewById(R.id.Background));
             }
 
             @Override
             public void denyAction() { }
         });
+    }
+
+    /**
+     * Deletes the document.
+     */
+    private void deleteDocument()
+    {
+        // Delete file in local storage.
+        if (file.exists())
+        {
+            file.delete();
+        }
+        // Delete file in profile's document list.
+        Document to_delete = null;
+        Profile current = SessionManager.getInstance().getCurrentProfile();
+        for (Document d: current.getDocuments())
+        {
+            if (d.getName().equals(doc.getName()))
+            {
+                to_delete = d;
+                break;
+            }
+        }
+        if (to_delete != null)
+        {
+            current.getDocuments().remove(to_delete);
+        }
+        // Delete file in database.
+        SessionManager.getInstance().getDatabase().deleteDocument(current.getName(), doc.getName(), file.getAbsolutePath());
     }
 }
 
