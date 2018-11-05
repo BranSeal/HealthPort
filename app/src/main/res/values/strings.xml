@@ -76,6 +76,8 @@
     <!--Menus-->
     <string name="edit">Edit Document</string>
     <string name="delete">Delete Document</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="switch_profile">Switch Profile</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
