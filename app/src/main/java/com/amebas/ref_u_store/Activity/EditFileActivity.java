@@ -143,7 +143,9 @@ public class EditFileActivity extends FilePreviewAbstract
     }
 
     @Override
-    public void goToDashboard(View view) {
+    public void goToDashboard(View view)
+    {
+        // Returns user to document view, rather than dashboard when canceling editing.
         GeneralUtilities.askConfirmation(this, getString(R.string.cancel_confirm), new BinaryAction()
         {
             @Override

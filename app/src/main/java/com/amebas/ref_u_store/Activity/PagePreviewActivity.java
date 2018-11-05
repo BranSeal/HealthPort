@@ -119,4 +119,10 @@ public class PagePreviewActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        exit(findViewById(R.id.backButton));
+    }
 }

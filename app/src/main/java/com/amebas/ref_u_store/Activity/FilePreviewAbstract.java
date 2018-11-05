@@ -239,6 +239,13 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         });
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Cancels file preview.
+        goToDashboard(findViewById(R.id.cancel_button));
+    }
+
     /**
      * Gets the pdf instance being worked with.
      *

@@ -302,4 +302,13 @@ public class AccountDashboardActivity extends AppCompatActivity {
         }
         currProfile.setDocuments(docs);
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Switch profiles
+        SessionManager.getInstance().setCurrentProfile(null);
+        Intent intent = new Intent(this, ProfileSelectActivity.class);
+        startActivity(intent);
+    }
 }

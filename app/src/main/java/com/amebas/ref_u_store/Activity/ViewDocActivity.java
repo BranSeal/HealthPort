@@ -120,6 +120,13 @@ public class ViewDocActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Switch profiles
+        exit(findViewById(R.id.BackButton));
+    }
+
     /**
      * Moves to edit the viewed document.
      */
