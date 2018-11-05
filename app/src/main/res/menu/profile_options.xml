@@ -7,4 +7,7 @@
     <item
         android:id="@+id/profile_switch"
         android:title="@string/switch_profile" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout" />
 </menu>

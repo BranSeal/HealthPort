@@ -57,6 +57,7 @@
     <string name="choice_confirm">Choose what to do:</string>
     <string name="edit_confirm">Are you sure you want to make these changes?</string>
     <string name="delete_doc_ask">Are you sure you want to delete this document?</string>
+    <string name="logout_confirm">Are you sure you want to log out?</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>
@@ -78,6 +79,7 @@
     <string name="delete">Delete Document</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="switch_profile">Switch Profile</string>
+    <string name="logout">Log Out</string>
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
@@ -88,7 +90,6 @@
     <string name="no_filename">Must give document a name.</string>
     <string name="file_exists">Document with this name already exists, please try another.</string>
     <string name="title_activity_new_profile">NewProfile</string>
-    <string name="logout">Log Out</string>
     <string name="fields_empty">All fields are required</string>
     <string name="upload_document">Upload a new Document!</string>
     <string name="take_a_picture">Take a Picture!</string>

@@ -13,9 +13,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.amebas.ref_u_store.Model.Account;
+import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 
 
 public class ViewProfile extends AppCompatActivity {
@@ -63,6 +65,12 @@ public class ViewProfile extends AppCompatActivity {
         PopupMenu menu = new PopupMenu(this, v);
         MenuInflater inflater = menu.getMenuInflater();
         inflater.inflate(R.menu.profile_options, menu.getMenu());
+        // Set last item to red.
+        MenuItem item = menu.getMenu().getItem(menu.getMenu().size() - 1);
+        SpannableString s = new SpannableString(getString(R.string.logout));
+        s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+        item.setTitle(s);
+        // Set listener
         menu.setOnMenuItemClickListener(menu_item ->
         {
             switch (menu_item.getItemId())
@@ -72,6 +80,9 @@ public class ViewProfile extends AppCompatActivity {
                     return true;
                 case R.id.profile_switch:
                     switchProfile();
+                    return true;
+                case R.id.logout:
+                    logout();
                     return true;
                 default:
                     return false;
@@ -101,7 +112,28 @@ public class ViewProfile extends AppCompatActivity {
     private void switchProfile()
     {
         SessionManager.getInstance().setCurrentProfile(null);
-        Intent dashboardIntent = new Intent(this, ProfileSelectActivity.class);
-        startActivity(dashboardIntent);
+        Intent intent = new Intent(this, ProfileSelectActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Logs the user out of the account.
+     */
+    private void logout()
+    {
+        GeneralUtilities.askConfirmation(this, getString(R.string.logout_confirm), new BinaryAction()
+        {
+            @Override
+            public void confirmAction()
+            {
+                SessionManager.getInstance().setCurrentProfile(null);
+                SessionManager.getInstance().setSessionAccount(null);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void denyAction() {}
+        });
     }
 }
