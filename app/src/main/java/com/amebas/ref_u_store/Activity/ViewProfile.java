@@ -80,6 +80,13 @@ public class ViewProfile extends AppCompatActivity {
         menu.show();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Always return to dashboard on back button. Prevents return to edit menu.
+        returnToDashboard(findViewById(R.id.overallView));
+    }
+
     /**
      * Moves to the edit profile screen.
      */
@@ -93,6 +100,8 @@ public class ViewProfile extends AppCompatActivity {
      */
     private void switchProfile()
     {
-
+        SessionManager.getInstance().setCurrentProfile(null);
+        Intent dashboardIntent = new Intent(this, ProfileSelectActivity.class);
+        startActivity(dashboardIntent);
     }
 }
