@@ -202,5 +202,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(profileSelectIntent);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Returns to welcome screen.
+        cancel(findViewById(R.id.textView));
+    }
+
 }
 

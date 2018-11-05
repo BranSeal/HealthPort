@@ -97,6 +97,13 @@ public class RegisterActivity extends AppCompatActivity
         return "";
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Does same actions as canceling registration.
+        cancel(findViewById(R.id.cancel_link));
+    }
+
     /**
      * Gets a map of the values inside of the text fields on the page.
      *

@@ -41,4 +41,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(registerIntent);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Exits app.
+        finishAffinity();
+    }
+
 }
