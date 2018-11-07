@@ -14,6 +14,7 @@ public class Document {
     private ArrayList<String> referenceIDs;
     private String name;
     private ArrayList<String> tags;
+    private String firebase_id;
 
     public Document()
     {
@@ -44,6 +45,10 @@ public class Document {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getFirebase_id() {return firebase_id;}
+
+    public void setFirebase_id(String firebase_id) {this.firebase_id = firebase_id;}
 
     public ArrayList<String> getReferenceIDs() { return referenceIDs; }
 

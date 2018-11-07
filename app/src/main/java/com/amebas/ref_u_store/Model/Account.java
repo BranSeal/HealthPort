@@ -1,6 +1,5 @@
 package com.amebas.ref_u_store.Model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +9,7 @@ public class Account {
     private String password;
     private List<Profile> profiles;
 
-    public Account()
-    {
+    public Account(){
         this.profiles = new ArrayList<>();
     }
 
