@@ -213,7 +213,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             to_assign = SessionManager.getInstance().getCurrentProfile();
         }
-        SessionManager.getInstance().getDatabase().updateDocument(doc, to_assign);
+        SessionManager.getInstance().getDatabase().updateDocumentInFireStore(doc, to_assign);
         to_assign.getDocuments().add(doc);
         clearTemporaries();
     }

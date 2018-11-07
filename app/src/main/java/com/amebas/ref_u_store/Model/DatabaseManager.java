@@ -223,14 +223,30 @@ public class DatabaseManager {
         //Session Instance
         SessionManager instance = SessionManager.getInstance();
 
+        DocumentReference profileDocument = null;
         //Update Document in FireStore
-        DocumentReference profileDocument =
-                db.collection("accounts").document(
-                        instance.getSessionAccount().getEmail()).collection(
-                        "profiles").document(
-                        profile.getId()).collection(
-                                "documents").document(document.getFirebase_id());
-        profileDocument.set(document, SetOptions.merge());
+        if (document.getFirebase_id() == null) {
+            db.collection("accounts").document(
+                            instance.getSessionAccount().getEmail()).collection(
+                            "profiles").document(
+                            profile.getId()).collection(
+                            "documents").add(document).addOnSuccessListener(
+                                    new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    document.setFirebase_id(documentReference.getId());
+                }
+            });
+        } else {
+            profileDocument =
+                    db.collection("accounts").document(
+                            instance.getSessionAccount().getEmail()).collection(
+                            "profiles").document(
+                            profile.getId()).collection(
+                            "documents").document(document.getFirebase_id());
+            profileDocument.set(document, SetOptions.merge());
+        }
 
         //Upload file(s) to FireBase Storage
         for (String d : document.getReferenceIDs()) {
