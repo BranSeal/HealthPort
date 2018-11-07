@@ -115,6 +115,7 @@ public class DatabaseManager {
                         Profile newProf = new Profile();
                         newProf.setName(p.getString("name"));
                         newProf.setDob(p.getString("dob"));
+                        newProf.setId(p.getId());
                         account.addProfile(newProf);
                         getDocumentsWhenGettingProfile(instance, newProf);
                     }
@@ -133,7 +134,7 @@ public class DatabaseManager {
                 db.collection("accounts").document(
                         instance.getSessionAccount().getEmail()).collection(
                                 "profiles").document(
-                                        profile.getName()).collection("documents");
+                                        profile.getId()).collection("documents");
 
         profileDocuments.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -144,6 +145,7 @@ public class DatabaseManager {
                     for(DocumentSnapshot p: firebaseDocuments) {
                         Document d = new Document();
                         d.setName(p.getString("name"));
+                        d.setFirebase_id(p.getId());
                         ArrayList<String> r = new ArrayList<String>();
                         d.setReferenceIDs((ArrayList<String>) p.get("referenceIDs"));
                         d.setTags((ArrayList<String>) p.get("tags"));
@@ -176,7 +178,7 @@ public class DatabaseManager {
         });
     }
 
-    public void updateDocument(Document document){
+    public void updateDocumentInFireStore(Document document){
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // FireBase CloudStorage Instance
@@ -192,16 +194,16 @@ public class DatabaseManager {
                         instance.getSessionAccount().getEmail()).collection(
                         "profiles").document(
                         profile.getName()).collection(
-                                "documents").document(document.getName());
+                                "documents").document(document.getFirebase_id());
         profileDocument.set(document, SetOptions.merge());
 
         //Upload file(s) to FireBase Storage
         for (String d : document.getReferenceIDs()) {
-            uploadDocument(d);
+            uploadDocumentToStorage(d);
         }
     }
 
-    private void uploadDocument(String referenceID){
+    private void uploadDocumentToStorage(String referenceID){
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // FireBase CloudStorage Instance
@@ -310,7 +312,7 @@ public class DatabaseManager {
                 db.collection("accounts").document(
                         session.getSessionAccount().getEmail()).collection(
                         "profiles").document(
-                        p.getName());
+                        p.getId());
         profileReference.set(p, SetOptions.merge());
     }
 
@@ -321,21 +323,11 @@ public class DatabaseManager {
      * @param account Account to be updated
      * @return
      */
-    public Task<Void> addProfile(final Profile p, Account account) {
+    public void addProfile(final Profile p, Account account) {
         // create reference for Profile, for use inside transaction
-        DocumentReference profileReference =
-                db.collection("accounts").document(
+        db.collection("accounts").document(
                         account.getEmail()).collection(
-                        "profiles").document(
-                        p.getName());
-
-        return db.runTransaction(new Transaction.Function<Void>() {
-            @Override
-            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                transaction.set(profileReference, p);
-                return null;
-            }
-        });
+                        "profiles").add(p);
     }
 
     /** Deletes profile from account
@@ -348,7 +340,10 @@ public class DatabaseManager {
                 db.collection("accounts").document(
                         account.getEmail()).collection(
                         "profiles").document(
-                        profile.getName());
+                        profile.getId());
+        for (Document d : profile.getDocuments()) {
+            deleteDocumentinFireStore(d, profile, account);
+        }
         profileReference.delete().addOnCompleteListener(new OnCompleteListener<Void>(){
 
             // When "Get" Is Complete
@@ -361,5 +356,52 @@ public class DatabaseManager {
                 }
             }
         });
+    }
+
+    public void deleteDocumentinFireStore(Document document, Profile profile, Account account) {
+        DocumentReference documentReference =
+                db.collection("accounts").document(
+                        account.getEmail()).collection(
+                        "profiles").document(
+                        profile.getId()).collection("documents").document(
+                                document.getFirebase_id()
+                );
+        documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>(){
+
+            // When "Delete" Is Complete
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Deleted document");
+                } else {
+                    Log.d(TAG, "Unable to delete document");
+                }
+            }
+        });
+    }
+
+    public void deleteDocumentinStorage(String referenceID){
+        // FireBase FireStore instance
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file to delete
+        StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
+
+        // Delete the file
+        pathReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
+        });
+
     }
 }

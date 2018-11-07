@@ -1,6 +1,5 @@
 package com.amebas.healthport.Model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,9 @@ public class Account {
     private String password;
     private List<Profile> profiles;
 
-    public Account(){}
+    public Account(){
+        this.profiles = new ArrayList<>();
+    }
 
     public Account(String email, String password) {
         this(email, password, new ArrayList<>());
