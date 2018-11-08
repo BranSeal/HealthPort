@@ -31,6 +31,7 @@ import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
+import com.amebas.ref_u_store.Utilities.TagFilter;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -237,6 +238,23 @@ public class AccountDashboardActivity extends AppCompatActivity {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * This function updates the document adapter based on what the user typed in to search.
+     */
+    public void searchDocuments(String filter) {
+        ArrayList<Document> docs = getDocuments();
+        ArrayList<Document> filteredDocs = TagFilter.filter(docs, filter);
+        this.adapter = new DocumentsAdapter(this, filteredDocs);
+
+        ListView listview = findViewById(R.id.documentViewer);
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener((parent, view, position, id) -> {
+            Document document =  (Document) parent.getItemAtPosition(position);
+            // GeneralUtilities.showToast(getApplicationContext(), document.getName() + document.getTagString());
+            openDocument(document, position);
+        });
     }
 
     /**
