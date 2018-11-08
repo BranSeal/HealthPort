@@ -186,9 +186,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             Log.d("ERROR", "Path doesn't exist");
         }
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(path.getAbsolutePath());
-        Document doc = new Document(paths, path.getName(), tags);
+        Document doc = new Document(path.getName(), path.getAbsolutePath(), tags);
         return doc;
     }
 

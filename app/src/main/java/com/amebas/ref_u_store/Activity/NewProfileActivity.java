@@ -45,6 +45,9 @@ public class NewProfileActivity extends AppCompatActivity {
         goToSelect();
     }
 
+    /**
+     * Moves to the profile select screen.
+     */
     public void goToSelect(){
         Intent profileSelect = new Intent(this, ProfileSelectActivity.class);
         startActivity(profileSelect);

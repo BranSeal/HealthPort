@@ -185,7 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                         getApplicationContext(),
                         "Account retreived for " + acc.getEmail(),
                         Toast.LENGTH_SHORT);
-                Log.d(TAG,"Anush login activity: " + acc);
                 toast.show();
                 goToProfilePage();
             }

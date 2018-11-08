@@ -48,7 +48,7 @@ public class ViewDocActivity extends AppCompatActivity
         if (extras != null)
         {
             doc = Document.fromMap((HashMap) extras.getSerializable("doc"));
-            file = new File(doc.getReferenceIDs().get(0));
+            file = new File(doc.getPath());
             pdf = new Pdf(file);
             title.setText(file.getName().split(".pdf")[0]);
         }
@@ -133,17 +133,19 @@ public class ViewDocActivity extends AppCompatActivity
     private void editDocument()
     {
         String filename = doc.getName().split(".pdf")[0];
-        String profile = SessionManager.getInstance().getCurrentProfile().getName();
+        Profile profile = SessionManager.getInstance().getCurrentProfile();
         HashMap<String, String> values = new HashMap<>();
         values.put("filename", filename);
         values.put("tags", doc.getTagString());
-        values.put("profile_name", profile);
+        values.put("profile_name", profile.getName());
         Intent intent = new Intent(this, EditFileActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("doc", new File(doc.getReferenceIDs().get(0)));
+        bundle.putSerializable("doc", new File(doc.getPath()));
         bundle.putSerializable("values", values);
         bundle.putString("old_name", filename);
-        bundle.putString("old_profile", profile);
+        bundle.putString("old_profile", profile.getName());
+        bundle.putString("old_profile_id", profile.getId());
+        bundle.putString("old_id", doc.getId());
         bundle.putString("old_tags", doc.getTagString());
         intent.putExtras(bundle);
         startActivity(intent);
@@ -183,7 +185,7 @@ public class ViewDocActivity extends AppCompatActivity
         Profile current = SessionManager.getInstance().getCurrentProfile();
         for (Document d: current.getDocuments())
         {
-            if (d.getName().equals(doc.getName()))
+            if (d.equals(doc))
             {
                 to_delete = d;
                 break;
@@ -194,7 +196,7 @@ public class ViewDocActivity extends AppCompatActivity
             current.getDocuments().remove(to_delete);
         }
         // Delete file in database.
-        SessionManager.getInstance().getDatabase().deleteDocument(current.getName(), doc.getName(), file.getAbsolutePath());
+        SessionManager.getInstance().getDatabase().deleteDocument(current.getId(), doc.getId(), file.getAbsolutePath());
     }
 }
 

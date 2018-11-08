@@ -3,7 +3,6 @@ package com.amebas.ref_u_store.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
-import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -41,8 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import static android.content.ContentValues.TAG;
 
 public class AccountDashboardActivity extends AppCompatActivity {
 
@@ -229,9 +224,9 @@ public class AccountDashboardActivity extends AppCompatActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new Storage(this).getImgDir();
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+            imageFileName,  /* prefix */
+            ".jpg",         /* suffix */
+            storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -249,19 +244,19 @@ public class AccountDashboardActivity extends AppCompatActivity {
         ListView listview = findViewById(R.id.documentViewer);
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener((parent, view, position, id) -> {
+        listview.setOnItemClickListener((parent, view, position, id) ->
+        {
             Document document =  (Document) parent.getItemAtPosition(position);
-//            GeneralUtilities.showToast(getApplicationContext(), document.getName() + document.getTagString());
-            openDocument(document, position);
+            openDocument(document);
         });
     }
 
     /**
      * This functions relays the user to the document viewer for the document opened
-     * @param document the string containing the file directory of the document selected
-     * @param position the position in the listview of the document
+     *
+     * @param document nthe string containing the file directory of the document selected
      */
-    public void openDocument(Document document, int position)
+    public void openDocument(Document document)
     {
         Intent intent = new Intent(this, ViewDocActivity.class);
         Bundle bundle = new Bundle();
@@ -278,29 +273,6 @@ public class AccountDashboardActivity extends AppCompatActivity {
         SessionManager instance = SessionManager.getInstance();
         Profile currProfile = instance.getCurrentProfile();
         return currProfile.getDocuments();
-    }
-
-    //temporary document population function
-    public void populateProfileWithDocuments() {
-        SessionManager instance = SessionManager.getInstance();
-        Profile currProfile = instance.getCurrentProfile();
-        Account currAccount = instance.getSessionAccount();
-
-        ArrayList<Document> docs = currProfile.getDocuments();
-        File dir = new Storage(this).getUserDocs(currAccount.getEmail(), currProfile.getName());
-        File[] files = dir.listFiles() == null ? new File[0] : dir.listFiles();
-        for (File file: files)
-        {
-            if (!file.isDirectory())
-            {
-                Document doc = new Document(file.getName());
-                ArrayList<String> tags = new ArrayList<>();
-                tags.add("Plz");
-                doc.setTags(tags);
-                docs.add(doc);
-            }
-        }
-        currProfile.setDocuments(docs);
     }
 
     @Override
