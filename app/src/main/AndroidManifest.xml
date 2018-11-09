@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -93,7 +91,11 @@
             android:label="Viewing Document"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true" />
-
+        <activity
+            android:name=".Activity.LocalUploadConfirmActivity"
+            android:label="Previewing Local File Upload"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true" />
 
     </application>
 
