@@ -28,6 +28,7 @@ import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Model.Storage;
 import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Utilities.TagFilter;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -107,7 +108,8 @@ public class AccountDashboardActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Call back the Adapter with current character to Filter
-                adapter.getFilter().filter(s.toString());
+                searchDocuments(s.toString());
+
             }
 
             @Override
@@ -232,6 +234,23 @@ public class AccountDashboardActivity extends AppCompatActivity {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * This function populates the listview with new searched documents
+     */
+    public void searchDocuments(String filter) {
+        ArrayList<Document> docs = getDocuments();
+        ArrayList<Document> filteredDocs = TagFilter.filter(docs, filter);
+        this.adapter = new DocumentsAdapter(this, filteredDocs);
+
+        ListView listview = findViewById(R.id.documentViewer);
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener((parent, view, position, id) ->
+        {
+            Document document =  (Document) parent.getItemAtPosition(position);
+            openDocument(document);
+        });
     }
 
     /**
