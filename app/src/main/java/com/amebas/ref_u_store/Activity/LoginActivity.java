@@ -207,9 +207,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
+    
     public void checkTwoFactor() {
-        String phoneNumber = "+13098259654";
+        SessionManager instance = SessionManager.getInstance();
+        Account acc = instance.getSessionAccount();
+
+        String phoneNumber = acc.getPhoneNumber();
+        if (phoneNumber == null) {
+            phoneNumber = "3098259654"; //set your phone number here for testing
+        }
+        phoneNumber = "+" + phoneNumber;
         String smsCode = "123456";
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
