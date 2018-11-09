@@ -32,48 +32,52 @@
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
+        android:background="@color/None"
         android:onClick="retrySelection"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/optionsBar"
         app:layout_constraintTop_toBottomOf="@+id/pdfView"
-        app:srcCompat="@drawable/back_arrow" />
+        app:srcCompat="@drawable/back_white" />
 
     <ImageButton
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
+        android:background="@color/None"
         android:onClick="confirmSelection"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/optionsBar"
         app:layout_constraintEnd_toStartOf="@+id/cancelButton"
+        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toEndOf="@+id/retryButton"
         app:layout_constraintTop_toBottomOf="@+id/pdfView"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/back_arrow" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_check" />
 
     <ImageButton
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="25dp"
         android:adjustViewBounds="true"
+        android:background="@color/None"
         android:onClick="cancelSelection"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/optionsBar"
         app:layout_constraintTop_toBottomOf="@+id/pdfView"
-        app:srcCompat="@drawable/back_arrow" />
+        app:srcCompat="@drawable/ic_x" />
 
 </android.support.constraint.ConstraintLayout>
