@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     android:background="@color/superLightGreyButtonColor">
 
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/superLightGreyButtonColor"
+        app:layout_constraintBottom_toTopOf="@+id/optionsBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/optionsBar"
         android:layout_width="0dp"
@@ -17,4 +27,53 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="true"
+        android:onClick="retrySelection"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/optionsBar"
+        app:layout_constraintTop_toBottomOf="@+id/pdfView"
+        app:srcCompat="@drawable/back_arrow" />
+
+    <ImageButton
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
+        android:onClick="confirmSelection"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/optionsBar"
+        app:layout_constraintEnd_toStartOf="@+id/cancelButton"
+        app:layout_constraintStart_toEndOf="@+id/retryButton"
+        app:layout_constraintTop_toBottomOf="@+id/pdfView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/back_arrow" />
+
+    <ImageButton
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="true"
+        android:onClick="cancelSelection"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/optionsBar"
+        app:layout_constraintTop_toBottomOf="@+id/pdfView"
+        app:srcCompat="@drawable/back_arrow" />
+
 </android.support.constraint.ConstraintLayout>
