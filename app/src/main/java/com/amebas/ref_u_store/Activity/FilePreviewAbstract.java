@@ -86,7 +86,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         createPageAddButton();
 
         // Create actions for page adder.
-        selector = new FileUploadSelector(this, this, () ->
+        selector = new FileUploadSelector(this, getApplicationContext(), () ->
         {
             // Create new PDF with new image
             File img = new File(selector.getImgPath());
@@ -107,6 +107,12 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             populatePages(this.pdf);
             // Delete 2nd temp
             temp_pdf.delete();
+        }, () ->
+        {
+            // Append file from local storage.
+            Pdf temp_pdf = new Pdf(selector.getSelectedFile());
+            this.pdf = Pdf.append(this, this.pdf, temp_pdf, this.pdf.getLocation());
+            populatePages(this.pdf);
         });
 
         // Set pages view.

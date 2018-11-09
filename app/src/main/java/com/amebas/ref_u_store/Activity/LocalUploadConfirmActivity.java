@@ -129,7 +129,7 @@ public class LocalUploadConfirmActivity extends AppCompatActivity
                     }
                     catch (Exception e2)
                     {
-                        Log.d("ERROR", e2.getMessage());
+                        Log.e("ERROR", e2.getMessage());
                     }
                 }
                 pdf = new File(path);
