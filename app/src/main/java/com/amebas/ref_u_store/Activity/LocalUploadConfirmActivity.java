@@ -121,9 +121,11 @@ public class LocalUploadConfirmActivity extends AppCompatActivity
                         File temp = storage.getTempFile("temp_upload" + getFileExtension(data.getData().getPath()));
                         byte[] buffer = new byte[stream.available()];
                         stream.read(buffer);
+                        stream.close();
                         // Read buffer into temp file.
                         OutputStream output = new FileOutputStream(temp);
                         output.write(buffer);
+                        output.close();
                         path = temp.getAbsolutePath();
                         temp_local = new File(path);
                     }
