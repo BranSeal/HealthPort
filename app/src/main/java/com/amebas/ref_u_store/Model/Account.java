@@ -8,6 +8,7 @@ public class Account {
     private String email;
     private String password;
     private List<Profile> profiles;
+    private String phoneNumber;
 
     public Account(){
         this.profiles = new ArrayList<>();
@@ -23,6 +24,10 @@ public class Account {
         this.profiles = profiles;
     }
 
+    public String getPhoneNumber() {return this.phoneNumber;}
+
+    public void setPhoneNumber(String newPhoneNumber) {this.phoneNumber = newPhoneNumber;}
+    
     public String getEmail() {
         return email;
     }
