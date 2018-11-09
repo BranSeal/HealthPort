@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.amebas.ref_u_store.Model.Account;
+import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.DatabaseManager;
 import com.amebas.ref_u_store.R;
+import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -97,6 +99,13 @@ public class RegisterActivity extends AppCompatActivity
         return "";
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        // Does same actions as canceling registration.
+        cancel(findViewById(R.id.cancel_link));
+    }
+
     /**
      * Gets a map of the values inside of the text fields on the page.
      *
@@ -125,18 +134,17 @@ public class RegisterActivity extends AppCompatActivity
      */
     private void showCancelAlert()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.cancel_confirm));
-        builder.setCancelable(true);
+        GeneralUtilities.askConfirmation(this, getString(R.string.cancel_confirm), new BinaryAction()
+        {
+            @Override
+            public void confirmAction()
+            {
+                returnToStart();
+            }
 
-        builder.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
-            dialog.cancel();
-            returnToStart();
+            @Override
+            public void denyAction() {}
         });
-        builder.setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel());
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
     /**
@@ -144,18 +152,11 @@ public class RegisterActivity extends AppCompatActivity
      */
     private void showConfirmationAlert()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.signup_confirm));
-        builder.setCancelable(true);
-
-        builder.setPositiveButton(getString(R.string.ok), (dialog, id) -> {
-            dialog.cancel();
+        GeneralUtilities.displayMessage(this, getString(R.string.signup_confirm), () ->
+        {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
         });
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
     /**

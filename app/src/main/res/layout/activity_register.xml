@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/reg_coord_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -45,6 +47,8 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginStart="50dp"
                 android:textColorHint="@color/hint_color"
+                android:theme="@style/EditTextTheme"
+                app:hintTextAppearance="@style/EditTextHoverHint"
                 app:layout_constraintBottom_toTopOf="@+id/password_input_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -70,6 +74,8 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginStart="50dp"
                 android:textColorHint="@color/hint_color"
+                android:theme="@style/EditTextTheme"
+                app:hintTextAppearance="@style/EditTextHoverHint"
                 app:layout_constraintBottom_toTopOf="@+id/confirm_password_input_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -94,6 +100,8 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginStart="50dp"
                 android:textColorHint="@color/hint_color"
+                android:theme="@style/EditTextTheme"
+                app:hintTextAppearance="@style/EditTextHoverHint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

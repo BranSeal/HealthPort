@@ -19,6 +19,7 @@ import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Activity for editing details of existing documents.
@@ -27,7 +28,10 @@ public class EditFileActivity extends FilePreviewAbstract
 {
     private String old_name;
     private String old_profile;
+    private String old_profile_id; // Profile ID
     private File old_path;
+    private String old_tags;
+    private String old_id; // Document ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +50,9 @@ public class EditFileActivity extends FilePreviewAbstract
         bundle.putInt("page_num", pos + 1);
         bundle.putString("old_name", old_name);
         bundle.putString("old_profile", old_profile);
+        bundle.putString("old_profile_id", old_profile_id);
+        bundle.putString("old_tags", old_tags);
+        bundle.putString("old_id", old_id);
         bundle.putSerializable("old_path", old_path);
         bundle.putSerializable("doc", getPdf().getLocation());
 
@@ -57,6 +64,9 @@ public class EditFileActivity extends FilePreviewAbstract
     {
         this.old_name = b.getString("old_name");
         this.old_profile = b.getString("old_profile");
+        this.old_tags = b.getString("old_tags");
+        this.old_id = b.getString("old_id");
+        this.old_profile_id = b.getString("old_profile_id");
         if (b.getSerializable("old_path") != null)
         {
             this.old_path = (File) b.getSerializable("old_path");
@@ -121,7 +131,7 @@ public class EditFileActivity extends FilePreviewAbstract
             {
                 for (Document d: p.getDocuments())
                 {
-                    if (d.getName().equals(old_name + ".pdf"))
+                    if (d.getId().equals(old_id))
                     {
                         to_delete = d;
                         break;
@@ -135,7 +145,36 @@ public class EditFileActivity extends FilePreviewAbstract
             }
         }
         // Delete file in database.
-        SessionManager.getInstance().getDatabase().deleteDocument(old_profile, old_name + ".pdf", old_path.toString());
+        SessionManager.getInstance().getDatabase().deleteDocument(old_profile_id, old_id, old_path.toString());
+    }
+
+    @Override
+    public void goToDashboard(View view)
+    {
+        // Returns user to document view, rather than dashboard when canceling editing.
+        GeneralUtilities.askConfirmation(this, getString(R.string.cancel_confirm), new BinaryAction()
+        {
+            @Override
+            public void confirmAction()
+            {
+                clearTemporaries();
+                Intent intent = new Intent(getApplicationContext(), ViewDocActivity.class);
+                Bundle bundle = new Bundle();
+                Document document = new Document();
+                document.setId(old_id);
+                document.setName(old_name + ".pdf");
+                document.setPath(old_path.getAbsolutePath());
+                document.setFromTagString(old_tags);
+
+                bundle.putSerializable("doc", (HashMap) document.toMap());
+
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void denyAction() {}
+        });
     }
 
     /**

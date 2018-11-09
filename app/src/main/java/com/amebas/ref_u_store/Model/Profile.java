@@ -1,18 +1,17 @@
 package com.amebas.ref_u_store.Model;
 
-import com.google.firebase.firestore.DocumentReference;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Profile {
 
+    private String id;
     private String dob;
     private String name;
-    private ArrayList<Document> documents = new ArrayList<>();
+    private ArrayList<Document> documents;
 
-    public Profile(){}
+    public Profile(){
+        this.documents = new ArrayList<>();
+    }
 
     public Profile(String dob, String name, ArrayList<Document> documents){
         this.dob = dob;
@@ -36,6 +35,14 @@ public class Profile {
         this.name = name;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public ArrayList<Document> getDocuments() {
         return documents;
     }
@@ -51,6 +58,6 @@ public class Profile {
     }
 
     public boolean equals(Profile p) {
-        return this.name.equals(p.getName());
+        return this.id.equals(p.getId());
     }
 }

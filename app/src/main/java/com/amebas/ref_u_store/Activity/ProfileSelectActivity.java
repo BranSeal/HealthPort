@@ -3,6 +3,7 @@ package com.amebas.ref_u_store.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amebas.ref_u_store.Model.Account;
+import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Model.SessionManager;
@@ -83,7 +85,26 @@ public class ProfileSelectActivity extends AppCompatActivity {
      * @param v  the view that calls the method.
      */
     public void logout(View v) {
-        Intent landingIntent = new Intent(this, MainActivity.class);
-        startActivity(landingIntent);
+        GeneralUtilities.askConfirmation(this, getString(R.string.logout_confirm), new BinaryAction()
+        {
+            @Override
+            public void confirmAction()
+            {
+                SessionManager.getInstance().setCurrentProfile(null);
+                SessionManager.getInstance().setSessionAccount(null);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void denyAction() {}
+        });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Log out
+        logout(findViewById(R.id.logout_link));
     }
 }

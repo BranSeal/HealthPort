@@ -61,4 +61,10 @@ public class DocConfirmActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        exit(findViewById(R.id.button));
+    }
+
 }

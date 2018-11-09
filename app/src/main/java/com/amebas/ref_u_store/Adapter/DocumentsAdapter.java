@@ -83,7 +83,7 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String data = mOriginalValues.get(i).getName();
                         if (data.toLowerCase().startsWith(constraint.toString())) {
-                            FilteredArrList.add(new Document(mOriginalValues.get(i).getName(),mOriginalValues.get(i).getTags()));
+                            FilteredArrList.add(new Document(mOriginalValues.get(i).getName(), "", mOriginalValues.get(i).getTags()));
                         }
                     }
                     // set the Filtered result to return

@@ -186,9 +186,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             Log.d("ERROR", "Path doesn't exist");
         }
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(path.getAbsolutePath());
-        Document doc = new Document(paths, path.getName(), tags);
+        Document doc = new Document(path.getName(), path.getAbsolutePath(), tags);
         return doc;
     }
 
@@ -213,7 +211,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         {
             to_assign = SessionManager.getInstance().getCurrentProfile();
         }
-        SessionManager.getInstance().getDatabase().updateDocument(doc, to_assign);
+        SessionManager.getInstance().getDatabase().updateDocumentInFireStore(doc, to_assign);
         to_assign.getDocuments().add(doc);
         clearTemporaries();
     }
@@ -237,6 +235,13 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void denyAction() {}
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Cancels file preview.
+        goToDashboard(findViewById(R.id.cancel_button));
     }
 
     /**
@@ -282,6 +287,16 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         selector.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Clear temporary directories.
+     */
+    protected void clearTemporaries()
+    {
+        Storage storage = new Storage(this);
+        storage.clearTemp();
+        storage.clearImgDir();
     }
 
     /**
@@ -341,15 +356,5 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.page_listview_design, R.id.title, pages);
         ((ListView) findViewById(R.id.table_scroll)).setAdapter(adapter);
-    }
-
-    /**
-     * Clear temporary directories.
-     */
-    private void clearTemporaries()
-    {
-        Storage storage = new Storage(this);
-        storage.clearTemp();
-        storage.clearImgDir();
     }
 }
