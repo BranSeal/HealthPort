@@ -186,7 +186,7 @@ public class DatabaseManager {
                     Document d = new Document();
                     d.setName(p.getString("name"));
                     d.setId(p.getId());
-                    d.setPath(((ArrayList<String>) p.get("referenceIDs")).get(0));
+                    d.setPath(p.getString("path"));
                     d.setTags((ArrayList<String>) p.get("tags"));
                     profile.addDocuments(d);
                     // Create a reference with an initial file path and name
