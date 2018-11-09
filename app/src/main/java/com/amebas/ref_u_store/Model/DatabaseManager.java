@@ -113,7 +113,7 @@ public class DatabaseManager {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 String cloudEmail = documentSnapshot.getString("email");
                 String cloudPassword = documentSnapshot.getString("password");
-                if(!cloudEmail.equals(email) || !cloudPassword.equals(password))
+                if(!email.equals(cloudEmail) || !password.equals(cloudPassword))
                 {
                     acc = null;
                     instance.setSessionAccount(acc);
@@ -385,10 +385,7 @@ public class DatabaseManager {
             .document(account.getEmail())
             .collection("profiles")
             .add(p)
-            .addOnSuccessListener(documentReference ->
-            {
-                p.setId(documentReference.getId());
-            });;
+            .addOnSuccessListener(documentReference -> p.setId(documentReference.getId()));
     }
 
     /**
