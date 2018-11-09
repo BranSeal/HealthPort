@@ -31,4 +31,5 @@
     <dimen name="list_thumb_size">25dp</dimen>
     <dimen name="button_padding">14dp</dimen>
     <dimen name="menu_padding">20dp</dimen>
+    <dimen name="options_bar_height">80dp</dimen>
 </resources>

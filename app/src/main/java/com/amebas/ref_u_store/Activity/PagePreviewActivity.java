@@ -25,7 +25,10 @@ public class PagePreviewActivity extends AppCompatActivity {
     private boolean isEdit;
     private String old_name;
     private String old_profile;
+    private String old_profile_id; // Profile ID
     private File old_path;
+    private String old_tags;
+    private String old_id; // Document ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,9 +48,12 @@ public class PagePreviewActivity extends AppCompatActivity {
             isEdit = extras.getBoolean("isEdit");
             if (isEdit)
             {
-                old_name = extras.getString("old_name");
-                old_profile = extras.getString("old_profile");
-                old_path = (File) extras.getSerializable("old_path");
+                this.old_name = extras.getString("old_name");
+                this.old_profile = extras.getString("old_profile");
+                this.old_tags = extras.getString("old_tags");
+                this.old_id = extras.getString("old_id");
+                this.old_profile_id = extras.getString("old_profile_id");
+                this.old_path = (File) extras.getSerializable("old_path");
             }
         }
         TextView label = findViewById(R.id.page_num_title);
@@ -79,6 +85,9 @@ public class PagePreviewActivity extends AppCompatActivity {
         {
             bundle.putString("old_name", old_name);
             bundle.putString("old_profile", old_profile);
+            bundle.putString("old_profile_id", old_profile_id);
+            bundle.putString("old_tags", old_tags);
+            bundle.putString("old_id", old_id);
             bundle.putSerializable("old_path", old_path);
             returnIntent = new Intent(this, EditFileActivity.class);
         }
