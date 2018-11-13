@@ -103,7 +103,8 @@ public class ViewProfile extends AppCompatActivity {
      */
     private void editProfile()
     {
-
+        Intent editProfile = new Intent(getApplicationContext(), EditProfileActivity.class);
+        startActivity(editProfile);
     }
 
     /**
