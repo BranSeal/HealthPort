@@ -107,21 +107,17 @@ public class DatabaseManager {
         account.get().addOnCompleteListener(task ->
         {
             SessionManager instance = SessionManager.getInstance();
-            if (task.isSuccessful())
-            {
+            if (task.isSuccessful()) {
                 Account acc = new Account();
                 DocumentSnapshot documentSnapshot = task.getResult();
                 String cloudEmail = documentSnapshot.getString("email");
                 String cloudPassword = documentSnapshot.getString("password");
-                if(!email.equals(cloudEmail) || !password.equals(cloudPassword))
-                {
+                if(!email.equals(cloudEmail) || !password.equals(cloudPassword)) {
                     acc = null;
                     instance.setSessionAccount(acc);
                     Log.d(TAG,"Anush: " + "PassEntered: " + password + ", passCloud: " + cloudPassword);
                     Log.d(TAG,"Anush: " + "EmailEntered: " + email + ", emailCloud: " + cloudEmail);
-                }
-                else
-                {
+                } else {
                     acc.setEmail(cloudEmail);
                     acc.setPassword(cloudPassword);
                     instance.setSessionAccount(acc);
@@ -129,26 +125,24 @@ public class DatabaseManager {
                     Log.d(TAG, "Account Retrieved"
                         + SessionManager.getInstance().getSessionAccount().getEmail());
                 }
-            }
-            else
-            {
+            } else {
                 instance.setSessionAccount(null);
             }
         });
     }
 
-    private void getProfiles()
-    {
+    /**
+     * Retrieves profiles from database for the logged in account
+     */
+    private void getProfiles() {
         SessionManager instance = SessionManager.getInstance();
         Account account = instance.getSessionAccount();
         // Get Profiles per Account from FireStore
         CollectionReference profiles = db.collection("accounts")
             .document(account.getEmail())
             .collection("profiles");
-        profiles.get().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful())
-            {
+        profiles.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> firebaseProfiles = querySnapshot.getDocuments();
                 for (DocumentSnapshot p: firebaseProfiles) {
@@ -163,8 +157,7 @@ public class DatabaseManager {
         });
     }
 
-    private void getDocumentsWhenGettingProfile(SessionManager instance, Profile profile)
-    {
+    private void getDocumentsWhenGettingProfile(SessionManager instance, Profile profile) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -175,14 +168,11 @@ public class DatabaseManager {
             .collection("documents");
 
         // Create document instance for all of profile's documents.
-        profileDocuments.get().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful())
-            {
+        profileDocuments.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> firebaseDocuments = querySnapshot.getDocuments();
-                for (DocumentSnapshot p: firebaseDocuments)
-                {
+                for (DocumentSnapshot p: firebaseDocuments) {
                     Document d = new Document();
                     d.setName(p.getString("name"));
                     d.setId(p.getId());
@@ -192,16 +182,13 @@ public class DatabaseManager {
                     // Create a reference with an initial file path and name
                     StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + d.getPath());
 
-                    try
-                    {
+                    try {
                         File localFile = File.createTempFile("images", "jpg");
 
                         pathReference.getFile(localFile)
                             .addOnSuccessListener(snapshot -> {})
                             .addOnFailureListener(exception -> {});
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
                     }
                 }
@@ -209,14 +196,12 @@ public class DatabaseManager {
         });
     }
 
-    public void updateDocumentInFireStore(Document document, Profile profile)
-    {
+    public void updateDocumentInFireStore(Document document, Profile profile) {
         //Session Instance
         SessionManager instance = SessionManager.getInstance();
 
         //Update Document in FireStore
-        if (document.getId() == "")
-        {
+        if (document.getId() == "") {
             db.collection("accounts")
                 .document(instance.getSessionAccount().getEmail())
                 .collection("profiles")
@@ -227,9 +212,7 @@ public class DatabaseManager {
                 {
                     document.setId(documentReference.getId());
                 });
-        }
-        else
-        {
+        } else {
             DocumentReference profileDocument = db.collection("accounts")
                 .document(instance.getSessionAccount().getEmail())
                 .collection("profiles")
@@ -243,8 +226,7 @@ public class DatabaseManager {
         uploadDocumentToStorage(document.getPath());
     }
 
-    private void uploadDocumentToStorage(String referenceID)
-    {
+    private void uploadDocumentToStorage(String referenceID) {
         StorageReference image = FirebaseStorage.getInstance()
             .getReference()
             .child("images/" + referenceID);
@@ -254,8 +236,7 @@ public class DatabaseManager {
         // Register observers to listen for when the download is done or if it fails
         uploadTask
             .addOnFailureListener(exception -> Log.d(TAG,"Could not upload document" + exception.toString()))
-            .addOnSuccessListener(snapshot ->
-            {
+            .addOnSuccessListener(snapshot -> {
                 //TODO: Confirmation that file is uploaded
             });
     }
@@ -268,8 +249,7 @@ public class DatabaseManager {
      * @param id          the ID of the document in Firebase.
      * @param path        the path to the document in the cloud storage.
      */
-    public void deleteDocument(String profile_id, String id, String path)
-    {
+    public void deleteDocument(String profile_id, String id, String path) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -287,8 +267,7 @@ public class DatabaseManager {
         image.delete();
     }
 
-    public void getDocumentFromStorage(String referenceID)
-    {
+    public void getDocumentFromStorage(String referenceID) {
         StorageReference pathReference = FirebaseStorage.getInstance()
             .getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
         try {
@@ -303,8 +282,7 @@ public class DatabaseManager {
                     // Handle any errors
                 });
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
         }
     }
@@ -315,20 +293,14 @@ public class DatabaseManager {
      * @param email  Account's Email and reference tag
      * @return Asynchronous DocumentSnapshot containing account data if it exists, null if not
      */
-    public Task<DocumentSnapshot> doesAccountExist(String email)
-    {
+    public Task<DocumentSnapshot> doesAccountExist(String email) {
         DocumentReference t = db.collection("accounts").document(email);
-        return t.get().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful())
-            {
+        return t.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
-                if (document.exists())
-                {
+                if (document.exists()) {
                     Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                }
-                else
-                {
+                } else {
                     Log.d(TAG, "No such document");
                 }
             }
@@ -341,12 +313,10 @@ public class DatabaseManager {
      * @param account  Account to be updated
      * @return void asynchronous task
      */
-    public Task<Void> updateAccount(final Account account)
-    {
+    public Task<Void> updateAccount(final Account account) {
         DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
         accountRef.update("email", account.getEmail());
-        for(Profile p: account.getProfiles())
-        {
+        for(Profile p: account.getProfiles()) {
             updateProfile(p);
         }
         // Update profiles subcollection in account
@@ -359,8 +329,7 @@ public class DatabaseManager {
      *
      * @param p  Profile to be updated
      */
-    public void updateProfile(final Profile p)
-    {
+    public void updateProfile(final Profile p) {
         // create reference for Profile, for use inside transaction
         SessionManager session = SessionManager.getInstance();
         DocumentReference profileReference = db.collection("accounts")
@@ -379,8 +348,7 @@ public class DatabaseManager {
      * @param p        Profile to be added
      * @param account  Account to be updated
      */
-    public void addProfile(final Profile p, Account account)
-    {
+    public void addProfile(final Profile p, Account account) {
         db.collection("accounts")
             .document(account.getEmail())
             .collection("profiles")
@@ -395,15 +363,13 @@ public class DatabaseManager {
      * @param account   account to be updated
      * @param listener  listener to perform on task completion.
      */
-    public void deleteProfile(Profile profile, Account account, OnCompleteListener<Void> listener)
-    {
+    public void deleteProfile(Profile profile, Account account, OnCompleteListener<Void> listener) {
         // create reference for Profile, for use inside transaction
         DocumentReference profileReference = db.collection("accounts")
             .document(account.getEmail())
             .collection("profiles")
             .document(profile.getId());
-        for (Document d : profile.getDocuments())
-        {
+        for (Document d : profile.getDocuments()) {
             deleteDocument(profile.getId(), d.getId(), d.getPath());
         }
         profileReference.delete().addOnCompleteListener(listener);

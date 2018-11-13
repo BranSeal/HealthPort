@@ -32,20 +32,25 @@ public class FileUploadSelector extends Activity
 
     private Activity activity;
     private Context c;
-    private SingleAction action;
+    private SingleAction pictureAction;
+    private SingleAction selectAction;
+
+    private File selected_file;
 
     /**
      * Creates an upload selector activity.
      *
-     * @param a       the activity to be called in.
-     * @param c       the context of the application.
-     * @param action  the action to take upon file selection.
+     * @param a              the activity to be called in.
+     * @param c              the context of the application.
+     * @param pictureAction  the action to take upon camera picture taken.
+     * @param selectAction   the action to take upon file selection
      */
-    public FileUploadSelector(Activity a, Context c, SingleAction action)
+    public FileUploadSelector(Activity a, Context c, SingleAction pictureAction, SingleAction selectAction)
     {
         this.activity = a;
         this.c = c;
-        this.action = action;
+        this.pictureAction = pictureAction;
+        this.selectAction = selectAction;
     }
 
     /**
@@ -56,6 +61,16 @@ public class FileUploadSelector extends Activity
     public String getImgPath()
     {
         return this.mCurrentPhotoPath;
+    }
+
+    /**
+     * Gets the file that was selected by the file selector.
+     *
+     * @return the selected file.
+     */
+    public File getSelectedFile()
+    {
+        return this.selected_file;
     }
 
     /**
@@ -74,7 +89,7 @@ public class FileUploadSelector extends Activity
             }
             catch (IOException ex)
             {
-                Log.d("ERROR", "Failed to create image file from camera");
+                Log.e("ERROR", "Failed to create image file from camera");
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -92,20 +107,10 @@ public class FileUploadSelector extends Activity
     /**
      * Action to choose file from local storage.
      */
-    public void dispatchChooseFileIntent() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        //intent.setType("*/*");  //all files
-        intent.setType("*/*");    //XML file only
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try
-        {
-            this.activity.startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_file)), FILE_SELECT_CODE);
-        }
-        catch (android.content.ActivityNotFoundException ex)
-        {
-            // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this.c, getString(R.string.no_file_manager), Toast.LENGTH_SHORT).show();
-        }
+    public void dispatchChooseFileIntent()
+    {
+        Intent intent = new Intent(this.c, LocalUploadConfirmActivity.class);
+        activity.startActivityForResult(intent, FILE_SELECT_CODE);
     }
 
     @Override
@@ -119,19 +124,23 @@ public class FileUploadSelector extends Activity
             // Make sure the request was successful
             if (resultCode == RESULT_OK)
             {
-                Log.d("DEBUG", "Result is OK");
-                Log.d("DEBUG", action.toString());
-                action.perform();
+                pictureAction.perform();
             }
             else if (resultCode == RESULT_CANCELED)
             {
                 File deleteF = (mCurrentPhotoPath!= null) ? new File(mCurrentPhotoPath) : null;
-                boolean deleted = false;
                 if (deleteF != null)
                 {
-                    deleted = deleteF.delete();
+                    deleteF.delete();
                 }
-                Log.w("Delete Check", "Empty file: " + mCurrentPhotoPath + "Deleted: " + deleted);
+            }
+        }
+        else if (requestCode == FILE_SELECT_CODE)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                selected_file = (File) data.getExtras().getSerializable("file");
+                selectAction.perform();
             }
         }
     }

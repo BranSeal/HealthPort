@@ -24,9 +24,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:elevation="@dimen/top_z_index"
@@ -38,7 +35,6 @@
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
-        app:layout_constraintEnd_toStartOf="@+id/MenuButton"
         app:layout_constraintStart_toEndOf="@+id/BackButton"
         app:layout_constraintTop_toTopOf="@+id/Toolbar" />
 
@@ -60,44 +56,18 @@
         app:layout_constraintTop_toTopOf="@+id/Toolbar"
         app:srcCompat="@drawable/back_arrow" />
 
-    <ImageButton
-        android:id="@+id/MenuButton"
+    <EditText
+        android:id="@+id/link"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:background="@color/None"
-        android:elevation="@dimen/top_z_index"
-        android:onClick="showMenu"
-        android:paddingBottom="@dimen/menu_padding"
-        android:paddingRight="@dimen/button_padding"
-        android:paddingTop="@dimen/menu_padding"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/Toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu_button" />
-
-    <ImageButton
-        android:id="@+id/ShareButton"
-        android:layout_width="@dimen/overlay_button_size"
-        android:layout_height="@dimen/overlay_button_size"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/circle_button"
-        android:elevation="@dimen/button_z_index"
-        android:onClick="shareDocument"
-        android:padding="@dimen/button_padding"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_share_symbol_overlay" />
-
-    <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdfView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/superLightGreyButtonColor"
+        android:layout_height="130dp"
+        android:layout_marginBottom="261dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="195dp"
+        android:ems="10"
+        android:inputType="textMultiLine|textUri"
+        android:singleLine="false"
+        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

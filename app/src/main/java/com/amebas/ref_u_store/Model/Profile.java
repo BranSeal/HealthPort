@@ -2,6 +2,9 @@ package com.amebas.ref_u_store.Model;
 
 import java.util.ArrayList;
 
+/**
+ * Profile Model
+ */
 public class Profile {
 
     private String id;

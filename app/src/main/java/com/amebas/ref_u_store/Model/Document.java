@@ -187,6 +187,10 @@ public class Document
      */
     public String getTagString() {
         String tags = "";
+        if (this.tags.size() == 0)
+        {
+            return tags;
+        }
         for (String tag: this.tags)
         {
             tags += tag;

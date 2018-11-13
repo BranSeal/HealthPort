@@ -187,6 +187,10 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
 
+        /**
+         * Function validates account has logged in or not
+         * @param success valid database query for account
+         */
         @Override
         protected void onPostExecute(final Boolean success) {
             SessionManager instance = SessionManager.getInstance();

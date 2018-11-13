@@ -58,6 +58,7 @@
     <string name="edit_confirm">Are you sure you want to make these changes?</string>
     <string name="delete_doc_ask">Are you sure you want to delete this document?</string>
     <string name="logout_confirm">Are you sure you want to log out?</string>
+    <string name="loading_file">Loading file...</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>

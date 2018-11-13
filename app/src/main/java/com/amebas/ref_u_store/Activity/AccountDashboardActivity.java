@@ -33,6 +33,8 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -142,6 +144,28 @@ public class AccountDashboardActivity extends AppCompatActivity {
                 Log.w("Delete Check", "Empty file: " + mCurrentPhotoPath + "Deleted: " + deleted);
             }
         }
+        else if (requestCode == FILE_SELECT_CODE)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                File selected = (File) data.getExtras().getSerializable("file");
+                File temp = new Storage(this).getTempFile("temp.pdf");
+                try
+                {
+                    // Copy file data over to new temp file so it doesn't get overriden in future.
+                    FileUtils.copyFile(selected, temp);
+                }
+                catch (java.io.IOException e)
+                {
+                    Log.e("ERROR", e.getMessage());
+                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("doc", temp);
+                Intent intent = new Intent(this, FilePreviewActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
     }
 
     private void dispatchTakePictureIntent() {
@@ -189,18 +213,10 @@ public class AccountDashboardActivity extends AppCompatActivity {
         }
     }
 
-    private void dispatchChooseFileIntent() {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            //intent.setType("*/*");      //all files
-            intent.setType("*/*");   //XML file only
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-            try {
-                startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
-            } catch (android.content.ActivityNotFoundException ex) {
-                // Potentially direct the user to the Market with a Dialog
-                Toast.makeText(this, "Please install a File Manager.", Toast.LENGTH_SHORT).show();
-            }
+    private void dispatchChooseFileIntent()
+    {
+        Intent intent = new Intent(this, LocalUploadConfirmActivity.class);
+        startActivityForResult(intent, FILE_SELECT_CODE);
     }
 
     @Override

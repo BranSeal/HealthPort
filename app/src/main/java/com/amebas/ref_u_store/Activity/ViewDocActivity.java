@@ -107,6 +107,17 @@ public class ViewDocActivity extends AppCompatActivity
      */
     public void shareDocument(View v)
     {
+        String filename = doc.getName().split(".pdf")[0];
+        Profile profile = SessionManager.getInstance().getCurrentProfile();
+        HashMap<String, String> values = new HashMap<>();
+        values.put("filename", filename);
+        values.put("profile_name", profile.getName());
+        Intent intent = new Intent(this, ShareDocActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("doc", new File(doc.getPath()));
+        bundle.putSerializable("values", values);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**
