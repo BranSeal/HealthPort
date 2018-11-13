@@ -3,6 +3,9 @@ package com.amebas.ref_u_store.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Account model
+ */
 public class Account {
 
     private String email;
