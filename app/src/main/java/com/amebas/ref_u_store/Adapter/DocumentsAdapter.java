@@ -15,6 +15,9 @@ import com.amebas.ref_u_store.R;
 
 import java.util.ArrayList;
 
+/**
+ * Used to sort through documents in the profile
+ */
 public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterable {
     private ArrayList<Document> mOriginalValues; // Original Values
     private ArrayList<Document> mDisplayedValues;    // Values to be displayed
