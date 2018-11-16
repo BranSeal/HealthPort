@@ -60,7 +60,7 @@ public class ShareDocActivity extends AppCompatActivity {
         else
         {
             Log.d("ERROR", "Was not passed a PDF, creating empty");
-            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"), new PDDocument());
+            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"));
         }
     }
 
@@ -93,8 +93,10 @@ public class ShareDocActivity extends AppCompatActivity {
         File temp_dir = storage.getTempFile("temporary_file.pdf");
         try
         {
-            pdf.getPdf().save(temp_dir);
-            setPdf(new Pdf(temp_dir, PDDocument.load(temp_dir)));
+            PDDocument doc = pdf.getPdf();
+            doc.save(temp_dir);
+            setPdf(new Pdf(temp_dir));
+            doc.close();
         }
         catch (java.io.IOException e)
         {

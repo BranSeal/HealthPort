@@ -202,7 +202,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
             catch (java.io.IOException e)
             {
                 Log.d("ERROR", "File not found");
-                pdf = new Pdf(temp, new PDDocument());
+                pdf = new Pdf(temp);
             }
             Bundle bundle = new Bundle();
             bundle.putSerializable("doc", pdf.getLocation());
