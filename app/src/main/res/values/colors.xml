@@ -11,4 +11,10 @@
     <color name="overlay_button_color">#009688</color>
     <color name="None">#00ffffff</color>
     <color name="delete_color">#ED2C2C</color>
+    <color name="in_app_primary">#FF202020</color>
+    <color name="in_app_secondary">#FF737373</color>
+    <color name="in_app_bg">#FFFAFAFA</color>
+    <color name="in_app_header">#FFCED7DB</color>
+    <color name="in_app_button">#FF6C8589</color>
+    <color name="in_app_button_text">#FF050404</color>
 </resources>

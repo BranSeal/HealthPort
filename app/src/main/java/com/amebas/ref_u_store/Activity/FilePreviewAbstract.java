@@ -73,7 +73,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.text_color));
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.in_app_primary));
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
             }
 
