@@ -94,16 +94,12 @@ public class Pdf
 
         // Create page to place image in.
         Bitmap bitmap = BitmapFactory.decodeFile(img.getAbsolutePath());
-        File temp = File.createTempFile("temp", ".png", context.getCacheDir());
-        FileOutputStream out = new FileOutputStream(temp);
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
-        out.close();
         PDRectangle rect = new PDRectangle(bitmap.getWidth(), bitmap.getHeight());
         PDPage page = new PDPage(rect);
         document.addPage(page);
 
         // Populate page with image.
-        PDImageXObject image = PDImageXObject.createFromFile(temp.getAbsolutePath(), document);
+        PDImageXObject image = PDImageXObject.createFromFile(img.getAbsolutePath(), document);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
         contentStream.drawImage(image, 0, 0);
         contentStream.close();
@@ -111,7 +107,6 @@ public class Pdf
         // Save changes
         document.save(dest);
         document.close();
-        temp.delete();
 
         return new Pdf(dest);
     }
