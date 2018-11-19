@@ -258,15 +258,17 @@ public class AccountDashboardActivity extends AppCompatActivity {
     public void searchDocuments(String filter) {
         ArrayList<Document> docs = getDocuments();
         ArrayList<Document> filteredDocs = TagFilter.filter(docs, filter);
+//        if (filteredDocs.size() == 0)
+//            return;
         this.adapter = new DocumentsAdapter(this, filteredDocs);
-
         ListView listview = findViewById(R.id.documentViewer);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener((parent, view, position, id) ->
         {
-            Document document =  (Document) parent.getItemAtPosition(position);
+            Document document = (Document) parent.getItemAtPosition(position);
             openDocument(document);
         });
+        adapter.notifyDataSetChanged();
     }
 
     /**

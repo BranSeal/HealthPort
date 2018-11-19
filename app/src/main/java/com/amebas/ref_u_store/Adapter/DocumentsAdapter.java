@@ -70,28 +70,30 @@ public class DocumentsAdapter extends ArrayAdapter<Document> implements Filterab
                     mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
-                /********
+                /**
                  *
                  *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
                  *  else does the Filtering and returns FilteredArrList(Filtered)
                  *
-                 ********/
+                 */
                 if (constraint == null || constraint.length() == 0) {
 
                     // set the Original result to return
-                    results.count = mOriginalValues.size();
+                    results.count = mOriginalValues == null ? 0 : mOriginalValues.size();
                     results.values = mOriginalValues;
                 } else {
-                    constraint = constraint.toString().toLowerCase();
-                    for (int i = 0; i < mOriginalValues.size(); i++) {
-                        String data = mOriginalValues.get(i).getName();
-                        if (data.toLowerCase().startsWith(constraint.toString())) {
-                            FilteredArrList.add(new Document(mOriginalValues.get(i).getName(), "", mOriginalValues.get(i).getTags()));
+                    if (mOriginalValues != null ) {
+                        constraint = constraint.toString().toLowerCase();
+                        for (int i = 0; i < mOriginalValues.size(); i++) {
+                            String data = mOriginalValues.get(i).getName();
+                            if (data.toLowerCase().startsWith(constraint.toString())) {
+                                FilteredArrList.add(new Document(mOriginalValues.get(i).getName(), "", mOriginalValues.get(i).getTags()));
+                            }
                         }
+                        // set the Filtered result to return
+                        results.count = FilteredArrList.size();
+                        results.values = FilteredArrList;
                     }
-                    // set the Filtered result to return
-                    results.count = FilteredArrList.size();
-                    results.values = FilteredArrList;
                 }
                 return results;
             }
