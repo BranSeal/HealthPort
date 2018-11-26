@@ -1,6 +1,7 @@
 package com.amebas.ref_u_store.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +17,15 @@ import com.amebas.ref_u_store.Model.Profile;
 import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Model.SessionManager;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
+import com.amebas.ref_u_store.Utilities.Permissions;
 
 import java.util.List;
 
 public class ProfileSelectActivity extends AppCompatActivity {
 
     List<Profile> profiles;
+
+    private int selected_position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +38,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
         ListView listview = findViewById(R.id.profileList);
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(( parent, view, position, id) -> {
-            String profile = (String) parent.getItemAtPosition(position);
-            startDashboard(profile, position);
-        });
+        listview.setOnItemClickListener(( parent, view, position, id) -> checkPermissions(position));
     }
 
     /**
@@ -64,14 +65,60 @@ public class ProfileSelectActivity extends AppCompatActivity {
 
     /**
      * This function gets the necessary information from the profiles populated and starts the dashboard
-     * @param profile
      */
-    public void startDashboard(String profile, int position) {
+    public void startDashboard(int position)
+    {
         SessionManager instance = SessionManager.getInstance();
         Profile currentProfile = profiles.get(position);
         instance.setCurrentProfile(currentProfile);
         Intent dashboardIntent = new Intent(this ,AccountDashboardActivity.class);
         startActivity(dashboardIntent);
+    }
+
+    /**
+     * Checks if read/write permissions are granted. If so, moves to dashboard of selected profile.
+     * If not, waits for permissions result.
+     *
+     * @param position  The position of profile in list that was selected.
+     */
+    public void checkPermissions(int position)
+    {
+        if (Permissions.checkStoragePermissions(this))
+        {
+            startDashboard(position);
+        }
+        else
+        {
+            selected_position = position;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        boolean permission_granted = false;
+        boolean counter = true;
+        for (int result: grantResults)
+        {
+            if (result == PackageManager.PERMISSION_DENIED)
+            {
+                counter = false;
+                break;
+            }
+        }
+        if (counter)
+        {
+            permission_granted = true;
+        }
+        if (grantResults.length > 0 && permission_granted)
+        {
+            startDashboard(selected_position);
+        }
+        else
+        {
+            GeneralUtilities.showToast(this, getString(R.string.perm_failed));
+            selected_position = 0;
+        }
     }
 
     public void goToAddProfile(View view) {

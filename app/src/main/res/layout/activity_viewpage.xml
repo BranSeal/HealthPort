@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkGreyPrimary">
+    android:background="@color/in_app_bg">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/Toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/superLightGreyButtonColor"
+        android:background="@color/in_app_header"
+        android:elevation="@dimen/top_z_index"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        android:elevation="@dimen/top_z_index"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
@@ -34,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
         app:layout_constraintStart_toStartOf="@+id/Toolbar"
         app:layout_constraintTop_toTopOf="@+id/Toolbar"
-        app:srcCompat="@drawable/back_arrow_alt" />
+        app:srcCompat="@drawable/back_arrow" />
 
     <TextView
         android:id="@+id/page_num_title"
@@ -42,13 +41,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:elevation="@dimen/top_z_index"
         android:text="@string/page_view_header"
-        android:textColor="@color/darkGreyPrimary"
+        android:textColor="@color/in_app_primary"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/Toolbar"
         app:layout_constraintEnd_toEndOf="@+id/Toolbar"
@@ -77,6 +74,7 @@
         android:id="@+id/pdfView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/in_app_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -187,8 +187,10 @@ public class EditFileActivity extends FilePreviewAbstract
         File temp_dir = storage.getTempFile("temporary_file.pdf");
         try
         {
-            pdf.getPdf().save(temp_dir);
-            setPdf(new Pdf(temp_dir, PDDocument.load(temp_dir)));
+            PDDocument doc = pdf.getPdf();
+            doc.save(temp_dir);
+            doc.close();
+            setPdf(new Pdf(temp_dir));
         }
         catch (java.io.IOException e)
         {

@@ -4,43 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AccountDashboardActivity"
+    android:background="@color/in_app_bg"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    tools:context=".Activity.AccountDashboardActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/toolbarView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="@color/superLightGreyButtonColor">
+        android:background="@color/in_app_header">
 
         <TextView
             android:id="@+id/welcomeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:gravity="left|center_vertical"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/in_app_primary"
+            android:textSize="@dimen/cancel_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/profileButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="20dp"
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:adjustViewBounds="true"
+            android:background="@color/None"
             android:onClick="toProfile"
-            android:src="@drawable/ic_baseline_account_circle_24px"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_account_circle_24px" />
     </android.support.constraint.ConstraintLayout>
 
     <com.leinardi.android.speeddial.SpeedDialView
@@ -53,7 +60,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:sdMainFabClosedSrc="@drawable/ic_baseline_add_24px"/>
+        app:sdMainFabClosedSrc="@drawable/ic_baseline_add_24px" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/searchView"
@@ -63,12 +70,10 @@
 
         <EditText
             android:id="@+id/etSearch"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,9 +83,13 @@
 
     <ListView
         android:id="@+id/documentViewer"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

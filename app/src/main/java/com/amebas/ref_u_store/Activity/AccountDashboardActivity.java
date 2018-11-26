@@ -202,7 +202,7 @@ public class AccountDashboardActivity extends AppCompatActivity {
             catch (java.io.IOException e)
             {
                 Log.d("ERROR", "File not found");
-                pdf = new Pdf(temp, new PDDocument());
+                pdf = new Pdf(temp);
             }
             Bundle bundle = new Bundle();
             bundle.putSerializable("doc", pdf.getLocation());
@@ -258,15 +258,17 @@ public class AccountDashboardActivity extends AppCompatActivity {
     public void searchDocuments(String filter) {
         ArrayList<Document> docs = getDocuments();
         ArrayList<Document> filteredDocs = TagFilter.filter(docs, filter);
+//        if (filteredDocs.size() == 0)
+//            return;
         this.adapter = new DocumentsAdapter(this, filteredDocs);
-
         ListView listview = findViewById(R.id.documentViewer);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener((parent, view, position, id) ->
         {
-            Document document =  (Document) parent.getItemAtPosition(position);
+            Document document = (Document) parent.getItemAtPosition(position);
             openDocument(document);
         });
+        adapter.notifyDataSetChanged();
     }
 
     /**

@@ -8,14 +8,12 @@ public class TagFilter {
 
     public static ArrayList<Document> filter(ArrayList<Document> list, String filter) {
         ArrayList<Document> filteredList = new ArrayList<>();
+        String f = filter.toLowerCase();
         for (Document d: list) {
-            if (d.getName().contains(filter))
+            String name = d.getName().toLowerCase();
+            if (name.contains(f))
                 filteredList.add(d);
         }
-        if (filteredList.size() == 0)
-            return null;
-        else
-            return filteredList;
+        return filteredList;
     }
-
 }

@@ -53,7 +53,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         else
         {
             Log.d("ERROR", "Was not passed a PDF, creating empty");
-            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"), new PDDocument());
+            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"));
         }
 
         // Create profile select dropdown.
@@ -73,7 +73,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.text_color));
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.in_app_primary));
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
             }
 
@@ -100,7 +100,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             catch (java.io.IOException e)
             {
                 Log.d("ERROR", "File not Found");
-                new_pdf = new Pdf(temp_pdf, new PDDocument());
+                new_pdf = new Pdf(temp_pdf);
             }
             // Merge PDFs
             this.pdf = Pdf.append(this, this.pdf, new_pdf, this.pdf.getLocation());
@@ -161,7 +161,10 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
      */
     public boolean areInputsValid()
     {
-        if (pdf.getPdf().getPages().getCount() < 1)
+        PDDocument doc = pdf.getPdf();
+        int count = doc.getPages().getCount();
+        Pdf.close(doc);
+        if (count < 1)
         {
             GeneralUtilities.displayMessage(this, getString(R.string.no_pages), () -> {});
             return false;
@@ -186,7 +189,9 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     {
         try
         {
-            pdf.getPdf().save(path);
+            PDDocument doc = pdf.getPdf();
+            doc.save(path);
+            doc.close();
         }
         catch (java.io.IOException e)
         {
@@ -354,7 +359,9 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
      */
     private void populatePages(Pdf pdf)
     {
-        int num_pages = pdf.getPdf().getNumberOfPages();
+        PDDocument doc = pdf.getPdf();
+        int num_pages = doc.getNumberOfPages();
+        Pdf.close(doc);
         ArrayList<String> pages = new ArrayList<>(num_pages);
         for (int i = 0; i < num_pages; i++)
         {
