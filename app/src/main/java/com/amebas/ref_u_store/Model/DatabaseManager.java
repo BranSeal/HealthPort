@@ -173,23 +173,27 @@ public class DatabaseManager {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> firebaseDocuments = querySnapshot.getDocuments();
                 for (DocumentSnapshot p: firebaseDocuments) {
-                    Document d = new Document();
-                    d.setName(p.getString("name"));
-                    d.setId(p.getId());
-                    d.setPath(p.getString("path"));
-                    d.setTags((ArrayList<String>) p.get("tags"));
-                    profile.addDocuments(d);
-                    // Create a reference with an initial file path and name
-                    StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + d.getPath());
+                    File path = new File(p.getString("path"));
+                    if (path.exists())
+                    {
+                        Document d = new Document();
+                        d.setName(p.getString("name"));
+                        d.setId(p.getId());
+                        d.setPath(path.getAbsolutePath());
+                        d.setTags((ArrayList<String>) p.get("tags"));
+                        profile.addDocuments(d);
+                        // Create a reference with an initial file path and name
+                        StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + d.getPath());
 
-                    try {
-                        File localFile = File.createTempFile("images", "jpg");
+                        try {
+                            File localFile = File.createTempFile("images", "jpg");
 
-                        pathReference.getFile(localFile)
-                            .addOnSuccessListener(snapshot -> {})
-                            .addOnFailureListener(exception -> {});
-                    } catch (IOException e) {
-                        Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+                            pathReference.getFile(localFile)
+                                    .addOnSuccessListener(snapshot -> {})
+                                    .addOnFailureListener(exception -> {});
+                        } catch (IOException e) {
+                            Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+                        }
                     }
                 }
             }
