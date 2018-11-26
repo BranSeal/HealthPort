@@ -36,7 +36,7 @@ public class DatabaseManager {
     /**
      * Add Account into FireBase FireStore
      *
-     * Asynchronously calls database's run transation
+     * Asynchronously calls database's run transaction
      * Must add listener when calling this function
      *
      * @param account  Account to add into FireBase FireStore
@@ -157,6 +157,11 @@ public class DatabaseManager {
         });
     }
 
+    /**
+     * Retrieves all documents to specified profile
+     * @param instance session instance
+     * @param profile profile for grabbing documents
+     */
     private void getDocumentsWhenGettingProfile(SessionManager instance, Profile profile) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -195,11 +200,27 @@ public class DatabaseManager {
                             Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
                         }
                     }
+
+                    //Delete instance of document in temporary folder if it exists
+                    //ideally this code would sit in the server, but due to FireBase constraints,
+                    //we place this here
+                    try {
+                        StorageReference image = storage.getReference().child("temp/" + p.getString("path"));
+                        Log.d(TAG,"Image Path" + p.getString("path"));
+                        image.delete();
+                    } catch (Exception e) {
+                        Log.d(TAG,"Could not delete temporary document" + e.toString());
+                    }
                 }
             }
         });
     }
 
+    /**
+     * Updates database instance of document with locally changed document
+     * @param document Document to update
+     * @param profile Profile holding document to update
+     */
     public void updateDocumentInFireStore(Document document, Profile profile) {
         //Session Instance
         SessionManager instance = SessionManager.getInstance();
@@ -230,7 +251,11 @@ public class DatabaseManager {
         uploadDocumentToStorage(document.getPath());
     }
 
-    private void uploadDocumentToStorage(String referenceID) {
+    /**
+     * Uploads document to FireBase Storage
+     * @param referenceID location of document in FireBase Storage, NOT FireStore
+     */
+    public void uploadDocumentToStorage(String referenceID) {
         StorageReference image = FirebaseStorage.getInstance()
             .getReference()
             .child("images/" + referenceID);
@@ -271,6 +296,10 @@ public class DatabaseManager {
         image.delete();
     }
 
+    /** Gets actual PDF from storage, not just metadata from FireStore
+     *  Places image in local storage
+     * @param referenceID location of document in FireBase Storage, NOT FireStore
+     */
     public void getDocumentFromStorage(String referenceID) {
         StorageReference pathReference = FirebaseStorage.getInstance()
             .getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
