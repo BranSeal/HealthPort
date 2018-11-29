@@ -13,6 +13,16 @@ public class TagFilter {
             String name = d.getName().toLowerCase();
             if (name.contains(f))
                 filteredList.add(d);
+            else {
+                ArrayList<String> tags = d.getTags();
+                if (tags != null) {
+                    for (String s : tags) {
+                        String lowerCase = s.toLowerCase();
+                        if (lowerCase.contains(f))
+                            filteredList.add(d);
+                    }
+                }
+            }
         }
         return filteredList;
     }

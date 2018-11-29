@@ -99,7 +99,8 @@
             android:exported="true"
             android:label="Previewing Local File Upload"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Activity.ShareDocActivity"></activity>
+        <activity android:name=".Activity.ShareDocActivity" />
+        <activity android:name=".Activity.EditProfileActivity"></activity>
     </application>
 
 </manifest>
