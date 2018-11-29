@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.tom_roush.pdfbox.multipdf.PDFMergerUtility;
+import com.amebas.ref_u_store.Utilities.PDFMergerUtility;
+
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
@@ -14,7 +15,6 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 /**
  * Class to handle PDF files.
@@ -68,7 +68,7 @@ public class Pdf
         {
             merger.addSource(pdf1.getLocation());
             merger.addSource(pdf2.getLocation());
-            merger.mergeDocuments(true);
+            merger.mergeDocuments();
             return new Pdf(dest);
         }
         catch (java.io.IOException e)
