@@ -5,13 +5,13 @@
     android:id="@+id/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/superLightGreyButtonColor">
+    android:background="@color/in_app_bg">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/Toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/lightGreyAccent"
+        android:background="@color/in_app_header"
         android:elevation="@dimen/top_z_index"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:elevation="@dimen/top_z_index"
         android:ellipsize="end"
@@ -56,21 +56,38 @@
         app:layout_constraintTop_toTopOf="@+id/Toolbar"
         app:srcCompat="@drawable/back_arrow" />
 
-    <EditText
+    <TextView
         android:id="@+id/link"
         android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_marginBottom="261dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="195dp"
-        android:ems="10"
-        android:inputType="textMultiLine|textUri"
-        android:singleLine="false"
-        android:text="Sharing link is loading..."
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/loading_link"
+        android:textColor="@color/in_app_primary"
+        android:textSize="@dimen/cancel_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Toolbar" />
+
+    <Button
+        android:id="@+id/CopyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/in_app_rounded_button"
+        android:onClick="copyLink"
+        android:text="@string/copy"
+        android:textAllCaps="false"
+        android:textColor="@color/in_app_button_text"
+        android:textSize="@dimen/sub_button_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/link" />
 
 </android.support.constraint.ConstraintLayout>
