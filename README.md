@@ -1,8 +1,6 @@
 # Ref-U-Store
 Ref-U-Store is a storage application that enables you to store, track, and share important personal documents. Ref-U-Store was designed for refugees to share their medical records, but it can be used by anyone to share any kind of document.
 
----
-
 ## Release Notes for Version 0.5
 
 ### New Features
@@ -25,8 +23,6 @@ This is our first official release so there are no bug fixes.
  - Profile email doesn’t wrap if the email is too long
  - Profile birthdate doesn’t wrap if the birthdate field is too long
  - Running the application on Samsung Galaxy phones are known to produce crashes
-
----
 
 ## Install Guide
 
