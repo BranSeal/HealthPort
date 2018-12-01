@@ -13,7 +13,7 @@
     <string name="take_a_picture">Take a Picture!</string>
     <string name="phone_upload">Upload from phone!</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login and registration -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -33,6 +33,7 @@
     <string name="email_field">Email Address</string>
     <string name="password_field">Password</string>
     <string name="confirm_password_field">Confirm Password</string>
+    <string name="phone_field">Phone Number</string>
 
     <!-- Profile -->
     <string name="new_profile_header">Create a New\nProfile</string>
@@ -93,6 +94,7 @@
 
     <!-- Error messages -->
     <string name="email_not_valid">Email is not valid</string>
+    <string name="phone_not_valid">Phone number is not valid</string>
     <string name="pass_not_matching">Passwords do not match</string>
     <string name="pass_not_long">Password must be greater than 8 characters</string>
     <string name="reg_failed">Sign up failed. Please try again.</string>

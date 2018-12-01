@@ -3,8 +3,11 @@ package com.amebas.ref_u_store.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,13 +47,14 @@ public class RegisterActivity extends AppCompatActivity
     public void register(View view)
     {
         Map<String, String> values = getFields();
-        String msg = checkFields(values.get("email"), values.get("password"), values.get("pass_confirm"));
+        String msg = checkFields(values.get("email"), values.get("phone"), values.get("password"), values.get("pass_confirm"));
         if (msg.length() > 0)
         {
             showSnackbar(view, msg);
             return;
         }
         Account acct = new Account(values.get("email"), values.get("password"));
+        acct.setPhoneNumber(values.get("phone"));
         addAccount(acct);
     }
 
@@ -78,15 +82,20 @@ public class RegisterActivity extends AppCompatActivity
      * Checks for any invalid inputs for account creation.
      *
      * @param email         the value in the email field.
+     * @param phone         the value in the phone number field.
      * @param pass          the value in the password field.
      * @param confirm_pass  the value in the password confirmation field.
      * @return error message, if any.
      */
-    public String checkFields(String email, String pass, String confirm_pass)
+    public String checkFields(String email, String phone, String pass, String confirm_pass)
     {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             return getString(R.string.email_not_valid);
+        }
+        if (!PhoneNumberUtils.isGlobalPhoneNumber(phone))
+        {
+            return getString(R.string.phone_not_valid);
         }
         if (pass.length() < MIN_PASSWORD_LENGTH)
         {
@@ -113,8 +122,11 @@ public class RegisterActivity extends AppCompatActivity
      */
     private Map<String, String> getFields()
     {
+        String phone = ((EditText) findViewById(R.id.phone_input)).getText().toString();
+        phone = phone.replaceAll("[\\s-()]+","");
         HashMap<String, String> values = new HashMap();
         values.put("email", ((EditText) findViewById(R.id.email_input)).getText().toString());
+        values.put("phone", phone);
         values.put("password", ((EditText) findViewById(R.id.password_input)).getText().toString());
         values.put("pass_confirm", ((EditText) findViewById(R.id.confirm_password_input)).getText().toString());
         return values;
@@ -167,7 +179,8 @@ public class RegisterActivity extends AppCompatActivity
      */
     private void showSnackbar(View view, String msg)
     {
-        Snackbar snack = Snackbar.make(view, msg, Snackbar.LENGTH_INDEFINITE);
+        CoordinatorLayout layout = findViewById(R.id.reg_coord_layout);
+        Snackbar snack = Snackbar.make(layout, msg, Snackbar.LENGTH_INDEFINITE);
         snack.setAction(R.string.ok, v -> snack.dismiss());
         snack.show();
     }

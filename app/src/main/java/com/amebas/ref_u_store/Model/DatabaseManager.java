@@ -112,14 +112,14 @@ public class DatabaseManager {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 String cloudEmail = documentSnapshot.getString("email");
                 String cloudPassword = documentSnapshot.getString("password");
+                String cloudPhone = documentSnapshot.getString("phoneNumber");
                 if(!email.equals(cloudEmail) || !password.equals(cloudPassword)) {
                     acc = null;
                     instance.setSessionAccount(acc);
-                    Log.d(TAG,"Anush: " + "PassEntered: " + password + ", passCloud: " + cloudPassword);
-                    Log.d(TAG,"Anush: " + "EmailEntered: " + email + ", emailCloud: " + cloudEmail);
                 } else {
                     acc.setEmail(cloudEmail);
                     acc.setPassword(cloudPassword);
+                    acc.setPhoneNumber(cloudPhone);
                     instance.setSessionAccount(acc);
                     getProfiles();
                     Log.d(TAG, "Account Retrieved"
