@@ -39,10 +39,28 @@ public class ViewProfile extends AppCompatActivity {
         TextView nameContent = findViewById(R.id.nameContent);
         TextView dobContent = findViewById(R.id.dobContent);
         TextView emailContent = findViewById(R.id.emailContent);
+        TextView phoneContent = findViewById(R.id.phoneContent);
 
-        nameContent.setText(profile.getName());
-        dobContent.setText(profile.getDob());
-        emailContent.setText(account.getEmail());
+        // Format phone number if US number.
+        String phone = account.getPhoneNumber();
+        if (phone != null)
+        {
+            if (phone.length() == 10)
+            {
+                phone = "(" + phone.substring(0, 3) + ") "
+                        + phone.substring(3, 6) + "-"
+                        + phone.substring(6, 10);
+            }
+        }
+        else
+        {
+            phone = getString(R.string.default_empty);
+        }
+
+        nameContent.setText(profile.getName() == null ? getString(R.string.default_empty) : profile.getName());
+        dobContent.setText(profile.getDob() == null ? getString(R.string.default_empty) : profile.getDob());
+        emailContent.setText(account.getEmail() == null ? getString(R.string.default_empty) : account.getEmail());
+        phoneContent.setText(phone);
     }
 
     /**

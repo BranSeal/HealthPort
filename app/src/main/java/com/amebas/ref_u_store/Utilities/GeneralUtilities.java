@@ -79,7 +79,7 @@ public class GeneralUtilities {
             month = "0" + month;
         }
         String year = Integer.toString(date.get(Calendar.YEAR));
-        return day + "/" + month + "/" + year;
+        return month + "/" + day + "/" + year;
     }
 
     /**
@@ -97,8 +97,8 @@ public class GeneralUtilities {
         }
         try
         {
-            int day = Integer.parseInt(values[0]);
-            int month = Integer.parseInt(values[1]) - 1;
+            int month = Integer.parseInt(values[0]);
+            int day = Integer.parseInt(values[1]) - 1;
             int year = Integer.parseInt(values[2]);
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
