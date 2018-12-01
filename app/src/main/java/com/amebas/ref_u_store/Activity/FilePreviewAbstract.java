@@ -58,13 +58,13 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
 
         // Create profile select dropdown.
         List<Profile> profiles = SessionManager.getInstance().getSessionAccount().getProfiles();
-        String[] names = new String[profiles.size()];
+        Profile[] names = new Profile[profiles.size()];
         for (int i = 0; i < profiles.size(); i++)
         {
-            names[i] = profiles.get(i).getName();
+            names[i] = profiles.get(i);
         }
         Spinner s = findViewById(R.id.profile_select);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
+        ArrayAdapter<Profile> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Profile current = SessionManager.getInstance().getCurrentProfile();
         s.setAdapter(adapter);
@@ -80,7 +80,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-        s.setSelection(adapter.getPosition(current.getName()));
+        s.setSelection(adapter.getPosition(current));
 
         // Create "Add page" dialog
         createPageAddButton();
@@ -126,7 +126,14 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             {
                 ((EditText) findViewById(R.id.filename_input)).setText(values.get("filename"));
                 ((EditText) findViewById(R.id.tag_input)).setText(values.get("tags"));
-                s.setSelection(adapter.getPosition(values.get("profile_name")));
+                for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
+                {
+                    if (p.getId().equals(values.get("profile_id")))
+                    {
+                        s.setSelection(adapter.getPosition(p));
+                        break;
+                    }
+                }
             }
         }
     }
@@ -343,7 +350,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             HashMap<String, String> values = new HashMap<>();
             values.put("filename", ((EditText) findViewById(R.id.filename_input)).getText().toString());
             values.put("tags", ((EditText) findViewById(R.id.tag_input)).getText().toString());
-            values.put("profile_name", ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString());
+            values.put("profile_id", ((Profile) ((Spinner) findViewById(R.id.profile_select)).getSelectedItem()).getId());
             Intent intent = new Intent(this, PagePreviewActivity.class);
             Bundle bundle = loadBundle(pos);
             bundle.putSerializable("values", values);

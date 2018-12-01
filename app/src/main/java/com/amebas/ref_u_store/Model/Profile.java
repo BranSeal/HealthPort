@@ -57,7 +57,7 @@ public class Profile {
     public void addDocuments(Document document) { this.documents.add(document); }
 
     public String toString() {
-        return name + " " + dob;
+        return name;
     }
 
     public boolean equals(Profile p) {
