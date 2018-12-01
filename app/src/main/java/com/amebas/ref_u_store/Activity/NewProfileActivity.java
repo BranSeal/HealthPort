@@ -1,12 +1,16 @@
 package com.amebas.ref_u_store.Activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.amebas.ref_u_store.Model.BinaryAction;
 import com.amebas.ref_u_store.Model.Profile;
@@ -15,6 +19,7 @@ import com.amebas.ref_u_store.R;
 import com.amebas.ref_u_store.Utilities.GeneralUtilities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -131,5 +136,32 @@ public class NewProfileActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Displays a date picker and adds the selected value to the date of birth field.
+     *
+     * @param v  the view that called the method.
+     */
+    public void showDatePicker(View v)
+    {
+        EditText date_field = findViewById(R.id.dateOfBirth);
+        String date_string = date_field.getText().toString();
+        Calendar c;
+        if (date_string.length() == 0)
+        {
+            c = Calendar.getInstance();
+        }
+        else
+        {
+            c = GeneralUtilities.stringToDate(date_string);
+        }
+        int init_year = c.get(Calendar.YEAR);
+        int init_month = c.get(Calendar.MONTH);
+        int init_day = c.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(this, (view, year, month, day) ->
+        {
+            Calendar date = Calendar.getInstance();
+            date.set(year, month, day);
+            date_field.setText(GeneralUtilities.dateToString(date));
+        }, init_year, init_month, init_day).show();
+    }
 }
