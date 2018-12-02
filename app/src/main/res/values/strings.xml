@@ -12,6 +12,8 @@
     <string name="upload_document">Upload a new Document!</string>
     <string name="take_a_picture">Take a Picture!</string>
     <string name="phone_upload">Upload from phone!</string>
+    <string name="change_pass">Change Password:</string>
+    <string name="enter_current_pass">Enter Current Password</string>
 
     <!-- Strings related to login and registration -->
     <string name="prompt_email">Email</string>
@@ -36,6 +38,8 @@
     <string name="confirm_password_field">Confirm Password</string>
     <string name="phone_field">Phone Number</string>
     <string name="account_phone">Account Phone:</string>
+    <string name="new_pass">New Password</string>
+    <string name="confirm_new_pass">Confirm New Password</string>
 
     <!-- Profile -->
     <string name="new_profile_header">Create a New\nProfile</string>
@@ -70,6 +74,9 @@
     <string name="loading_link">Getting link...</string>
     <string name="link_label">Document link</string>
     <string name="copy_link_confirm">Copied link to clipboard</string>
+    <string name="account_update_success">Account has been updated</string>
+    <string name="account_update_failure">Failed to update account. Please try again</string>
+    <string name="validating">Checking password...</string>
 
     <!-- Buttons -->
     <string name="yes">Yes</string>
@@ -86,12 +93,14 @@
     <string name="up_button">Upload file</string>
     <string name="update_button">Update</string>
     <string name="copy">Copy</string>
+    <string name="save">Save</string>
 
     <!--Menus-->
     <string name="edit">Edit Document</string>
     <string name="delete">Delete Document</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="switch_profile">Switch Profile</string>
+    <string name="edit_account">Edit Account</string>
     <string name="logout">Log Out</string>
 
     <!-- Error messages -->
@@ -117,4 +126,5 @@
     <string name="doc_not_found">Could not find document</string>
     <string name="link_failed">Failed to create link...</string>
     <string name="default_empty">N/A</string>
+    <string name="no_changes">No changes were given</string>
 </resources>

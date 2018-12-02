@@ -18,6 +18,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -217,6 +218,24 @@ public class DatabaseManager {
     }
 
     /**
+     * Updates Account in FireBase FireStore
+     *
+     * @param account  the account to be updated.
+     * @param success  the action to take after successfully updating.
+     * @param failure  the action to take after failing to update.
+     */
+    public void updateAccount(final Account account, SingleAction success, SingleAction failure) {
+        DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
+        HashMap<String, Object> toUpdate = new HashMap<>();
+        toUpdate.put("email", account.getEmail());
+        toUpdate.put("password", account.getPassword());
+        toUpdate.put("phoneNumber", account.getPhoneNumber());
+        accountRef.update(toUpdate)
+            .addOnSuccessListener(snapshot -> success.perform())
+            .addOnFailureListener(exception -> failure.perform());
+    }
+
+    /**
      * Updates database instance of document with locally changed document
      * @param document Document to update
      * @param profile Profile holding document to update
@@ -338,23 +357,6 @@ public class DatabaseManager {
                 }
             }
         });
-    }
-
-    /**
-     * Updates Account in FireBase FireStore
-     *
-     * @param account  Account to be updated
-     * @return void asynchronous task
-     */
-    public Task<Void> updateAccount(final Account account) {
-        DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
-        accountRef.update("email", account.getEmail());
-        for(Profile p: account.getProfiles()) {
-            updateProfile(p);
-        }
-        // Update profiles subcollection in account
-        return accountRef.update("password", account.getPassword())
-            .addOnSuccessListener(aVoid -> Log.d(TAG, "Successfully updated account"));
     }
 
     /**

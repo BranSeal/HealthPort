@@ -99,6 +99,9 @@ public class ViewProfile extends AppCompatActivity {
                 case R.id.profile_switch:
                     switchProfile();
                     return true;
+                case R.id.account_edit:
+                    editAccount();
+                    return true;
                 case R.id.logout:
                     logout();
                     return true;
@@ -133,6 +136,15 @@ public class ViewProfile extends AppCompatActivity {
         SessionManager.getInstance().setCurrentProfile(null);
         Intent intent = new Intent(this, ProfileSelectActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Moves to the edit account screen.
+     */
+    private void editAccount()
+    {
+        Intent editAccount = new Intent(getApplicationContext(), EditAccountActivity.class);
+        startActivity(editAccount);
     }
 
     /**

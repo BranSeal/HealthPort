@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity
         {
             return getString(R.string.phone_not_valid);
         }
-        if (pass.length() < MIN_PASSWORD_LENGTH)
+        if (!GeneralUtilities.isValidPassword(pass))
         {
             return getString(R.string.pass_not_long);
         }

@@ -109,4 +109,19 @@ public class GeneralUtilities {
             throw new IllegalArgumentException("Invalid format in date - one or more values is not a number");
         }
     }
+
+    /**
+     * Checks whether a string is a valid password.
+     *
+     * @param pass  the password string to check.
+     * @return if its a valid password.
+     */
+    public static boolean isValidPassword(String pass)
+    {
+        if (pass.length() >= 8)
+        {
+            return true;
+        }
+        return false;
+    }
 }
