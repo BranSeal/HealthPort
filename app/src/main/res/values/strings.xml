@@ -76,6 +76,8 @@
     <string name="copy_link_confirm">Copied link to clipboard</string>
     <string name="account_update_success">Account has been updated</string>
     <string name="account_update_failure">Failed to update account. Please try again</string>
+    <string name="profile_update_success">Profile has been updated</string>
+    <string name="profile_update_failure">Failed to update profile. Please try again</string>
     <string name="validating">Checking password...</string>
 
     <!-- Buttons -->

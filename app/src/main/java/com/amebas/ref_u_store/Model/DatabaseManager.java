@@ -362,16 +362,23 @@ public class DatabaseManager {
     /**
      * Updates profile in FireBase FireStore
      *
-     * @param p  Profile to be updated
+     * @param p        the profile to be updated.
+     * @param success  the action to perform on update success.
+     * @param failure  the action to perform if update fails.
      */
-    public void updateProfile(final Profile p) {
+    public void updateProfile(final Profile p, SingleAction success, SingleAction failure) {
         // create reference for Profile, for use inside transaction
         SessionManager session = SessionManager.getInstance();
         DocumentReference profileReference = db.collection("accounts")
             .document(session.getSessionAccount().getEmail())
             .collection("profiles")
             .document(p.getId());
-        profileReference.set(p, SetOptions.merge());
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("name", p.getName());
+        values.put("dob", p.getDob());
+        profileReference.update(values)
+            .addOnSuccessListener(snapshot -> success.perform())
+            .addOnFailureListener(exception -> failure.perform());
     }
 
     /**

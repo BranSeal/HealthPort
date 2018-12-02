@@ -97,8 +97,8 @@ public class GeneralUtilities {
         }
         try
         {
-            int month = Integer.parseInt(values[0]);
-            int day = Integer.parseInt(values[1]) - 1;
+            int day = Integer.parseInt(values[1]);
+            int month = Integer.parseInt(values[0]) - 1;
             int year = Integer.parseInt(values[2]);
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
