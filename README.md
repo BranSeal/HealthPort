@@ -20,9 +20,6 @@ This is our first official release so there are no bug fixes.
    - Sometimes the login info is determined to be invalid even when correct.
  - After logging in, the list of profiles sometimes returns empty when it shouldn't be.
  - Grey Floating Action Button turns green after clicking on it
- - Profile email doesn’t wrap if the email is too long
- - Profile birthdate doesn’t wrap if the birthdate field is too long
- - Running the application on Samsung Galaxy phones are known to produce crashes
 
 ## Install Guide
 
