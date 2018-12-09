@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_hands"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_hands_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <provider
@@ -99,7 +99,13 @@
             android:exported="true"
             android:label="Previewing Local File Upload"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Activity.ShareDocActivity"></activity>
+        <activity android:name=".Activity.ShareDocActivity" />
+        <activity android:name=".Activity.EditProfileActivity"></activity>
+        <activity
+            android:name=".Activity.EditAccountActivity"
+            android:exported="true"
+            android:label="Editing Account"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

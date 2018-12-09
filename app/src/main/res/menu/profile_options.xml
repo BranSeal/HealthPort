@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/profile_switch"
+        android:title="@string/switch_profile" />
+    <item
         android:id="@+id/profile_edit"
         android:title="@string/edit_profile" />
     <item
-        android:id="@+id/profile_switch"
-        android:title="@string/switch_profile" />
+        android:id="@+id/account_edit"
+        android:title="@string/edit_account" />
     <item
         android:id="@+id/logout"
         android:title="@string/logout" />

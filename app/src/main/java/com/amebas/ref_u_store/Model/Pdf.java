@@ -5,7 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.tom_roush.pdfbox.multipdf.PDFMergerUtility;
+import com.amebas.ref_u_store.Utilities.PDFMergerUtility;
+
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
@@ -14,29 +15,30 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 /**
  * Class to handle PDF files.
  */
-public class Pdf {
+public class Pdf
+{
+    /**
+     * Closes a PDDocument.
+     *
+     * @param pdf  the document to close.
+     */
+    public static void close(PDDocument pdf)
+    {
+        try
+        {
+            pdf.close();
+        }
+        catch (java.io.IOException e)
+        {
+            Log.e("ERROR", e.getMessage());
+        }
+    }
 
     private File location;
-    private PDDocument pdf;
-
-    /**
-     * Creates a new pdf object.
-     *
-     * @param location  the location of the file.
-     * @param pdf       the PDDocument representing the pdf file.
-     */
-    public Pdf(File location, PDDocument pdf)
-    {
-        this.location = location;
-        this.pdf = pdf;
-    }
 
     /**
      * Creates new pdf object from file.
@@ -46,15 +48,6 @@ public class Pdf {
     public Pdf(File location)
     {
         this.location = location;
-        try
-        {
-            this.pdf = PDDocument.load(location);
-        }
-        catch (java.io.IOException e)
-        {
-            Log.d("ERROR", "File not found");
-            this.pdf = new PDDocument();
-        }
     }
 
     /**
@@ -75,12 +68,12 @@ public class Pdf {
         {
             merger.addSource(pdf1.getLocation());
             merger.addSource(pdf2.getLocation());
-            merger.mergeDocuments(true);
-            return new Pdf(dest, PDDocument.load(dest));
+            merger.mergeDocuments();
+            return new Pdf(dest);
         }
         catch (java.io.IOException e)
         {
-            Log.d("ERROR", "Save dest does not exist");
+            Log.e("ERROR", "Save dest does not exist");
         }
         return null;
     }
@@ -100,29 +93,22 @@ public class Pdf {
         PDDocument document = new PDDocument();
 
         // Create page to place image in.
-        InputStream in = new FileInputStream(img);
         Bitmap bitmap = BitmapFactory.decodeFile(img.getAbsolutePath());
-        File temp = File.createTempFile("temp", ".png", context.getCacheDir());
-        FileOutputStream out = new FileOutputStream(temp);
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
-        out.close();
         PDRectangle rect = new PDRectangle(bitmap.getWidth(), bitmap.getHeight());
         PDPage page = new PDPage(rect);
         document.addPage(page);
 
         // Populate page with image.
-        PDImageXObject image = PDImageXObject.createFromFile(temp.getAbsolutePath(), document);
+        PDImageXObject image = PDImageXObject.createFromFile(img.getAbsolutePath(), document);
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
         contentStream.drawImage(image, 0, 0);
         contentStream.close();
-        in.close();
 
         // Save changes
         document.save(dest);
         document.close();
-        temp.delete();
 
-        return new Pdf(dest, document);
+        return new Pdf(dest);
     }
 
     /**
@@ -135,9 +121,10 @@ public class Pdf {
     public void removePage(Context context, int page_num) throws java.io.IOException
     {
         PDFBoxResourceLoader.init(context);
-        this.pdf.removePage(page_num - 1);
-        this.pdf.save(this.location);
-        this.pdf.close();
+        PDDocument pdf = getPdf();
+        pdf.removePage(page_num - 1);
+        pdf.save(this.location);
+        pdf.close();
     }
 
     /**
@@ -164,14 +151,14 @@ public class Pdf {
      * @return  pdf instance.
      */
     public PDDocument getPdf() {
-        return pdf;
-    }
-
-    /**
-     * Sets pdf instance.
-     * @param pdf  pdf instance.
-     */
-    public void setPdf(PDDocument pdf) {
-        this.pdf = pdf;
+        try
+        {
+            return PDDocument.load(location);
+        }
+        catch (java.io.IOException e)
+        {
+            Log.e("ERROR", e.getMessage());
+            return new PDDocument();
+        }
     }
 }

@@ -44,6 +44,8 @@
             android:layout_marginRight="50dp"
             android:layout_marginStart="50dp"
             android:textColorHint="@color/hint_color"
+            android:theme="@style/EditTextTheme"
+            app:hintTextAppearance="@style/EditTextHoverHint"
             app:layout_constraintBottom_toTopOf="@+id/lastNameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -66,6 +68,8 @@
             android:layout_marginRight="50dp"
             android:layout_marginStart="50dp"
             android:textColorHint="@color/hint_color"
+            android:theme="@style/EditTextTheme"
+            app:hintTextAppearance="@style/EditTextHoverHint"
             app:layout_constraintBottom_toTopOf="@+id/dateOfBirthLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -84,10 +88,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_marginStart="50dp"
+            android:onClick="showDatePicker"
             android:textColorHint="@color/hint_color"
+            android:theme="@style/EditTextTheme"
+            app:hintTextAppearance="@style/EditTextHoverHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -97,6 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/dob_field"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="showDatePicker"
                 android:textColor="@color/text_color" />
         </android.support.design.widget.TextInputLayout>
 

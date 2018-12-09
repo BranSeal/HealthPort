@@ -91,7 +91,7 @@ public class EditFileActivity extends FilePreviewAbstract
                 {
                     deleteOld();
                     String filename = ((EditText) findViewById(R.id.filename_input)).getText().toString();
-                    String profile = ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString();
+                    String profile = ((Profile) ((Spinner) findViewById(R.id.profile_select)).getSelectedItem()).getId();
                     String email = SessionManager.getInstance().getSessionAccount().getEmail();
                     File dir = new Storage(getApplicationContext()).getUserDocs(email, profile);
                     File file = new File(dir, filename + ".pdf");
@@ -187,8 +187,10 @@ public class EditFileActivity extends FilePreviewAbstract
         File temp_dir = storage.getTempFile("temporary_file.pdf");
         try
         {
-            pdf.getPdf().save(temp_dir);
-            setPdf(new Pdf(temp_dir, PDDocument.load(temp_dir)));
+            PDDocument doc = pdf.getPdf();
+            doc.save(temp_dir);
+            doc.close();
+            setPdf(new Pdf(temp_dir));
         }
         catch (java.io.IOException e)
         {

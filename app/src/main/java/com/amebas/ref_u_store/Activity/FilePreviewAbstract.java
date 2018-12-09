@@ -53,18 +53,18 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
         else
         {
             Log.d("ERROR", "Was not passed a PDF, creating empty");
-            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"), new PDDocument());
+            pdf = new Pdf(new Storage(this).getTempFile("temp.pdf"));
         }
 
         // Create profile select dropdown.
         List<Profile> profiles = SessionManager.getInstance().getSessionAccount().getProfiles();
-        String[] names = new String[profiles.size()];
+        Profile[] names = new Profile[profiles.size()];
         for (int i = 0; i < profiles.size(); i++)
         {
-            names[i] = profiles.get(i).getName();
+            names[i] = profiles.get(i);
         }
         Spinner s = findViewById(R.id.profile_select);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
+        ArrayAdapter<Profile> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, names);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Profile current = SessionManager.getInstance().getCurrentProfile();
         s.setAdapter(adapter);
@@ -73,14 +73,14 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.text_color));
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.in_app_primary));
                 ((TextView) parent.getChildAt(0)).setTextSize(18);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-        s.setSelection(adapter.getPosition(current.getName()));
+        s.setSelection(adapter.getPosition(current));
 
         // Create "Add page" dialog
         createPageAddButton();
@@ -100,7 +100,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             catch (java.io.IOException e)
             {
                 Log.d("ERROR", "File not Found");
-                new_pdf = new Pdf(temp_pdf, new PDDocument());
+                new_pdf = new Pdf(temp_pdf);
             }
             // Merge PDFs
             this.pdf = Pdf.append(this, this.pdf, new_pdf, this.pdf.getLocation());
@@ -126,7 +126,14 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             {
                 ((EditText) findViewById(R.id.filename_input)).setText(values.get("filename"));
                 ((EditText) findViewById(R.id.tag_input)).setText(values.get("tags"));
-                s.setSelection(adapter.getPosition(values.get("profile_name")));
+                for (Profile p: SessionManager.getInstance().getSessionAccount().getProfiles())
+                {
+                    if (p.getId().equals(values.get("profile_id")))
+                    {
+                        s.setSelection(adapter.getPosition(p));
+                        break;
+                    }
+                }
             }
         }
     }
@@ -161,7 +168,10 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
      */
     public boolean areInputsValid()
     {
-        if (pdf.getPdf().getPages().getCount() < 1)
+        PDDocument doc = pdf.getPdf();
+        int count = doc.getPages().getCount();
+        Pdf.close(doc);
+        if (count < 1)
         {
             GeneralUtilities.displayMessage(this, getString(R.string.no_pages), () -> {});
             return false;
@@ -186,7 +196,9 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
     {
         try
         {
-            pdf.getPdf().save(path);
+            PDDocument doc = pdf.getPdf();
+            doc.save(path);
+            doc.close();
         }
         catch (java.io.IOException e)
         {
@@ -338,7 +350,7 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
             HashMap<String, String> values = new HashMap<>();
             values.put("filename", ((EditText) findViewById(R.id.filename_input)).getText().toString());
             values.put("tags", ((EditText) findViewById(R.id.tag_input)).getText().toString());
-            values.put("profile_name", ((Spinner) findViewById(R.id.profile_select)).getSelectedItem().toString());
+            values.put("profile_id", ((Profile) ((Spinner) findViewById(R.id.profile_select)).getSelectedItem()).getId());
             Intent intent = new Intent(this, PagePreviewActivity.class);
             Bundle bundle = loadBundle(pos);
             bundle.putSerializable("values", values);
@@ -354,7 +366,9 @@ public abstract class FilePreviewAbstract extends AppCompatActivity
      */
     private void populatePages(Pdf pdf)
     {
-        int num_pages = pdf.getPdf().getNumberOfPages();
+        PDDocument doc = pdf.getPdf();
+        int num_pages = doc.getNumberOfPages();
+        Pdf.close(doc);
         ArrayList<String> pages = new ArrayList<>(num_pages);
         for (int i = 0; i < num_pages; i++)
         {

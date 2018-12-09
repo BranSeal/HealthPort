@@ -28,4 +28,15 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="InAppEditTextTheme">
+        <item name="colorControlNormal">@color/in_app_secondary</item>
+        <item name="android:colorControlActivated">@color/in_app_primary</item>
+        <item name="android:colorControlHighlight">@color/in_app_primary</item>
+    </style>
+
+    <style name="InAppHint" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/in_app_primary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

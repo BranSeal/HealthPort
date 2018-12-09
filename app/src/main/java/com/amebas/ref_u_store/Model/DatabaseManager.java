@@ -18,6 +18,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -36,7 +37,7 @@ public class DatabaseManager {
     /**
      * Add Account into FireBase FireStore
      *
-     * Asynchronously calls database's run transation
+     * Asynchronously calls database's run transaction
      * Must add listener when calling this function
      *
      * @param account  Account to add into FireBase FireStore
@@ -112,14 +113,14 @@ public class DatabaseManager {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 String cloudEmail = documentSnapshot.getString("email");
                 String cloudPassword = documentSnapshot.getString("password");
+                String cloudPhone = documentSnapshot.getString("phoneNumber");
                 if(!email.equals(cloudEmail) || !password.equals(cloudPassword)) {
                     acc = null;
                     instance.setSessionAccount(acc);
-                    Log.d(TAG,"Anush: " + "PassEntered: " + password + ", passCloud: " + cloudPassword);
-                    Log.d(TAG,"Anush: " + "EmailEntered: " + email + ", emailCloud: " + cloudEmail);
                 } else {
                     acc.setEmail(cloudEmail);
                     acc.setPassword(cloudPassword);
+                    acc.setPhoneNumber(cloudPhone);
                     instance.setSessionAccount(acc);
                     getProfiles();
                     Log.d(TAG, "Account Retrieved"
@@ -157,6 +158,11 @@ public class DatabaseManager {
         });
     }
 
+    /**
+     * Retrieves all documents to specified profile
+     * @param instance session instance
+     * @param profile profile for grabbing documents
+     */
     private void getDocumentsWhenGettingProfile(SessionManager instance, Profile profile) {
         // FireBase FireStore instance
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -173,29 +179,67 @@ public class DatabaseManager {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> firebaseDocuments = querySnapshot.getDocuments();
                 for (DocumentSnapshot p: firebaseDocuments) {
-                    Document d = new Document();
-                    d.setName(p.getString("name"));
-                    d.setId(p.getId());
-                    d.setPath(p.getString("path"));
-                    d.setTags((ArrayList<String>) p.get("tags"));
-                    profile.addDocuments(d);
-                    // Create a reference with an initial file path and name
-                    StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + d.getPath());
+                    File path = new File(p.getString("path"));
+                    if (path.exists())
+                    {
+                        Document d = new Document();
+                        d.setName(p.getString("name"));
+                        d.setId(p.getId());
+                        d.setPath(path.getAbsolutePath());
+                        d.setTags((ArrayList<String>) p.get("tags"));
+                        profile.addDocuments(d);
+                        // Create a reference with an initial file path and name
+                        StorageReference pathReference = storage.getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + d.getPath());
 
+                        try {
+                            File localFile = File.createTempFile("images", "jpg");
+
+                            pathReference.getFile(localFile)
+                                    .addOnSuccessListener(snapshot -> {})
+                                    .addOnFailureListener(exception -> {});
+                        } catch (IOException e) {
+                            Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+                        }
+                    }
+
+                    //Delete instance of document in temporary folder if it exists
+                    //ideally this code would sit in the server, but due to FireBase constraints,
+                    //we place this here
                     try {
-                        File localFile = File.createTempFile("images", "jpg");
-
-                        pathReference.getFile(localFile)
-                            .addOnSuccessListener(snapshot -> {})
-                            .addOnFailureListener(exception -> {});
-                    } catch (IOException e) {
-                        Log.d(TAG, "Cannot upload to local file. Threw exception" + e.toString());
+                        StorageReference image = storage.getReference().child("temp/" + p.getString("path"));
+                        Log.d(TAG,"Image Path" + p.getString("path"));
+                        image.delete();
+                    } catch (Exception e) {
+                        Log.d(TAG,"Could not delete temporary document" + e.toString());
                     }
                 }
             }
         });
     }
 
+    /**
+     * Updates Account in FireBase FireStore
+     *
+     * @param account  the account to be updated.
+     * @param success  the action to take after successfully updating.
+     * @param failure  the action to take after failing to update.
+     */
+    public void updateAccount(final Account account, SingleAction success, SingleAction failure) {
+        DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
+        HashMap<String, Object> toUpdate = new HashMap<>();
+        toUpdate.put("email", account.getEmail());
+        toUpdate.put("password", account.getPassword());
+        toUpdate.put("phoneNumber", account.getPhoneNumber());
+        accountRef.update(toUpdate)
+            .addOnSuccessListener(snapshot -> success.perform())
+            .addOnFailureListener(exception -> failure.perform());
+    }
+
+    /**
+     * Updates database instance of document with locally changed document
+     * @param document Document to update
+     * @param profile Profile holding document to update
+     */
     public void updateDocumentInFireStore(Document document, Profile profile) {
         //Session Instance
         SessionManager instance = SessionManager.getInstance();
@@ -226,7 +270,11 @@ public class DatabaseManager {
         uploadDocumentToStorage(document.getPath());
     }
 
-    private void uploadDocumentToStorage(String referenceID) {
+    /**
+     * Uploads document to FireBase Storage
+     * @param referenceID location of document in FireBase Storage, NOT FireStore
+     */
+    public void uploadDocumentToStorage(String referenceID) {
         StorageReference image = FirebaseStorage.getInstance()
             .getReference()
             .child("images/" + referenceID);
@@ -267,6 +315,10 @@ public class DatabaseManager {
         image.delete();
     }
 
+    /** Gets actual PDF from storage, not just metadata from FireStore
+     *  Places image in local storage
+     * @param referenceID location of document in FireBase Storage, NOT FireStore
+     */
     public void getDocumentFromStorage(String referenceID) {
         StorageReference pathReference = FirebaseStorage.getInstance()
             .getReferenceFromUrl("gs://healthport-d91a6.appspot.com/" + referenceID);
@@ -308,35 +360,25 @@ public class DatabaseManager {
     }
 
     /**
-     * Updates Account in FireBase FireStore
-     *
-     * @param account  Account to be updated
-     * @return void asynchronous task
-     */
-    public Task<Void> updateAccount(final Account account) {
-        DocumentReference accountRef = db.collection("accounts").document(account.getEmail());
-        accountRef.update("email", account.getEmail());
-        for(Profile p: account.getProfiles()) {
-            updateProfile(p);
-        }
-        // Update profiles subcollection in account
-        return accountRef.update("password", account.getPassword())
-            .addOnSuccessListener(aVoid -> Log.d(TAG, "Successfully updated account"));
-    }
-
-    /**
      * Updates profile in FireBase FireStore
      *
-     * @param p  Profile to be updated
+     * @param p        the profile to be updated.
+     * @param success  the action to perform on update success.
+     * @param failure  the action to perform if update fails.
      */
-    public void updateProfile(final Profile p) {
+    public void updateProfile(final Profile p, SingleAction success, SingleAction failure) {
         // create reference for Profile, for use inside transaction
         SessionManager session = SessionManager.getInstance();
         DocumentReference profileReference = db.collection("accounts")
             .document(session.getSessionAccount().getEmail())
             .collection("profiles")
             .document(p.getId());
-        profileReference.set(p, SetOptions.merge());
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("name", p.getName());
+        values.put("dob", p.getDob());
+        profileReference.update(values)
+            .addOnSuccessListener(snapshot -> success.perform())
+            .addOnFailureListener(exception -> failure.perform());
     }
 
     /**

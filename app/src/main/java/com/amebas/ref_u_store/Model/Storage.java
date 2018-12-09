@@ -64,22 +64,22 @@ public class Storage extends File {
      * Gets directory in storage for a profile's documents, creating it if nonexistent.
      *
      * @param account_email  the email for the active account.
-     * @param profile        profile whose directory to retrieve.
+     * @param profile_id     id of the profile whose directory to retrieve.
      * @return the profile' directory.
      */
-    public File getUserDocs(String account_email, String profile)
+    public File getUserDocs(String account_email, String profile_id)
     {
-        if (profile == "")
+        if (profile_id == "")
         {
-            profile = "_";
+            profile_id = "_";
         }
-        profile = profile.replaceAll("\\s+","");
+        profile_id = profile_id.replaceAll("\\s+","");
         File dir = new File(this.docs, account_email);
         if (!dir.exists())
         {
             dir.mkdir();
         }
-        dir = new File(dir, profile);
+        dir = new File(dir, profile_id);
         if (!dir.exists())
         {
             dir.mkdir();

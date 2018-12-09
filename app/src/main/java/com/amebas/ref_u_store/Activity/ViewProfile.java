@@ -39,10 +39,28 @@ public class ViewProfile extends AppCompatActivity {
         TextView nameContent = findViewById(R.id.nameContent);
         TextView dobContent = findViewById(R.id.dobContent);
         TextView emailContent = findViewById(R.id.emailContent);
+        TextView phoneContent = findViewById(R.id.phoneContent);
 
-        nameContent.setText(profile.getName());
-        dobContent.setText(profile.getDob());
-        emailContent.setText(account.getEmail());
+        // Format phone number if US number.
+        String phone = account.getPhoneNumber();
+        if (phone != null)
+        {
+            if (phone.length() == 10)
+            {
+                phone = "(" + phone.substring(0, 3) + ") "
+                        + phone.substring(3, 6) + "-"
+                        + phone.substring(6, 10);
+            }
+        }
+        else
+        {
+            phone = getString(R.string.default_empty);
+        }
+
+        nameContent.setText(profile.getName() == null ? getString(R.string.default_empty) : profile.getName());
+        dobContent.setText(profile.getDob() == null ? getString(R.string.default_empty) : profile.getDob());
+        emailContent.setText(account.getEmail() == null ? getString(R.string.default_empty) : account.getEmail());
+        phoneContent.setText(phone);
     }
 
     /**
@@ -81,6 +99,9 @@ public class ViewProfile extends AppCompatActivity {
                 case R.id.profile_switch:
                     switchProfile();
                     return true;
+                case R.id.account_edit:
+                    editAccount();
+                    return true;
                 case R.id.logout:
                     logout();
                     return true;
@@ -103,7 +124,8 @@ public class ViewProfile extends AppCompatActivity {
      */
     private void editProfile()
     {
-
+        Intent editProfile = new Intent(getApplicationContext(), EditProfileActivity.class);
+        startActivity(editProfile);
     }
 
     /**
@@ -114,6 +136,15 @@ public class ViewProfile extends AppCompatActivity {
         SessionManager.getInstance().setCurrentProfile(null);
         Intent intent = new Intent(this, ProfileSelectActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Moves to the edit account screen.
+     */
+    private void editAccount()
+    {
+        Intent editAccount = new Intent(getApplicationContext(), EditAccountActivity.class);
+        startActivity(editAccount);
     }
 
     /**

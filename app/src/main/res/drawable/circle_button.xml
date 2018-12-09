@@ -4,7 +4,7 @@
     <size
         android:height="24dp"
         android:width="24dp" />
-    <solid android:color="@color/overlay_button_color" />
+    <solid android:color="@color/in_app_button" />
     <padding
         android:bottom="4dp"
         android:left="4dp"
