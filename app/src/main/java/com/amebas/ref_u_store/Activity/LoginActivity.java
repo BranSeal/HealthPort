@@ -218,11 +218,10 @@ public class LoginActivity extends AppCompatActivity {
 
         String phoneNumber = acc.getPhoneNumber();
         if (phoneNumber == null) {
-            phoneNumber = "3098259654"; //set your phone number here for testing
+            phoneNumber = "1234567890"; //set your phone number here for testing
         }
         phoneNumber = "+1" + phoneNumber;
-        String smsCode = "123456";
-        Log.d("Anush Phone Number: ", phoneNumber);
+        //String smsCode = "123456"; // not sure where this is used by firebase
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
@@ -239,7 +238,6 @@ public class LoginActivity extends AppCompatActivity {
                         // 2 - Auto-retrieval. On some devices Google Play services can automatically
                         //     detect the incoming verification SMS and perform verification without
                         //     user action.
-                        Log.d(TAG, "Anush: onVerificationCompleted:" + credential);
                         Toast toast = Toast.makeText(
                                 getApplicationContext(),
                                 "Phone Number Verified",
@@ -251,7 +249,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onVerificationFailed(FirebaseException e) {
                         // This callback is invoked in an invalid request for verification is made,
                         // for instance if the the phone number format is not valid.
-                        Log.w(TAG, "Anush: onVerificationFailed", e);
 
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             // Invalid request
@@ -285,7 +282,6 @@ public class LoginActivity extends AppCompatActivity {
     private void checkCode() {
         //request code from user
         //validate against
-        Log.d(TAG, "Anush verificationID:" + mVerificationId);
 //        mAuth.signInWithCredential(credential)
 //                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 //                    @Override
