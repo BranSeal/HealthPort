@@ -220,8 +220,9 @@ public class LoginActivity extends AppCompatActivity {
         if (phoneNumber == null) {
             phoneNumber = "3098259654"; //set your phone number here for testing
         }
-        phoneNumber = "+" + phoneNumber;
+        phoneNumber = "+1" + phoneNumber;
         String smsCode = "123456";
+        Log.d("Anush Phone Number: ", phoneNumber);
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
