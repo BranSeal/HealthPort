@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "826065661560-8dl5shj7c92j9muo3uqtjkr507k96i79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amebas.healthport",
+            "certificate_hash": "7dc9c171e8f3e9031e02087295c2ed0406ad9af9"
+          }
+        },
+        {
+          "client_id": "826065661560-4att9cug6145m96011lo6bn9407vp5rh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amebas.healthport",
+            "certificate_hash": "3c0a0de38971f9e6e407f52d82576e8adfd0c486"
+          }
+        },
+        {
           "client_id": "826065661560-c9e08rd23obl7pr2iqhbju0skll8q0g0.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826065661560-c9e08rd23obl7pr2iqhbju0skll8q0g0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
